@@ -26,13 +26,18 @@ export class MainComponent implements OnInit {
   }
 
   getMenuList() {
-    this.service.getMenuList().subscribe((res: Menu[]) => {
+    this.service.getMenus().subscribe((res: Menu[]) => {
       this.menus = res;
     })
   }
 
   private initEventListeners() {
-    this.service.pageChange$.subscribe(page => {
+    let _this = this;
+    this.service.pageChange$.subscribe((page: any) => {
+      setTimeout(() => {
+        _this.menus.forEach((menu: any) => delete menu.active);
+        page.active = true;
+      }, 0);
     })
   }
 }

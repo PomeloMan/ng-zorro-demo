@@ -15,7 +15,7 @@
           </li>
         </ng-container>
         <ng-container *ngIf="menu.pid == 0">
-          <li nz-menu-item (click)="router.navigate([menu.url])">
+          <li nz-menu-item (click)="router.navigate([menu.url])" [class.ant-menu-item-selected]="menu.active">
             <span title>
               <i nz-icon [type]="menu.icon"></i>
               <span class="nav-text">{{menu.name}}</span>
