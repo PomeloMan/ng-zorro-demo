@@ -11,6 +11,12 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 
 import { PageNotFoundComponent } from './page/not-found/not-found.component';
+import { AuthService } from './config/provider/auth.service';
+import { StorageService } from './config/provider/storage.service';
+import { ApiService } from './config/provider/api.service';
+import { AuthGuardService } from './config/provider/auth-guard.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 registerLocaleData(en);
 
@@ -27,7 +33,18 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    AuthService,
+    AuthGuardService,
+    CookieService,
+    StorageService,
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(router: Router) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+}

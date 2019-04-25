@@ -1,0 +1,42 @@
+nz-layout {
+  height: 100%;
+
+  nz-header {
+    height: 60px;
+    background-color: white;
+  }
+
+  nz-content {
+    height: calc(100% - 160px);
+    padding: 24px;
+    background-image: url(../../../assets/image/login-background.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+
+    .login-form {
+      position: absolute;
+      right: 10%;
+      background-color: white;
+      padding: 24px;
+      max-width: 30%;
+    }
+
+    .login-form-forgot {
+      float: right;
+    }
+
+    .login-form-button {
+      width: 100%;
+    }
+  }
+
+  nz-footer {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

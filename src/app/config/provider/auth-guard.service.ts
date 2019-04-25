@@ -17,7 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
  * ref => https://angular.cn/guide/router#milestone-5-route-guards
  */
 @Injectable()
-export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
+export class AuthGuardService implements CanActivate, CanActivateChild, CanLoad {
 
 	constructor(
 		private authService: AuthService,
@@ -44,11 +44,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
 	checkLogin(url: string): boolean {
 		let token: any = this.authService.getAuthorizationToken();
-		let casToken = this.cookie.get('casToken');
-		// if (token && new Date().getTime() < token.expire) {
-		// 	return true;
-		// }
-		if (token || casToken) {
+		if (token) {
 			return true;
 		}
 		// Store the attempted URL for redirecting
