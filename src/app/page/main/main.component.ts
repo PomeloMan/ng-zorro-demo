@@ -2,6 +2,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MainService } from './main.service';
 import { Menu } from 'src/app/config/api';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/config/provider/storage.service';
+import { AuthService } from 'src/app/config/provider/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +19,8 @@ export class MainComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private storage: StorageService,
+    private authService: AuthService,
     private service: MainService
   ) { }
 
@@ -29,6 +33,11 @@ export class MainComponent implements OnInit {
     this.service.getMenus().subscribe((res: Menu[]) => {
       this.menus = res;
     })
+  }
+
+  logout() {
+    this.authService.clear();
+    this.router.navigate(['/login']);
   }
 
   private initEventListeners() {

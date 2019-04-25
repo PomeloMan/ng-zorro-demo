@@ -23,11 +23,17 @@ nz-sider {
 nz-header {
   background: #fff;
   padding: 0;
+  display: flex;
+  align-content: center;
+  padding: 0 24px;
+
+  .flex-spacer {
+    flex: 1 1 auto;
+  }
 
   .trigger {
     font-size: 18px;
     line-height: 64px;
-    padding: 0 24px;
     cursor: pointer;
     transition: color 0.3s;
   }

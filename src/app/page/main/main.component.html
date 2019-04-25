@@ -29,6 +29,20 @@
     <nz-header>
       <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
         (click)="isCollapsed = !isCollapsed"></i>
+      <span class="flex-spacer"></span>
+      <div>
+        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
+          <nz-avatar nz-dropdown nzIcon="user" nzSize="large" nzSrc=""></nz-avatar>
+          <ul nz-menu nzSelectable style="min-width: 120px;">
+            <li nz-menu-item style="padding: 0 12px; line-height: 40px;">
+              <a style="margin: 0; padding: 0;">User Profile</a>
+            </li>
+            <li nz-menu-item style="padding: 0 12px; line-height: 40px;">
+              <a style="margin: 0; padding: 0;" (click)="logout()">Logout</a>
+            </li>
+          </ul>
+        </nz-dropdown>
+      </div>
     </nz-header>
     <nz-content style="margin:0 16px;">
       <nz-breadcrumb style="margin:16px 0;">
