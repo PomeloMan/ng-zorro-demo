@@ -59,5 +59,6 @@ export interface Menu {
     icon: string;
     name: string;
     pid: string;
-    url: string;
+    url?: string;
+    children?: Menu[];
 }

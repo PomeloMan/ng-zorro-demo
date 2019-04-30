@@ -44,7 +44,6 @@ export class MainComponent implements OnInit {
     let _this = this;
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
-        _this.menus.forEach((menu: any) => delete menu.active);
         page.active = true;
       }, 0);
     })

@@ -3,18 +3,23 @@
     <div class="logo"></div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
       <ng-container *ngFor="let menu of menus">
-        <ng-container *ngIf="menu.pid != 0">
-          <li nz-submenu>
+        <ng-container *ngIf="menu.children">
+          <li nz-submenu nzOpen="true">
             <span title>
               <i nz-icon [type]="menu.icon"></i>
               <span class="nav-text">{{menu.name}}</span>
             </span>
             <ul>
-              <li nz-menu-item *ngFor="let child of menu.children" [routerLink]="child.url">{{child.name}}</li>
+              <li nz-menu-item *ngFor="let child of menu.children" [routerLink]="child.url"  [class.ant-menu-item-selected]="child.active">
+                <span title>
+                  <i nz-icon [type]="child.icon"></i>
+                  <span class="nav-text">{{child.name}}</span>
+                </span>
+              </li>
             </ul>
           </li>
         </ng-container>
-        <ng-container *ngIf="menu.pid == 0">
+        <ng-container *ngIf="!menu.children">
           <li nz-menu-item (click)="router.navigate([menu.url])" [class.ant-menu-item-selected]="menu.active">
             <span title>
               <i nz-icon [type]="menu.icon"></i>
@@ -27,10 +32,16 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"></i>
+      <div>
+        <i nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"></i>
+      </div>
       <span class="flex-spacer"></span>
       <div>
+        <ng-container>
+          <i nz-icon toggleFullscreen *ngIf="!isFullscreen" nzType="fullscreen" nzTheme="outline" (click)="isFullscreen = true"></i>
+          <i nz-icon toggleFullscreen *ngIf="isFullscreen" nzType="fullscreen-exit" nzTheme="outline" (click)="isFullscreen = false"></i>
+        </ng-container>
         <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
           <nz-avatar nz-dropdown nzIcon="user" nzSize="large" nzSrc=""></nz-avatar>
           <ul nz-menu nzSelectable style="min-width: 120px;">
@@ -44,13 +55,12 @@
         </nz-dropdown>
       </div>
     </nz-header>
-    <nz-content style="margin:0 16px;">
+    <nz-content>
       <nz-breadcrumb style="margin:16px 0;">
         <nz-breadcrumb-item>User</nz-breadcrumb-item>
         <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
       </nz-breadcrumb>
       <router-outlet></router-outlet>
     </nz-content>
-    <nz-footer style="text-align: center;">Ant Design ©2019 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>

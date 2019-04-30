@@ -13,8 +13,8 @@ const routes: Routes = [
                 loadChildren: './project-management/project-management.module#ProjectManagementModule',
                 data: { preload: true }
             }, {
-                path: 'user-mgt.',
-                loadChildren: './user-management/user-management.module#UserManagementModule',
+                path: 'system-mgt/user-mgt',
+                loadChildren: './system-mgt/user-mgt/user-mgt.module#UserManagementModule',
                 data: { preload: true }
             }
         ]

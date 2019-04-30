@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class MainService {
 
-    private menus: Menu[];
+    menus: Menu[];
 
     constructor(
         private api: ApiService
@@ -23,7 +23,14 @@ export class MainService {
     }
 
     getMenu(url) {
-        return this.menus.find(menu => menu.url == url);
+        let target = null;
+        this.menus.forEach(menu => {
+            let res = this._getMenu(url, menu);
+            if (res) {
+                target = res;
+            }
+        });
+        return target;
     }
 
     getMenus(): Observable<Menu[]> {
@@ -39,6 +46,26 @@ export class MainService {
             this.menus = res;
         }))
     }
+
+    private _getMenu(url, menu) {
+        if (menu.children) {
+            let result = null;
+            menu.children.forEach(child => {
+                let res = this._getMenu(url, child);
+                if (res) {
+                    result = res;
+                }
+            });
+            return result;
+        } else {
+            if (menu.url === url) {
+                return menu;
+            }
+            setTimeout(() => {
+                menu.active = false;
+            }, 0);
+        }
+    }
 }
 
 const menus: Menu[] = [
@@ -49,10 +76,22 @@ const menus: Menu[] = [
         name: 'Project Management',
         icon: 'project'
     }, {
-        id: '200',
+        id: '1000',
         pid: '0',
-        url: '/main/user-mgt.',
-        name: 'User Management',
-        icon: 'user'
+        name: 'System Management',
+        icon: 'setting',
+        children: [{
+            id: '1001',
+            pid: '1000',
+            url: '/main/system-mgt/user-mgt',
+            name: 'User Mgt',
+            icon: 'user',
+        }, {
+            id: '1002',
+            pid: '1000',
+            url: '/main/system-mgt/role-mgt',
+            name: 'Role Mgt',
+            icon: 'safety',
+        }]
     }
 ]
