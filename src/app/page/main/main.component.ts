@@ -45,8 +45,12 @@ export class MainComponent implements OnInit {
     let _this = this;
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
-        page.active = true;
-        _this.menu = page;
+        if(page){
+          page.active = true;
+          _this.menu = page;
+        } else {
+          _this.menu.breadcrumb = [];
+        }
       }, 0);
     })
   }

@@ -107,4 +107,10 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.mainService.pageChange(
+      this.mainService.getMenu(null)
+    );
+  }
+
 }
