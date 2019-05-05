@@ -9,7 +9,7 @@ const routes: Routes = [
         component: MainComponent,
         children: [
             {
-                path: 'project-mgt.',
+                path: 'project-mgt',
                 loadChildren: './project-management/project-management.module#ProjectManagementModule',
                 data: { preload: true }
             }, {

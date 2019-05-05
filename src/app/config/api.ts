@@ -1,4 +1,9 @@
 export const API = {
+
+    MENU_NAV_URL: 'sys/menu/nav',//菜单列表
+
+
+
     CAPTCHA_URL: 'captcha',//获取验证码
     AUTH_URL: 'login',//登录
     CODE_URL: 'code',//获取邮件验证码
@@ -17,7 +22,7 @@ export const API = {
     // Role
     ROLE_LIST_URL: 'sys/role/list',//角色列表
     // System module
-    MENU_NAV_URL: 'sys/menu/nav',//菜单列表
+    
     // Notification
     NOTIFICATION_LIST_URL: 'app/project/notifications',//通知类型列表
     // Project module
@@ -61,4 +66,5 @@ export interface Menu {
     pid: string;
     url?: string;
     children?: Menu[];
+    breadcrumb?: any[];
 }

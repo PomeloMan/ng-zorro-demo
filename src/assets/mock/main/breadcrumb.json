@@ -1,0 +1,24 @@
+{
+  "Project Management": [{
+    "label": "Home"
+  }, {
+    "label": "Project Management",
+    "url": "/main/project-mgt"
+  }],
+  "User Mgt": [{
+    "label": "Home"
+  }, {
+    "label": "System"
+  }, {
+    "label": "User Management",
+    "url": "/main/system-mgt/user-mgt"
+  }],
+  "Role Mgt": [{
+    "label": "Home"
+  }, {
+    "label": "System"
+  }, {
+    "label": "Role Management",
+    "url": "/main/system-mgt/role-mgt"
+  }]
+}

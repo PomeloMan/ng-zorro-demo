@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
 
   isCollapsed = false;
 
+  menu: Menu;
   menus: Menu[] = [];
   triggerTemplate: TemplateRef<void> | null = null;
 
@@ -45,6 +46,7 @@ export class MainComponent implements OnInit {
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
         page.active = true;
+        _this.menu = page;
       }, 0);
     })
   }

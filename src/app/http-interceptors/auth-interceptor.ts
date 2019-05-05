@@ -4,7 +4,6 @@ import {
 	HttpHandler,
 	HttpRequest
 } from '@angular/common/http';
-
 import { AuthService } from '../config/provider/auth.service';
 
 /**
@@ -22,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
 			return next.handle(req);
 		}
 		// Get the auth token from the service.
-		const authToken: any = this.auth.getAuthorizationToken();
+		const authToken = this.auth.getAuthorizationToken();
 		/*
 		* The verbose way:
 		// Clone the request and replace the original headers with cloned headers, updated with the authorization.
@@ -31,11 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
 		});
 		*/
 		// Clone the request and set the new header in one step.
-		let authReq;
-		if (authToken && authToken.token)
-			authReq = req.clone({ setHeaders: { token: authToken.token } });
-		else
-			authReq = req.clone();
+		const authReq = req.clone({ setHeaders: { Authorization: authToken } });
 
 		// send cloned request with header to the next handler.
 		return next.handle(authReq);

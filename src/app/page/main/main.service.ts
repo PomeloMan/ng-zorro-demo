@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/config/provider/api.service';
 import { of, Subject, Observable } from 'rxjs';
-import { Menu } from 'src/app/config/api';
+import { Menu, API } from 'src/app/config/api';
 import { tap } from 'rxjs/operators';
+
+import menus from '../../../assets/mock/main/menus.json';
+import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
+import { useMockData } from 'src/app/config/app.constant.js';
 
 @Injectable()
 export class MainService {
@@ -10,7 +14,7 @@ export class MainService {
     menus: Menu[];
 
     constructor(
-        private api: ApiService
+        private service: ApiService
     ) { }
 
     // Observable string sources
@@ -35,16 +39,17 @@ export class MainService {
 
     getMenus(): Observable<Menu[]> {
         if (!this.menus) {
-            return this.getMenuList();
+            if (useMockData) {
+                this.menus = menus;
+            } else {
+                this.service.get(API.MENU_NAV_URL).pipe(tap(res => {
+                    this.menus = res;
+                }))
+            }
+            return this.getMenus();
         } else {
             return of(this.menus);
         }
-    }
-
-    getMenuList() {
-        return of(menus).pipe(tap(res => {
-            this.menus = res;
-        }))
     }
 
     private _getMenu(url, menu) {
@@ -59,6 +64,7 @@ export class MainService {
             return result;
         } else {
             if (menu.url === url) {
+                menu.breadcrumb = breadcrumb[menu.name]
                 return menu;
             }
             setTimeout(() => {
@@ -67,31 +73,3 @@ export class MainService {
         }
     }
 }
-
-const menus: Menu[] = [
-    {
-        id: '100',
-        pid: '0',
-        url: '/main/project-mgt.',
-        name: 'Project Management',
-        icon: 'project'
-    }, {
-        id: '1000',
-        pid: '0',
-        name: 'System Management',
-        icon: 'setting',
-        children: [{
-            id: '1001',
-            pid: '1000',
-            url: '/main/system-mgt/user-mgt',
-            name: 'User Mgt',
-            icon: 'user',
-        }, {
-            id: '1002',
-            pid: '1000',
-            url: '/main/system-mgt/role-mgt',
-            name: 'Role Mgt',
-            icon: 'safety',
-        }]
-    }
-]

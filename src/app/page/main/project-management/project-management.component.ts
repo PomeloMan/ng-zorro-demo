@@ -16,7 +16,7 @@ export class ProjectManagementComponent implements OnInit {
 
   ngOnInit() {
     this.mainService.pageChange(
-      this.mainService.getMenu('/main/project-mgt.')
+      this.mainService.getMenu(this.router.url)
     );
   }
 

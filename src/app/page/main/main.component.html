@@ -10,7 +10,8 @@
               <span class="nav-text">{{menu.name}}</span>
             </span>
             <ul>
-              <li nz-menu-item *ngFor="let child of menu.children" [routerLink]="child.url"  [class.ant-menu-item-selected]="child.active">
+              <li nz-menu-item *ngFor="let child of menu.children" [routerLink]="child.url"
+                [class.ant-menu-item-selected]="child.active">
                 <span title>
                   <i nz-icon [type]="child.icon"></i>
                   <span class="nav-text">{{child.name}}</span>
@@ -33,18 +34,24 @@
   <nz-layout>
     <nz-header>
       <div>
-        <i nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="isCollapsed = !isCollapsed"></i>
+        <i nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
       </div>
       <span class="flex-spacer"></span>
       <div>
         <ng-container>
-          <i nz-icon toggleFullscreen *ngIf="!isFullscreen" nzType="fullscreen" nzTheme="outline" (click)="isFullscreen = true"></i>
-          <i nz-icon toggleFullscreen *ngIf="isFullscreen" nzType="fullscreen-exit" nzTheme="outline" (click)="isFullscreen = false"></i>
+          <i nz-icon toggleFullscreen *ngIf="!isFullscreen" nzType="fullscreen" nzTheme="outline"
+            (click)="isFullscreen = true"></i>
+          <i nz-icon toggleFullscreen *ngIf="isFullscreen" nzType="fullscreen-exit" nzTheme="outline"
+            (click)="isFullscreen = false"></i>
         </ng-container>
         <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
           <nz-avatar nz-dropdown nzIcon="user" nzSize="large" nzSrc=""></nz-avatar>
           <ul nz-menu nzSelectable style="min-width: 120px;">
+            <li nz-menu-item>
+              <div>Admin</div>
+              <div>fengchao.z@outlook.com</div>
+            </li>
+            <li nz-menu-divider></li>
             <li nz-menu-item style="padding: 0 12px; line-height: 40px;">
               <a style="margin: 0; padding: 0;">User Profile</a>
             </li>
@@ -56,9 +63,11 @@
       </div>
     </nz-header>
     <nz-content>
-      <nz-breadcrumb style="margin:16px 0;">
-        <nz-breadcrumb-item>User</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      <nz-breadcrumb *ngIf="menu">
+        <ng-container *ngFor="let item of menu.breadcrumb">
+          <nz-breadcrumb-item *ngIf="!item.url">{{item.label}}</nz-breadcrumb-item>
+          <nz-breadcrumb-item *ngIf="item.url" [routerLink]="item.url">{{item.label}}</nz-breadcrumb-item>
+        </ng-container>
       </nz-breadcrumb>
       <router-outlet></router-outlet>
     </nz-content>

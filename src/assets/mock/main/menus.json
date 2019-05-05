@@ -1,0 +1,25 @@
+[{
+  "id": "100",
+  "pid": "0",
+  "url": "/main/project-mgt",
+  "name": "Project Management",
+  "icon": "project"
+}, {
+  "id": "1000",
+  "pid": "0",
+  "name": "System Management",
+  "icon": "setting",
+  "children": [{
+    "id": "1001",
+    "pid": "1000",
+    "url": "/main/system-mgt/user-mgt",
+    "name": "User Mgt",
+    "icon": "user"
+  }, {
+    "id": "1002",
+    "pid": "1000",
+    "url": "/main/system-mgt/role-mgt",
+    "name": "Role Mgt",
+    "icon": "safety"
+  }]
+}]
