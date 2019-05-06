@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CommonService } from 'src/app/common/interface/service.interface';
-import { ApiService } from 'src/app/config/provider/api.service';
 import { Observable, of } from 'rxjs';
-import { useMockData } from 'src/app/config/app.constant';
-
-import page from 'src/assets/mock/system/user/page.json';
 import { Page } from 'src/app/config/api';
+import { ApiService } from 'src/app/config/provider/api.service';
+import { CommonService } from 'src/app/common/interface/service.interface';
+
+import { useMockData } from 'src/app/config/app.constant';
+import page from 'src/assets/mock/system/user/page.json';
 
 @Injectable()
 export class UserManagementService implements CommonService<User> {
@@ -17,13 +17,16 @@ export class UserManagementService implements CommonService<User> {
     info(): Observable<User> {
         return null;
     }
-    page(params): Observable<Page<User[]>> {
+
+    page(body?): Observable<Page<User[]>> {
+        console.log(body);
         if (useMockData) {
             return of(page);
         } else {
-            return this.service.post('', params);
+            return this.service.post('', body);
         }
     }
+
     list(): Observable<User[]> {
         if (useMockData) {
             return of(page);
@@ -31,9 +34,11 @@ export class UserManagementService implements CommonService<User> {
             return null;
         }
     }
+
     update() {
         return null;
     }
+
     delete() {
         return null;
     }

@@ -5,7 +5,7 @@ export interface CommonService<T> {
 
     info(): Observable<T>
 
-    page(params?): Observable<Page<T[]>>
+    page(body?): Observable<Page<T[]>>
 
     list(): Observable<T[]>
 

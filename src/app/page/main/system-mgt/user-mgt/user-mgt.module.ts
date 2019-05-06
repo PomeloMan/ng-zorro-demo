@@ -5,6 +5,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { UserManagementComponent } from './user-mgt.component';
 import { UserManagementService } from './user-mgt.service';
+import { FormsModule } from '@angular/forms';
 
 const routes: Route[] = [{
   path: '',
@@ -20,6 +21,7 @@ const routes: Route[] = [{
   ],
   imports: [
     CommonModule,
+    FormsModule,
     NgZorroAntdModule,
     RouterModule.forChild(routes)
   ],

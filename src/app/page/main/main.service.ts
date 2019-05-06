@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/config/provider/api.service';
 import { of, Subject, Observable } from 'rxjs';
 import { API } from 'src/app/config/api';
 import { tap } from 'rxjs/operators';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 import menus from '../../../assets/mock/main/menus.json';
 import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
@@ -14,7 +15,8 @@ export class MainService {
     menus: Menu[];
 
     constructor(
-        private service: ApiService
+        private service: ApiService,
+        private notification: NzNotificationService
     ) { }
 
     // Observable string sources
@@ -50,6 +52,14 @@ export class MainService {
         } else {
             return of(this.menus);
         }
+    }
+
+    createNotification(type: 'success' | 'info' | 'warning' | 'error' | 'blank' | string, title?: string, content?: string): void {
+        this.notification.create(
+            type,
+            title ? title : type.toLocaleUpperCase(),
+            content
+        );
     }
 
     private _getMenu(url, menu) {

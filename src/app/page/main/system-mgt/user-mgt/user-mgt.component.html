@@ -1,19 +1,39 @@
 <div class="_content">
   <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzShowTotal]="rangeTemplate"
-    nzSize="middle" [nzFrontPagination]="false" [nzData]="datalist" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+    nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
     [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
-    <thead>
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th>Name</th>
-        <th>Age</th>
+        <th>Username</th>
+        <th nzCustomFilter>
+          Display Name
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+            <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+              nz-dropdown></i>
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.username" />
+              <div class="search-button-group">
+                <button nz-button nzSize="small" nzType="primary" (click)="page()"> Search </button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              </div>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzShowSort nzSortKey="age">Age</th>
         <th>Address</th>
+        <th nzWidth="120px" nzAlign="center"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of smallTable.data">
+        <td>{{ data.key }}</td>
         <td>{{ data.name }}</td>
         <td>{{ data.age }}</td>
         <td>{{ data.address }}</td>
+        <td nzAlign="center">
+          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"></i>
+        </td>
       </tr>
     </tbody>
   </nz-table>
