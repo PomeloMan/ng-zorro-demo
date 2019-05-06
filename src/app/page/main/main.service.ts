@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/config/provider/api.service';
 import { of, Subject, Observable } from 'rxjs';
-import { Menu, API } from 'src/app/config/api';
+import { API } from 'src/app/config/api';
 import { tap } from 'rxjs/operators';
 
 import menus from '../../../assets/mock/main/menus.json';
@@ -72,4 +72,14 @@ export class MainService {
             }, 0);
         }
     }
+}
+
+export interface Menu {
+    id: string;
+    icon: string;
+    name: string;
+    pid: string;
+    url?: string;
+    children?: Menu[];
+    breadcrumb?: any[];
 }

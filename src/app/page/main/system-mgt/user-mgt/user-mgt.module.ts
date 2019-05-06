@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { UserManagementComponent } from './user-mgt.component';
+import { UserManagementService } from './user-mgt.service';
 
 const routes: Route[] = [{
   path: '',
@@ -21,6 +22,9 @@ const routes: Route[] = [{
     CommonModule,
     NgZorroAntdModule,
     RouterModule.forChild(routes)
+  ],
+  providers: [
+    UserManagementService
   ]
 })
 export class UserManagementModule { }

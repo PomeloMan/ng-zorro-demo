@@ -1,5 +1,7 @@
 <div class="_content">
-  <nz-table #smallTable nzSize="middle" [nzData]="data">
+  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzShowTotal]="rangeTemplate"
+    nzSize="middle" [nzFrontPagination]="false" [nzData]="datalist" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
     <thead>
       <tr>
         <th>Name</th>
@@ -16,3 +18,7 @@
     </tbody>
   </nz-table>
 </div>
+
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }} - {{ range[1] }} of {{ total }} items
+</ng-template>

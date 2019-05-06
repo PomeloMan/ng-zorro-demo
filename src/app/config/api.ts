@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+
 export const API = {
 
     MENU_NAV_URL: 'sys/menu/nav',//菜单列表
@@ -22,7 +24,7 @@ export const API = {
     // Role
     ROLE_LIST_URL: 'sys/role/list',//角色列表
     // System module
-    
+
     // Notification
     NOTIFICATION_LIST_URL: 'app/project/notifications',//通知类型列表
     // Project module
@@ -59,12 +61,28 @@ export const API = {
     MESSAGE_PAGE_URL: 'app/message/page'
 }
 
-export interface Menu {
-    id: string;
-    icon: string;
-    name: string;
-    pid: string;
+
+/**
+ * options: { observe: 'response' }
+ */
+export interface ResponseEntity<T> {
+    body?: T;
+    headers?: HttpHeaders;
+    ok?: boolean;
+    status?: number;
+    statusText?: string;
+    type?: number;
     url?: string;
-    children?: Menu[];
-    breadcrumb?: any[];
+}
+
+export interface Page<T> {
+    content?: T;
+    first?: boolean;
+    last?: boolean;
+    number?: number
+    numberOfElements?: number
+    size?: number
+    sort?: string
+    totalElements?: number
+    totalPages?: number
 }
