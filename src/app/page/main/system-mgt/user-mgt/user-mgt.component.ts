@@ -12,21 +12,14 @@ import { User, UserManagementService } from './user-mgt.service';
 })
 export class UserManagementComponent extends AbstractPaginatorComponent<User> implements OnInit, OnDestroy {
 
-  body: any = {
-    username: ''
-  }
+  body: UserPageForm = new UserPageForm();
 
   constructor(
     private router: Router,
-    private mainService: MainService,
-    protected service: UserManagementService
+    protected service: UserManagementService,
+    protected mainService: MainService
   ) {
-    super(service)
-  }
-
-  reset(): void {
-    this.body.username = '';
-    this.page();
+    super(service, mainService)
   }
 
   ngOnInit() {
@@ -41,4 +34,12 @@ export class UserManagementComponent extends AbstractPaginatorComponent<User> im
       this.mainService.getMenu(null)
     );
   }
+
+  pageCallback() {
+    this.results.forEach((r: any) => r.id = r.key);
+  }
+}
+
+class UserPageForm {
+  username: string = ''
 }

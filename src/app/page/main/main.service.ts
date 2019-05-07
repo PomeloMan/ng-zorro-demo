@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/config/provider/api.service';
 import { of, Subject, Observable } from 'rxjs';
 import { API } from 'src/app/config/api';
 import { tap } from 'rxjs/operators';
-import { NzNotificationService } from 'ng-zorro-antd';
+import { NzNotificationService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 
 import menus from '../../../assets/mock/main/menus.json';
 import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
@@ -16,7 +16,8 @@ export class MainService {
 
     constructor(
         private service: ApiService,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private modal: NzModalService
     ) { }
 
     // Observable string sources
@@ -60,6 +61,16 @@ export class MainService {
             title ? title : type.toLocaleUpperCase(),
             content
         );
+    }
+
+    showConfirm(callback = () => { }, title: string = 'Do you Want to delete these items?', content?: string): NzModalRef {
+        return this.modal.confirm({
+            nzTitle: title,
+            nzContent: content,
+            nzOnOk: () => {
+                callback()
+            }
+        });
     }
 
     private _getMenu(url, menu) {

@@ -11,5 +11,5 @@ export interface CommonService<T> {
 
     update(): Observable<any>
 
-    delete(): Observable<any>
+    delete(ids): Observable<any>
 }

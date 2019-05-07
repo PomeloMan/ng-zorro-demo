@@ -39,8 +39,8 @@ export class UserManagementService implements CommonService<User> {
         return null;
     }
 
-    delete() {
-        return null;
+    delete(ids): Observable<any> {
+        return of(null);
     }
 }
 
