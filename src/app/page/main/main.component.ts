@@ -3,9 +3,7 @@ import { MainService, Menu } from './main.service';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/config/provider/storage.service';
 import { AuthService } from 'src/app/config/provider/auth.service';
-import { forkJoin, Observable, of, timer } from 'rxjs';
-
-import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
+import { forkJoin, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -18,6 +16,7 @@ export class MainComponent implements OnInit {
 
   menu: any;
   menus: Menu[] = [];
+  breadcrumb: any[] = [];
   triggerTemplate: TemplateRef<void> | null = null;
 
   constructor(
@@ -51,13 +50,13 @@ export class MainComponent implements OnInit {
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
         if (page) {
-          _this.menu = _this.service.getMenu(page.id || page.url, _this.menus);
+          _this.menu = _this.service.getMenu(page.id || page.url, _this.menus, page.parent);
           if (_this.menu) {
-            _this.menu.active = true;
-            if (page.breadcrumb) {
-              _this.menu.breadcrumb = page.breadcrumb;
+            _this.breadcrumb = _this.menu.breadcrumb;
+            if (page.parent && _this.menu.parent) {
+              _this.menu.parent.active = true;
             } else {
-              _this.menu.breadcrumb = breadcrumb[_this.menu.id]
+              _this.menu.active = true;
             }
           }
         } else {

@@ -1,25 +1,69 @@
 [{
-  "id": "100",
-  "pid": "0",
+  "id": 100,
+  "pid": 0,
+  "type": 0,
   "url": "/main/project-mgt",
   "name": "Project Management",
-  "icon": "project"
+  "icon": "project",
+  "breadcrumb": [{
+    "label": "Home"
+  }, {
+    "label": "Project Management",
+    "url": "/main/project-mgt"
+  }]
 }, {
-  "id": "1000",
-  "pid": "0",
+  "id": 1000,
+  "pid": 0,
+  "type": 0,
   "name": "System Management",
   "icon": "setting",
   "children": [{
-    "id": "1001",
-    "pid": "1000",
+    "id": 1010,
+    "pid": 1000,
+    "type": 0,
     "url": "/main/system-mgt/user-mgt",
     "name": "User Mgt",
-    "icon": "user"
+    "icon": "user",
+    "breadcrumb": [{
+      "label": "Home"
+    }, {
+      "label": "System"
+    }, {
+      "label": "User Management",
+      "url": "/main/system-mgt/user-mgt"
+    }],
+    "children": [{
+      "id": 1011,
+      "pid": 1010,
+      "type": 1,
+      "url": "/main/system-mgt/user-mgt/user/*",
+      "name": "User Detail",
+      "icon": "user",
+      "breadcrumb": [{
+        "label": "Home"
+      }, {
+        "label": "System"
+      }, {
+        "label": "User Management",
+        "url": "/main/system-mgt/user-mgt"
+      }, {
+        "label": "User"
+      }]
+    }]
   }, {
-    "id": "1002",
-    "pid": "1000",
+    "id": 1020,
+    "pid": 1000,
+    "type": 0,
     "url": "/main/system-mgt/role-mgt",
     "name": "Role Mgt",
-    "icon": "safety"
+    "icon": "safety",
+    "breadcrumb": [{
+      "label": "Home"
+    }, {
+      "label": "System"
+    }, {
+      "label": "Role Management",
+      "url": "/main/system-mgt/role-mgt"
+    }]
   }]
 }]

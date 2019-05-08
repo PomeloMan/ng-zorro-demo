@@ -35,38 +35,30 @@ export class MainService {
 	 * @param menus 
 	 * @param parent 是否返回父级模块
 	 */
-	getMenu(key?, menus: any[] = [], parent: boolean = false) {
-		if (key) {
-			let target;
-			//every: 碰到return false的时候，循环中止
-			//some: 碰到return ture的时候，循环中止
-			menus.some(menu => {
+    getMenu(key?, menus: any[] = [], parent: boolean = false) {
+        if (key) {
+            let target: any;
+            //every: 碰到return false的时候，循环中止
+            //some: 碰到return ture的时候，循环中止
+            menus.some(menu => {
                 // console.log(menu.name)
-				if (menu.children) {
-					target = this.getMenu(key, menu.children);
-					if (isNullOrUndefined(target)) return false;
-					if (parent)
-						return { 'menu': target, 'pmenu': menu };
-					else
-						return target;
-				} else {
-					if (key == menu.url || key == menu.id) {
-						return target = menu;
+                if (key == menu.url || key == menu.id) {
+                    return target = menu;
+                }
+                if (menu.children) {
+                    target = this.getMenu(key, menu.children, parent);
+                    if (isNullOrUndefined(target)) return false;
+                    if (parent && isNullOrUndefined(target.parent)) {
+                        target.parent = menu;
                     }
-				}
-			})
-			return target;
-		} else {
-			// if url is empty, return all menus(include submenus)
-			let _menus = [];
-			menus.forEach(menu => {
-				_menus.push(menu);
-				if (menu.children)
-					_menus = _menus.concat(this.getMenu(key, menu.children));
-			})
-			return _menus;
-		}
-	}
+                    return target;
+                }
+            })
+            return target;
+        } else {
+            return menus;
+        }
+    }
 
     getMenus(): Observable<Menu[]> {
         if (!this.menus) {

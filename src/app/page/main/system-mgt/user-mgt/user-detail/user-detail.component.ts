@@ -19,17 +19,8 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit() {
     this.mainService.pageChange({
-      id: 1001,
-      breadcrumb: [{
-        "label": "Home"
-      }, {
-        "label": "System"
-      }, {
-        "label": "User Management",
-        "url": "/main/system-mgt/user-mgt"
-      }, {
-        "label": "User"
-      }]
+      id: 1011,
+      parent: true
     });
   }
 }

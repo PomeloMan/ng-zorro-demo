@@ -63,8 +63,8 @@
       </div>
     </nz-header>
     <nz-content>
-      <nz-breadcrumb *ngIf="menu">
-        <ng-container *ngFor="let item of menu.breadcrumb">
+      <nz-breadcrumb>
+        <ng-container *ngFor="let item of breadcrumb">
           <nz-breadcrumb-item *ngIf="!item.url">{{item.label}}</nz-breadcrumb-item>
           <nz-breadcrumb-item *ngIf="item.url" [routerLink]="item.url">{{item.label}}</nz-breadcrumb-item>
         </ng-container>
