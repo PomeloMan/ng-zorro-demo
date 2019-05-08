@@ -1,7 +1,7 @@
 <div class="_content">
-  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzShowTotal]="rangeTemplate"
-    nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
-    [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
+  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
+    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
         <th nzShowCheckbox nzShowRowSelection [nzSelections]="selections" [(nzChecked)]="isAllChecked"
@@ -26,8 +26,7 @@
         <th>Address</th>
         <th nzCustomFilter nzWidth="120px" nzAlign="center">
           Operation
-          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter
-            #OperationDropdown>
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
             <i nz-icon nzType="down" class="ant-table-filter-icon"
               [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
             <ul nz-menu nzSelectable>
@@ -49,7 +48,8 @@
         <td>{{ data.age }}</td>
         <td>{{ data.address }}</td>
         <td nzAlign="center">
-          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"></i>
+          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
+            (click)="navigate('/main/system-mgt/user-mgt/user', [data.key])"></i>
           <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete()"></i>
         </td>
       </tr>

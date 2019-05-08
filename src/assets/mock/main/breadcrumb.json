@@ -1,11 +1,11 @@
 {
-  "Project Management": [{
+  "100": [{
     "label": "Home"
   }, {
     "label": "Project Management",
     "url": "/main/project-mgt"
   }],
-  "User Mgt": [{
+  "1001": [{
     "label": "Home"
   }, {
     "label": "System"
@@ -13,7 +13,7 @@
     "label": "User Management",
     "url": "/main/system-mgt/user-mgt"
   }],
-  "Role Mgt": [{
+  "1002": [{
     "label": "Home"
   }, {
     "label": "System"

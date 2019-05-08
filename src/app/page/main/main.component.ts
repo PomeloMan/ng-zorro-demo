@@ -3,6 +3,9 @@ import { MainService, Menu } from './main.service';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/config/provider/storage.service';
 import { AuthService } from 'src/app/config/provider/auth.service';
+import { forkJoin, Observable, of, timer } from 'rxjs';
+
+import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +16,7 @@ export class MainComponent implements OnInit {
 
   isCollapsed = false;
 
-  menu: Menu;
+  menu: any;
   menus: Menu[] = [];
   triggerTemplate: TemplateRef<void> | null = null;
 
@@ -25,14 +28,8 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getMenuList();
+    this.init();
     this.initEventListeners();
-  }
-
-  getMenuList() {
-    this.service.getMenus().subscribe((res: Menu[]) => {
-      this.menus = res;
-    })
   }
 
   logout() {
@@ -40,16 +37,31 @@ export class MainComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  private init() {
+    let $menusObservable: Observable<Menu[]> = this.service.getMenus();
+    let $mockData: Observable<any[]> = of([1, 2, 3, 4, 5]);
+    forkJoin([$menusObservable, $mockData]).subscribe(([menus, mockData]: [Menu[], any[]]) => {
+      this.menus = menus;
+      console.log(mockData);
+    })
+  }
+
   private initEventListeners() {
     let _this = this;
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
         if (page) {
-          page.active = true;
-          _this.menu = page;
+          _this.menu = _this.service.getMenu(page.id || page.url, _this.menus);
+          if (_this.menu) {
+            _this.menu.active = true;
+            if (page.breadcrumb) {
+              _this.menu.breadcrumb = page.breadcrumb;
+            } else {
+              _this.menu.breadcrumb = breadcrumb[_this.menu.id]
+            }
+          }
         } else {
-          if (_this.menu)
-            _this.menu.breadcrumb = [];
+          _this.menu.active = false;
         }
       }, 0);
     })

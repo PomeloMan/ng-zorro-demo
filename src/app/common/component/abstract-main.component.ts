@@ -1,11 +1,14 @@
 import { Paginator } from '../interface/paginator.interface';
+import { Router } from '@angular/router';
 import { CommonService } from '../interface/service.interface';
 import { MainService } from 'src/app/page/main/main.service';
+import { isNullOrUndefined } from 'util';
+import { AbstractPageComponent } from './abstract-page.component';
 
-export class AbstractPaginatorComponent<T> implements Paginator {
+export class AbstractMainComponent<T> extends AbstractPageComponent implements Paginator {
 
     results: T[] = [];
-    body: any;
+    body: any = {};
 
     // Paginator
     total: number = 0;
@@ -14,6 +17,7 @@ export class AbstractPaginatorComponent<T> implements Paginator {
     pageSizeOptions: number[] = [10, 25, 50, 100];
     sortName: string = '';
     sortValue: 'descend' | 'ascend' | null = null;
+    loading: boolean = true;
 
     // Selection
     selections: any[] = [{
@@ -39,9 +43,11 @@ export class AbstractPaginatorComponent<T> implements Paginator {
     mapOfCheckedId: { [key: string]: boolean } = {};
 
     constructor(
+        protected router: Router,
         protected service: CommonService<T>,
         protected mainService: MainService
     ) {
+        super(router, mainService)
         this.page();
     }
 
@@ -65,6 +71,12 @@ export class AbstractPaginatorComponent<T> implements Paginator {
             this.total = res.totalElements;
 
             this.pageCallback();
+            setTimeout(() => {
+                this.loading = false;
+            }, 1000);
+        }, error => {
+            console.error(error);
+            this.loading = false;
         })
     }
 
@@ -101,6 +113,18 @@ export class AbstractPaginatorComponent<T> implements Paginator {
             this.service.delete(ids).subscribe((res) => {
                 this.mainService.createNotification('success')
             })
+        })
+    }
+
+    navigate(url, data?: any[], queryParams?) {
+        let commands = [url];
+        if (!isNullOrUndefined(data) && data instanceof Array) {
+            data.forEach(el => {
+                commands.push(el)
+            });
+        }
+        this.router.navigate(commands, {
+            queryParams: queryParams
         })
     }
 }

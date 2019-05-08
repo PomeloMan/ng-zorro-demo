@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { MainService } from '../../main.service';
 import { Router } from '@angular/router';
 
-import { AbstractPaginatorComponent } from 'src/app/common/component/abstract-paginator.component';
+import { AbstractMainComponent } from 'src/app/common/component/abstract-main.component';
 import { User, UserManagementService } from './user-mgt.service';
 
 @Component({
@@ -10,29 +10,19 @@ import { User, UserManagementService } from './user-mgt.service';
   templateUrl: './user-mgt.component.html',
   styleUrls: ['./user-mgt.component.scss']
 })
-export class UserManagementComponent extends AbstractPaginatorComponent<User> implements OnInit, OnDestroy {
+export class UserManagementComponent extends AbstractMainComponent<User> implements AfterViewInit {
 
   body: UserPageForm = new UserPageForm();
 
   constructor(
-    private router: Router,
+    protected router: Router,
     protected service: UserManagementService,
     protected mainService: MainService
   ) {
-    super(service, mainService)
+    super(router, service, mainService)
   }
 
-  ngOnInit() {
-    this.mainService.createNotification('success');
-    this.mainService.pageChange(
-      this.mainService.getMenu(this.router.url)
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.mainService.pageChange(
-      this.mainService.getMenu(null)
-    );
+  ngAfterViewInit(): void {
   }
 
   pageCallback() {

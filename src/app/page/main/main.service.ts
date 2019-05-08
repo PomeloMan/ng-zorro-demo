@@ -4,10 +4,10 @@ import { of, Subject, Observable } from 'rxjs';
 import { API } from 'src/app/config/api';
 import { tap } from 'rxjs/operators';
 import { NzNotificationService, NzModalService, NzModalRef } from 'ng-zorro-antd';
+import { isNullOrUndefined } from 'util';
 
-import menus from '../../../assets/mock/main/menus.json';
-import breadcrumb from '../../../assets/mock/main/breadcrumb.json';
 import { useMockData } from 'src/app/config/app.constant.js';
+import menus from '../../../assets/mock/main/menus.json';
 
 @Injectable()
 export class MainService {
@@ -29,27 +29,56 @@ export class MainService {
         this.page.next(option);
     }
 
-    getMenu(url) {
-        let target = null;
-        this.menus.forEach(menu => {
-            let res = this._getMenu(url, menu);
-            if (res) {
-                target = res;
-            }
-        });
-        return target;
-    }
+    /**
+	 * 根据 url 查找 menus 中 link 符合的 menu
+	 * @param url 
+	 * @param menus 
+	 * @param parent 是否返回父级模块
+	 */
+	getMenu(key?, menus: any[] = [], parent: boolean = false) {
+		if (key) {
+			let target;
+			//every: 碰到return false的时候，循环中止
+			//some: 碰到return ture的时候，循环中止
+			menus.some(menu => {
+                // console.log(menu.name)
+				if (menu.children) {
+					target = this.getMenu(key, menu.children);
+					if (isNullOrUndefined(target)) return false;
+					if (parent)
+						return { 'menu': target, 'pmenu': menu };
+					else
+						return target;
+				} else {
+					if (key == menu.url || key == menu.id) {
+						return target = menu;
+                    }
+				}
+			})
+			return target;
+		} else {
+			// if url is empty, return all menus(include submenus)
+			let _menus = [];
+			menus.forEach(menu => {
+				_menus.push(menu);
+				if (menu.children)
+					_menus = _menus.concat(this.getMenu(key, menu.children));
+			})
+			return _menus;
+		}
+	}
 
     getMenus(): Observable<Menu[]> {
         if (!this.menus) {
             if (useMockData) {
-                this.menus = menus;
+                return of(menus).pipe(tap(res => {
+                    this.menus = res;
+                }));
             } else {
-                this.service.get(API.MENU_NAV_URL).pipe(tap(res => {
+                return this.service.get(API.MENU_NAV_URL).pipe(tap(res => {
                     this.menus = res;
                 }))
             }
-            return this.getMenus();
         } else {
             return of(this.menus);
         }
@@ -73,26 +102,7 @@ export class MainService {
         });
     }
 
-    private _getMenu(url, menu) {
-        if (menu.children) {
-            let result = null;
-            menu.children.forEach(child => {
-                let res = this._getMenu(url, child);
-                if (res) {
-                    result = res;
-                }
-            });
-            return result;
-        } else {
-            if (menu.url === url) {
-                menu.breadcrumb = breadcrumb[menu.name]
-                return menu;
-            }
-            setTimeout(() => {
-                menu.active = false;
-            }, 0);
-        }
-    }
+    private void
 }
 
 export interface Menu {
