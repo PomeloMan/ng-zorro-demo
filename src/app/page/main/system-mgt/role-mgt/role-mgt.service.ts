@@ -8,17 +8,17 @@ import { useMockData } from 'src/app/config/app.constant';
 import page from 'src/assets/mock/system/user/page.json';
 
 @Injectable()
-export class UserManagementService implements CommonService<User> {
+export class RoleManagementService implements CommonService<Role> {
 
     constructor(
         private service: ApiService
     ) { }
 
-    info(id): Observable<User> {
+    info(id): Observable<Role> {
         return of(null);
     }
 
-    page(body?): Observable<Page<User[]>> {
+    page(body?): Observable<Page<Role[]>> {
         console.log(body);
         if (useMockData) {
             return of(page);
@@ -27,7 +27,7 @@ export class UserManagementService implements CommonService<User> {
         }
     }
 
-    list(): Observable<User[]> {
+    list(): Observable<Role[]> {
         if (useMockData) {
             return of(page);
         } else {
@@ -48,9 +48,7 @@ export class UserManagementService implements CommonService<User> {
     }
 }
 
-export interface User {
-    key?: string;
+export interface Role {
+    id?: string;
     name?: string;
-    age?: number;
-    address?: string;
 }

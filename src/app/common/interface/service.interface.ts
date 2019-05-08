@@ -3,13 +3,15 @@ import { Page } from 'src/app/config/api';
 
 export interface CommonService<T> {
 
-    info(): Observable<T>
+    info(id): Observable<T>
 
     page(body?): Observable<Page<T[]>>
 
     list(): Observable<T[]>
 
-    update(): Observable<any>
+    save(T): Observable<any>
+
+    update(T): Observable<any>
 
     delete(ids): Observable<any>
 }

@@ -40,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of smallTable.data">
+      <tr *ngFor="let data of smallTable.data" hoverClass="elevation-text-z4">
         <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled"
           (nzCheckedChange)="refreshStatus()"></td>
         <td>{{ data.key }}</td>
@@ -50,7 +50,7 @@
         <td nzAlign="center">
           <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
             (click)="navigate('/main/system-mgt/user-mgt/user', [data.key])"></i>
-          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete()"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([data.key])"></i>
         </td>
       </tr>
     </tbody>

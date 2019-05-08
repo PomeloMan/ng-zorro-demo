@@ -22,12 +22,12 @@
     "pid": 1000,
     "type": 0,
     "url": "/main/system-mgt/user-mgt",
-    "name": "User Mgt",
+    "name": "User Management",
     "icon": "user",
     "breadcrumb": [{
       "label": "Home"
     }, {
-      "label": "System"
+      "label": "System Management"
     }, {
       "label": "User Management",
       "url": "/main/system-mgt/user-mgt"
@@ -38,11 +38,11 @@
       "type": 1,
       "url": "/main/system-mgt/user-mgt/user/*",
       "name": "User Detail",
-      "icon": "user",
+      "icon": "profile",
       "breadcrumb": [{
         "label": "Home"
       }, {
-        "label": "System"
+        "label": "System Management"
       }, {
         "label": "User Management",
         "url": "/main/system-mgt/user-mgt"
@@ -55,15 +55,33 @@
     "pid": 1000,
     "type": 0,
     "url": "/main/system-mgt/role-mgt",
-    "name": "Role Mgt",
+    "name": "Role Management",
     "icon": "safety",
     "breadcrumb": [{
       "label": "Home"
     }, {
-      "label": "System"
+      "label": "System Management"
     }, {
       "label": "Role Management",
       "url": "/main/system-mgt/role-mgt"
+    }],
+    "children": [{
+      "id": 1021,
+      "pid": 1020,
+      "type": 1,
+      "url": "/main/system-mgt/user-mgt/role/*",
+      "name": "Role Detail",
+      "icon": "profile",
+      "breadcrumb": [{
+        "label": "Home"
+      }, {
+        "label": "System Management"
+      }, {
+        "label": "Role Management",
+        "url": "/main/system-mgt/role-mgt"
+      }, {
+        "label": "Role"
+      }]
     }]
   }]
 }]

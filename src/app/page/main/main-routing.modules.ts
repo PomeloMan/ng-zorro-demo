@@ -16,6 +16,10 @@ const routes: Routes = [
                 path: 'system-mgt/user-mgt',
                 loadChildren: './system-mgt/user-mgt/user-mgt.module#UserManagementModule',
                 data: { preload: true }
+            }, {
+                path: 'system-mgt/role-mgt',
+                loadChildren: './system-mgt/role-mgt/role-mgt.module#RoleManagementModule',
+                data: { preload: true }
             }
         ]
     }

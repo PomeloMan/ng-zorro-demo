@@ -73,7 +73,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             this.pageCallback();
             setTimeout(() => {
                 this.loading = false;
-            }, 1000);
+            }, 500);
         }, error => {
             console.error(error);
             this.loading = false;

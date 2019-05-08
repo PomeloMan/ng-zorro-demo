@@ -7,6 +7,7 @@ import { UserManagementComponent } from './user-mgt.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserManagementService } from './user-mgt.service';
 import { FormsModule } from '@angular/forms';
+import { CommonDirectiveModule } from 'src/app/common/directive/common-directive.module';
 
 const routes: Route[] = [{
   path: '',
@@ -25,6 +26,7 @@ const routes: Route[] = [{
     CommonModule,
     FormsModule,
     NgZorroAntdModule,
+    CommonDirectiveModule,
     RouterModule.forChild(routes)
   ],
   providers: [

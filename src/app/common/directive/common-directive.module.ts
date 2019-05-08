@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { FullscreenDirective } from './fullscreen.directive';
+import { HoverClassDirective } from './hover-class.directive';
 
 @NgModule({
     declarations: [
-        FullscreenDirective
+        FullscreenDirective,
+        HoverClassDirective
     ],
     exports: [
-        FullscreenDirective
+        FullscreenDirective,
+        HoverClassDirective
     ]
 })
 export class CommonDirectiveModule {}

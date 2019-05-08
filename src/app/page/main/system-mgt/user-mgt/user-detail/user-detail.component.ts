@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractPageComponent } from 'src/app/common/component/abstract-page.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { AbstractDetailComponent } from 'src/app/common/component/abstract-detail.component';
 import { MainService } from '../../../main.service';
+import { User, UserManagementService } from '../user-mgt.service';
 
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.scss']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent extends AbstractDetailComponent<User> implements OnInit {
 
   constructor(
     protected router: Router,
+    protected route: ActivatedRoute,
+    protected service: UserManagementService,
     protected mainService: MainService
   ) {
-    // super(router, mainService)
+    super(router, route, service, mainService)
   }
 
   ngOnInit() {
@@ -23,4 +27,5 @@ export class UserDetailComponent implements OnInit {
       parent: true
     });
   }
+
 }

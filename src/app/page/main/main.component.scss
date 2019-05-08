@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 nz-layout {
   height: 100%;
 }
@@ -21,7 +23,7 @@ nz-sider {
 }
 
 nz-header {
-  background: white;
+  background: $component-background;
   padding: 0;
   display: flex;
   align-content: center;
@@ -30,18 +32,19 @@ nz-header {
   top: 0;
   z-index: 1;
 
-  > div {
+  >div {
     display: flex;
     align-items: center;
   }
-  
+
   .anticon {
     font-size: 18px;
     margin-right: 12px;
     cursor: pointer;
     transition: color 0.3s;
+
     &:hover {
-      color: #1890ff;
+      color: $primary-color;
     }
   }
 
@@ -60,6 +63,12 @@ nz-content {
 
   nz-breadcrumb {
     margin: 16px 0;
+
+    .link {
+      color: $primary-color;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 }
 

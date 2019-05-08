@@ -1,5 +1,6 @@
 <nz-layout>
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="200" [nzTrigger]="triggerTemplate">
+  <nz-sider class="elevation-z4" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="200"
+    [nzTrigger]="triggerTemplate">
     <div class="logo"></div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
       <ng-container *ngFor="let menu of menus">
@@ -32,7 +33,7 @@
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
+    <nz-header class="elevation-z4">
       <div>
         <i nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
       </div>
@@ -44,20 +45,16 @@
           <i nz-icon toggleFullscreen *ngIf="isFullscreen" nzType="fullscreen-exit" nzTheme="outline"
             (click)="isFullscreen = false"></i>
         </ng-container>
-        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight">
+        <nz-dropdown nzOverlayClassName="cdk-overlay-user-dropdown" nzTrigger="click" nzPlacement="bottomRight">
           <nz-avatar nz-dropdown nzIcon="user" nzSize="large" nzSrc=""></nz-avatar>
-          <ul nz-menu nzSelectable style="min-width: 120px;">
-            <li nz-menu-item>
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item class="user-info">
               <div>Admin</div>
               <div>fengchao.z@outlook.com</div>
             </li>
             <li nz-menu-divider></li>
-            <li nz-menu-item style="padding: 0 12px; line-height: 40px;">
-              <a style="margin: 0; padding: 0;">User Profile</a>
-            </li>
-            <li nz-menu-item style="padding: 0 12px; line-height: 40px;">
-              <a style="margin: 0; padding: 0;" (click)="logout()">Logout</a>
-            </li>
+            <li nz-menu-item>User Profile</li>
+            <li nz-menu-item (click)="logout()">Logout</li>
           </ul>
         </nz-dropdown>
       </div>
@@ -66,7 +63,9 @@
       <nz-breadcrumb>
         <ng-container *ngFor="let item of breadcrumb">
           <nz-breadcrumb-item *ngIf="!item.url">{{item.label}}</nz-breadcrumb-item>
-          <nz-breadcrumb-item *ngIf="item.url" [routerLink]="item.url">{{item.label}}</nz-breadcrumb-item>
+          <nz-breadcrumb-item *ngIf="item.url">
+            <span hoverClass="link" [routerLink]="item.url">{{item.label}}</span>
+          </nz-breadcrumb-item>
         </ng-container>
       </nz-breadcrumb>
       <router-outlet></router-outlet>
