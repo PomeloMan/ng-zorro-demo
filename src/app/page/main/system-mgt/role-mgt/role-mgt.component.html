@@ -1,5 +1,62 @@
 <div class="_content">
-  <p>
-    role-mgt works!
-  </p>
+  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
+    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzShowCheckbox nzShowRowSelection [nzSelections]="selections" [(nzChecked)]="isAllChecked"
+          [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
+        <th>Username</th>
+        <th nzCustomFilter>
+          Display Name
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter
+            #DisplaynameDropdown>
+            <i nz-icon nzType="search" class="ant-table-filter-icon"
+              [class.ant-table-filter-open]="DisplaynameDropdown.nzVisible" nz-dropdown></i>
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.username" />
+              <div class="search-button-group">
+                <button nz-button nzSize="small" nzType="primary" (click)="page()"> Search </button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              </div>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th nzShowSort nzSortKey="age">Age</th>
+        <th>Address</th>
+        <th nzCustomFilter nzWidth="120px" nzAlign="center">
+          Operation
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
+            <i nz-icon nzType="down" class="ant-table-filter-icon"
+              [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item (click)="delete()"> Batch Delete </li>
+              <li nz-menu-item>
+                2nd menu item
+              </li>
+            </ul>
+          </nz-dropdown>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of smallTable.data" hoverClass="elevation-text-z4">
+        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled"
+          (nzCheckedChange)="refreshStatus()"></td>
+        <td>{{ data.key }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.address }}</td>
+        <td nzAlign="center">
+          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
+            (click)="navigate('/main/system-mgt/role-mgt/role', [data.key])"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([data.key])"></i>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </div>
+
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }} - {{ range[1] }} of {{ total }} items
+</ng-template>

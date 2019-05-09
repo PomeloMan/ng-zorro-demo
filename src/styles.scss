@@ -16,6 +16,14 @@ $component-background: white;
   margin: 0 0 16px 0;
   padding: 24px;
   background-color: $component-background;
+
+  nz-table {
+    td i.anticon {
+      font-size: 18px;
+      margin-right: 6px;
+      cursor: pointer;
+    }
+  }
 }
 
 // main.component.html
