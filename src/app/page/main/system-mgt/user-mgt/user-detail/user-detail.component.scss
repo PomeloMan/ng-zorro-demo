@@ -3,9 +3,15 @@
 ._content {
   padding: 0;
   background-color: transparent;
+
+  >[nz-row] {
+    justify-content: initial;
+    align-items: initial;
+  }
 }
 
 .core,
 .other {
-    background-color: $component-background;
+  height: 100%;
+  background-color: $component-background;
 }

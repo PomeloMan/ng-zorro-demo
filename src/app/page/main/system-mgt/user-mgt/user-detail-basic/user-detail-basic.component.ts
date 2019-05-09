@@ -66,6 +66,9 @@ export class UserDetailBasicComponent implements OnInit {
     e.preventDefault();
     this.validateForm.reset();
     for (const key in this.validateForm.controls) {
+      if (this.validateForm.controls[key].disabled) {
+        this.validateForm.controls[key].setValue(this.id);
+      }
       this.validateForm.controls[key].markAsPristine();
       this.validateForm.controls[key].updateValueAndValidity();
     }
