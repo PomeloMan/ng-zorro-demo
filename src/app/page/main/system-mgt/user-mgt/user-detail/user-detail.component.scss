@@ -1,0 +1,11 @@
+@import 'src/styles.scss';
+
+._content {
+  padding: 0;
+  background-color: transparent;
+}
+
+.core,
+.other {
+    background-color: $component-background;
+}

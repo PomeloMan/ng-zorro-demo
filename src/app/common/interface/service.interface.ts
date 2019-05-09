@@ -14,4 +14,6 @@ export interface CommonService<T> {
     update(T): Observable<any>
 
     delete(ids): Observable<any>
+
+    url(url): Observable<any>
 }

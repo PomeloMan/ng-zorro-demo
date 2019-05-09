@@ -26,7 +26,10 @@ export class UserManagementComponent extends AbstractMainComponent<User> impleme
   }
 
   pageCallback() {
-    this.results.forEach((r: any) => r.id = r.key);
+    this.results.forEach((r: any) => {
+      r.id = r.username;
+      r.disabled = r.status == 'Init';
+    });
   }
 }
 

@@ -1,0 +1,61 @@
+<form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+  <nz-form-item>
+    <nz-form-label nzRequired>Username</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="username" placeholder="async validate try to write JasonWood" />
+      <nz-form-explain *ngIf="
+                (validateForm.get('username')?.dirty && validateForm.get('username')?.errors) ||
+                validateForm.get('username')?.pending
+              ">
+        <ng-container *ngIf="validateForm.get('username')?.hasError('required')">
+          Please input your username!
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.hasError('duplicated')">
+          The username is redundant!
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('username')?.pending">
+          Validating...
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Display Name</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="displayName" placeholder="display name" />
+      <nz-form-explain *ngIf="validateForm.get('displayName')?.dirty && validateForm.get('displayName')?.errors">
+        <ng-container *ngIf="validateForm.get('displayName')?.hasError('required')">
+          Please input your display name!
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>E-mail</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="email" placeholder="email" type="email" />
+      <nz-form-explain *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors">
+        <ng-container *ngIf="validateForm.get('email')?.hasError('email')">
+          The input is not valid E-mail!
+        </ng-container>
+        <ng-container *ngIf="validateForm.get('email')?.hasError('required')">
+          Please input your E-mail!
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Comment</nz-form-label>
+    <nz-form-control>
+      <textarea formControlName="comment" nz-input rows="2" placeholder="write any thing"></textarea>
+      <nz-form-explain *ngIf="validateForm.get('comment')?.dirty && validateForm.get('comment')?.hasError('required')">
+        Please write something here!</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

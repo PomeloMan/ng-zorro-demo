@@ -22,8 +22,8 @@
             </div>
           </nz-dropdown>
         </th>
-        <th nzShowSort nzSortKey="age">Age</th>
-        <th>Address</th>
+        <th nzShowSort nzSortKey="age">Email</th>
+        <th>Created Date</th>
         <th nzCustomFilter nzWidth="120px" nzAlign="center">
           Operation
           <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
@@ -40,17 +40,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of smallTable.data" hoverClass="elevation-text-z4">
-        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled"
+      <tr *ngFor="let row of smallTable.data" hoverClass="elevation-text-z4">
+        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row.id]" [nzDisabled]="row.disabled"
           (nzCheckedChange)="refreshStatus()"></td>
-        <td>{{ data.key }}</td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
+        <td>{{ row.username }}</td>
+        <td>{{ row.displayName }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.createdDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
         <td nzAlign="center">
           <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
-            (click)="navigate('/main/system-mgt/user-mgt/user', [data.key])"></i>
-          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([data.key])"></i>
+            (click)="navigate('/main/system-mgt/user-mgt/user', [row.username])"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([row.username])"></i>
         </td>
       </tr>
     </tbody>

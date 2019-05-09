@@ -37,7 +37,7 @@
       "pid": 1010,
       "type": 1,
       "url": "/main/system-mgt/user-mgt/user/*",
-      "name": "User Detail",
+      "name": "User Profile",
       "icon": "profile",
       "breadcrumb": [{
         "label": "Home"
@@ -47,7 +47,7 @@
         "label": "User Management",
         "url": "/main/system-mgt/user-mgt"
       }, {
-        "label": "User"
+        "label": "User Profile"
       }]
     }]
   }, {

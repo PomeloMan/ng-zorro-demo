@@ -46,6 +46,10 @@ export class RoleManagementService implements CommonService<Role> {
     delete(ids): Observable<any> {
         return of(null);
     }
+
+    url(url): Observable<any> {
+        return of(null);
+    }
 }
 
 export interface Role {

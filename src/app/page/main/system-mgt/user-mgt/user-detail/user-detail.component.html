@@ -1,6 +1,27 @@
 <div class="_content">
-  <p>
-    user-detail works!
-  </p>
-  <button nz-button nzType="primary" (click)="save()" [nzLoading]="saving">Save</button>
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="16">
+      <div class="core">
+        <nz-tabset>
+          <nz-tab nzTitle="Basic">
+            <ng-template nz-tab>
+              <app-user-detail-basic></app-user-detail-basic>
+            </ng-template>
+          </nz-tab>
+          <nz-tab nzTitle="Group">
+            <ng-template nz-tab>
+            </ng-template>
+          </nz-tab>
+          <nz-tab nzTitle="Todo">
+            <ng-template nz-tab>
+            </ng-template>
+          </nz-tab>
+        </nz-tabset>
+        <button nz-button nzType="primary" (click)="save()" [nzLoading]="saving">Save</button>
+      </div>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <div class="other"></div>
+    </div>
+  </div>
 </div>
