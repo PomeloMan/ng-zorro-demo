@@ -1,4 +1,18 @@
+@import 'src/styles.scss';
+
 [nz-form] {
   max-width: 600px;
-  margin: auto;
+  // margin: auto;
+
+}
+
+h4::before {
+  content: ' ';
+  width: 4px;
+  height: 12px;
+  top: 1px;
+  position: relative;
+  margin-right: 6px;
+  display: inline-block;
+  background: $primary-color;
 }

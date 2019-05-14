@@ -1,12 +1,16 @@
+<div>
+
+</div>
 <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+  <h4>Standard Information</h4>
   <nz-form-item>
     <nz-form-label nzRequired>Username</nz-form-label>
     <nz-form-control nzHasFeedback>
       <input nz-input formControlName="username" placeholder="async validate try to write JasonWood" />
       <nz-form-explain *ngIf="
-                (validateForm.get('username')?.dirty && validateForm.get('username')?.errors) ||
-                validateForm.get('username')?.pending
-              ">
+          (validateForm.get('username')?.dirty && validateForm.get('username')?.errors) ||
+          validateForm.get('username')?.pending
+        ">
         <ng-container *ngIf="validateForm.get('username')?.hasError('required')">
           Please input your username!
         </ng-container>
@@ -52,10 +56,51 @@
         Please write something here!</nz-form-explain>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
-      <button nz-button (click)="resetForm($event)">Reset</button>
-    </nz-form-control>
-  </nz-form-item>
 </form>
+<div class="contact-info">
+  <h4>Contact Information</h4>
+  <form nz-form [formGroup]="contactForm" (ngSubmit)="submitForm($event, contactForm.value)">
+    <div nz-row [nzGutter]="24">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label nzRequired nzFor="EmailInput">Email</nz-form-label>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="emailSuffix" [nzPrefix]="emailPrefix">
+              <input nz-input id="EmailInput" type="text" formControlName="email" placeholder="Enter your email" [(ngModel)]="email" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="contactForm.get('email')?.dirty && contactForm.get('email')?.errors">
+              <ng-container *ngIf="contactForm.get('email')?.hasError('email')">
+                The input is not valid E-mail!
+              </ng-container>
+              <ng-container *ngIf="contactForm.get('email')?.hasError('required')">
+                Please input your E-mail!
+              </ng-container>
+            </nz-form-explain>
+            <ng-template #emailPrefix><i nz-icon type="mail"></i></ng-template>
+            <ng-template #emailSuffix><i nz-icon type="close-circle" (click)="username = ''" *ngIf="username"></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item nzFlex>
+          <nz-form-label nzRequired nzFor="PhoneInput">Phone</nz-form-label>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="phoneSuffix" [nzPrefix]="phonePrefix">
+              <input nz-input id="PhoneInput" type="text" formControlName="phone" placeholder="Enter your phone" [(ngModel)]="phone" />
+            </nz-input-group>
+            <ng-template #phonePrefix><i nz-icon type="phone"></i></ng-template>
+            <ng-template #phoneSuffix><i nz-icon type="close-circle" (click)="username = ''" *ngIf="username"></i>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</div>
+<nz-form-item>
+  <nz-form-control>
+    <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+    <button nz-button (click)="resetForm($event)">Reset</button>
+  </nz-form-control>
+</nz-form-item>

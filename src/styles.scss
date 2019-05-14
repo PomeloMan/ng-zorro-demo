@@ -24,6 +24,14 @@ $component-background: white;
       cursor: pointer;
     }
   }
+
+  nz-tabset {
+
+    .ant-tabs-bar,
+    .ant-tabs-content {
+      padding: 0 24px;
+    }
+  }
 }
 
 // main.component.html

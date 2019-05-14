@@ -12,6 +12,7 @@ import { UserManagementService } from '../user-mgt.service';
 export class UserDetailBasicComponent implements OnInit {
 
   validateForm: FormGroup;
+  contactForm: FormGroup;
 
   id: string;
   result: any;
@@ -32,6 +33,11 @@ export class UserDetailBasicComponent implements OnInit {
       password: ['', [Validators.required]],
       comment: ['', [Validators.required]]
     });
+
+    this.contactForm = this.fb.group({
+      email: ['', [Validators.email, Validators.required]],
+      phone: ['', [Validators.required]]
+    })
     // this.validateForm.get('username').disable({ onlySelf: true, emitEvent: true });
   }
 
