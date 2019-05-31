@@ -1,0 +1,77 @@
+{
+  "content": [{
+    "id": "1000",
+    "name": "Project Management",
+    "parent": "",
+    "type": "菜单",
+    "order": 0,
+    "url": "/main/project-mgt",
+    "auth": ""
+  }, {
+    "id": "2000",
+    "name": "System Management",
+    "parent": "",
+    "type": "目录",
+    "order": 1,
+    "url": "/main/system-mgt",
+    "auth": "",
+    "children": [{
+      "id": "2010",
+      "name": "User Management",
+      "parent": "2000",
+      "type": "菜单",
+      "order": 0,
+      "url": "/main/user-mgt",
+      "auth": "",
+      "children": [{
+        "id": "2011",
+        "name": "List",
+        "parent": "2010",
+        "type": "操作",
+        "order": 0,
+        "url": "",
+        "auth": "sys:user:list"
+      }, {
+        "id": "2012",
+        "name": "Save",
+        "parent": "2010",
+        "type": "操作",
+        "order": 1,
+        "url": "",
+        "auth": "sys:user:save"
+      }, {
+        "id": "2013",
+        "name": "Update",
+        "parent": "2010",
+        "type": "操作",
+        "order": 2,
+        "url": "",
+        "auth": "sys:user:update"
+      }, {
+        "id": "2014",
+        "name": "Delete",
+        "parent": "2010",
+        "type": "操作",
+        "order": 3,
+        "url": "",
+        "auth": "sys:user:delete"
+      }]
+    }, {
+      "id": "2020",
+      "name": "Role Management",
+      "parent": "",
+      "type": "菜单",
+      "order": 1,
+      "url": "/main/role-mgt",
+      "auth": ""
+    }]
+  }],
+  "totalPages": 1,
+  "totalElements": 2,
+  "last": false,
+  "number": 0,
+  "size": 10,
+  "sort": null,
+  "numberOfElements": 2,
+  "first": true
+}

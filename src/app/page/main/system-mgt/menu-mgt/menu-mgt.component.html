@@ -1,0 +1,68 @@
+<div class="_content">
+  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
+    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total"
+    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
+          (nzCheckedChange)="checkAll($event)"></th>
+        <th nzCustomFilter>
+          Menu
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter
+            #MenuNameDropdown>
+            <i nz-icon nzType="search" class="ant-table-filter-icon"
+              [class.ant-table-filter-open]="MenuNameDropdown.nzVisible" nz-dropdown></i>
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.name" (keyup.enter)="filter('name')" />
+              <div class="search-button-group">
+                <button nz-button nzSize="small" nzType="primary" (click)="filter()"> Search </button>
+                <button nz-button nzSize="small" (click)="reset('name')">Reset</button>
+              </div>
+            </div>
+          </nz-dropdown>
+        </th>
+        <th>Parent Menu</th>
+        <th>Url</th>
+        <th>Type</th>
+        <th>Order</th>
+        <th>Authority</th>
+        <th nzCustomFilter nzWidth="120px" nzAlign="center">
+          Operation
+          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
+            <i nz-icon nzType="down" class="ant-table-filter-icon"
+              [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item (click)="delete()"> Batch Delete </li>
+              <li nz-menu-item>
+                2nd menu item
+              </li>
+            </ul>
+          </nz-dropdown>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of smallTable.data">
+        <ng-container *ngFor="let row of mapOfExpandedData[item.id]">
+          <tr *ngIf="(row.parent && row.parent.expand) || !row.parent" hoverClass="elevation-text-z4">
+            <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row.id]" [nzDisabled]="row.disabled"
+              (nzCheckedChange)="refreshStatus()"></td>
+            <td [nzIndentSize]="row.level * 20" [nzShowExpand]="!!row.children" [(nzExpand)]="row.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[row.id], row, $event)">{{ row.name }}</td>
+            <td>{{ row.parent?.name }}</td>
+            <td>{{ row.url }}</td>
+            <td>{{ row.type }}</td>
+            <td>{{ row.order }}</td>
+            <td>{{ row.auth }}</td>
+            <td nzAlign="center">
+              <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
+                (click)="navigate('/main/system-mgt/user-mgt/user', [row.username])"></i>
+              <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"
+                (click)="delete([row.username])"></i>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

@@ -16,7 +16,7 @@ const routes: Route[] = [{
 }, {
   path: 'user/:id',
   component: UserDetailComponent
-}]
+}];
 
 @NgModule({
   declarations: [

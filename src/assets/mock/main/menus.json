@@ -83,5 +83,20 @@
         "label": "Role"
       }]
     }]
+  }, {
+    "id": 1030,
+    "pid": 1000,
+    "type": 0,
+    "url": "/main/system-mgt/menu-mgt",
+    "name": "Menu Management",
+    "icon": "safety",
+    "breadcrumb": [{
+      "label": "Home"
+    }, {
+      "label": "System Management"
+    }, {
+      "label": "Menu Management",
+      "url": "/main/system-mgt/menu-mgt"
+    }]
   }]
 }]

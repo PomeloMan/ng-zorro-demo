@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MainService } from '../../main.service';
 import { Router } from '@angular/router';
 
@@ -6,11 +6,11 @@ import { AbstractMainComponent } from 'src/app/common/component/abstract-main.co
 import { User, UserManagementService } from './user-mgt.service';
 
 @Component({
-  selector: 'user-mgt',
+  selector: 'app-user-mgt',
   templateUrl: './user-mgt.component.html',
   styleUrls: ['./user-mgt.component.scss']
 })
-export class UserManagementComponent extends AbstractMainComponent<User> implements AfterViewInit {
+export class UserManagementComponent extends AbstractMainComponent<User> implements OnInit {
 
   body: UserPageForm = new UserPageForm();
 
@@ -19,10 +19,12 @@ export class UserManagementComponent extends AbstractMainComponent<User> impleme
     protected service: UserManagementService,
     protected mainService: MainService
   ) {
-    super(router, service, mainService)
+    super(router, service, mainService);
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.page();
   }
 
   pageCallback() {

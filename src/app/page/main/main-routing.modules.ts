@@ -20,10 +20,14 @@ const routes: Routes = [
                 path: 'system-mgt/role-mgt',
                 loadChildren: './system-mgt/role-mgt/role-mgt.module#RoleManagementModule',
                 data: { preload: true }
+            }, {
+                path: 'system-mgt/menu-mgt',
+                loadChildren: './system-mgt/menu-mgt/menu-mgt.module#MenuManagementModule',
+                data: { preload: true }
             }
         ]
     }
-]
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
