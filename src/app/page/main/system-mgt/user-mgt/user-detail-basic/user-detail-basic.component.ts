@@ -16,7 +16,7 @@ export class UserDetailBasicComponent implements OnInit {
 
   id: string;
   result: any;
-  $resultObservable: Observable<any>
+  $resultObservable: Observable<any>;
 
   constructor(
     private router: Router,
@@ -27,17 +27,16 @@ export class UserDetailBasicComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.$resultObservable = this.service.info(this.id);
     this.validateForm = this.fb.group({
-      username: [{ value: '', disabled: true }, [Validators.required], [this.userNameAsyncValidator]],
+      username: [{ value: this.id, disabled: true }, [Validators.required], [this.userNameAsyncValidator]],
       displayName: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
-      password: ['', [Validators.required]],
       comment: ['', [Validators.required]]
     });
 
     this.contactForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
       phone: ['', [Validators.required]]
-    })
+    });
     // this.validateForm.get('username').disable({ onlySelf: true, emitEvent: true });
   }
 
@@ -46,32 +45,32 @@ export class UserDetailBasicComponent implements OnInit {
       result = {
         username: 'admin',
         displayName: 'administrator'
-      }
+      };
       this.result = result;
 
-      for (const key in this.validateForm.controls) {
-        setTimeout(() => {
-          this.validateForm.controls[key].setValue(this.result[key])
-          this.validateForm.controls[key].markAsDirty();
-          this.validateForm.controls[key].updateValueAndValidity();
-        }, 0);
-      }
-    })
+      // for (const key in this.validateForm.controls) {
+      //   setTimeout(() => {
+      //     this.validateForm.controls[key].setValue(this.result[key])
+      //     this.validateForm.controls[key].markAsDirty();
+      //     this.validateForm.controls[key].updateValueAndValidity();
+      //   }, 0);
+      // }
+    });
   }
 
   submitForm = ($event: any, value: any) => {
     $event.preventDefault();
-    for (const key in this.validateForm.controls) {
+    for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
-  };
+  }
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
-    for (const key in this.validateForm.controls) {
+    for (const key of Object.keys(this.validateForm.controls)) {
       if (this.validateForm.controls[key].disabled) {
         this.validateForm.controls[key].setValue(this.id);
       }
@@ -94,5 +93,5 @@ export class UserDetailBasicComponent implements OnInit {
         }
         observer.complete();
       }, 1000);
-    });
+    })
 }
