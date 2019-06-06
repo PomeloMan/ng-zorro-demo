@@ -1,0 +1,9 @@
+{
+  "id": "1000",
+  "name": "Project Management",
+  "parent": "",
+  "type": "菜单",
+  "order": 0,
+  "url": "/main/project-mgt",
+  "auth": ""
+}

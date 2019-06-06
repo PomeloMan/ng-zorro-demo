@@ -37,16 +37,16 @@ export class MainComponent implements OnInit {
   }
 
   private init() {
-    let $menusObservable: Observable<Menu[]> = this.service.getMenus();
-    let $mockData: Observable<any[]> = of([1, 2, 3, 4, 5]);
+    const $menusObservable: Observable<Menu[]> = this.service.getMenus();
+    const $mockData: Observable<any[]> = of([1, 2, 3, 4, 5]);
     forkJoin([$menusObservable, $mockData]).subscribe(([menus, mockData]: [Menu[], any[]]) => {
       this.menus = menus;
       console.log(mockData);
-    })
+    });
   }
 
   private initEventListeners() {
-    let _this = this;
+    const _this = this;
     this.service.pageChange$.subscribe((page: any) => {
       setTimeout(() => {
         if (page) {
@@ -63,6 +63,6 @@ export class MainComponent implements OnInit {
           _this.menu.active = false;
         }
       }, 0);
-    })
+    });
   }
 }

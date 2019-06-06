@@ -4,27 +4,22 @@ import { PageNotFoundComponent } from './page/not-found/not-found.component';
 import { AuthGuardService } from './config/provider/auth-guard.service';
 import { SelectivePreloadingStrategy } from './config/selective-preloading-strategy';
 
-const routes: Routes = [
-	{
-		path: '',
-		redirectTo: '/main',
-		pathMatch: 'full'
-	},
-	{
-		path: 'login',
-		loadChildren: './page/login/login.module#LoginModule',
-		data: { preload: true }
-	},
-	{
-		path: 'main',
-		loadChildren: './page/main/main.module#MainModule',
-		canLoad: [AuthGuardService]
-	},
-	{
-		path: '**',
-		component: PageNotFoundComponent
-	}
-];
+const routes: Routes = [{
+	path: '',
+	redirectTo: '/main',
+	pathMatch: 'full'
+}, {
+	path: 'login',
+	loadChildren: './page/login/login.module#LoginModule',
+	data: { preload: true }
+}, {
+	path: 'main',
+	loadChildren: './page/main/main.module#MainModule',
+	canLoad: [AuthGuardService]
+}, {
+	path: '**',
+	component: PageNotFoundComponent
+}];
 
 @NgModule({
 	imports: [

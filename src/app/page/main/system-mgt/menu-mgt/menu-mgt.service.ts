@@ -7,6 +7,9 @@ import { CommonService } from 'src/app/common/interface/service.interface';
 import { useMockData } from 'src/app/config/app.constant';
 import page from 'src/assets/mock/system/menu/page.json';
 import list from 'src/assets/mock/system/menu/list.json';
+import info from 'src/assets/mock/system/menu/info.json';
+
+import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
 export class MenuManagementService implements CommonService<Menu> {
@@ -16,7 +19,7 @@ export class MenuManagementService implements CommonService<Menu> {
     ) { }
 
     info(id): Observable<Menu> {
-        return of(null);
+        return of(info);
     }
 
     page(body?): Observable<Page<Menu[]>> {
@@ -37,7 +40,9 @@ export class MenuManagementService implements CommonService<Menu> {
     }
 
     save() {
-        return of(null);
+        return of(null).pipe(
+            debounceTime(1000)
+        );
     }
 
     update() {
@@ -53,10 +58,10 @@ export class MenuManagementService implements CommonService<Menu> {
     }
 }
 
-export interface Menu {
+export class Menu {
     id?: string;
     name?: string;
-    parent?: string;
+    parent?: any;
     type?: string;
     order?: number;
     url?: string;

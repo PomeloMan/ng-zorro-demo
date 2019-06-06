@@ -21,11 +21,11 @@ export class MainService {
     ) { }
 
     // Observable string sources
-    private page = new Subject<Object>();
+    private page = new Subject<object>();
     // Observable string streams
     pageChange$ = this.page.asObservable();
     // Service message commands
-    pageChange(option: Object) {
+    pageChange(option: object) {
         this.page.next(option);
     }
 
@@ -38,16 +38,18 @@ export class MainService {
     getMenu(key?, menus: any[] = [], parent: boolean = false) {
         if (key) {
             let target: any;
-            //every: 碰到return false的时候，循环中止
-            //some: 碰到return ture的时候，循环中止
+            // every: 碰到return false的时候，循环中止
+            // some: 碰到return ture的时候，循环中止
             menus.some(menu => {
                 // console.log(menu.name)
-                if (key == menu.url || key == menu.id) {
+                if (key === menu.url || key === menu.id) {
                     return target = menu;
                 }
                 if (menu.children) {
                     target = this.getMenu(key, menu.children, parent);
-                    if (isNullOrUndefined(target)) return false;
+                    if (isNullOrUndefined(target)) {
+                        return false;
+                    }
                     if (parent && isNullOrUndefined(target.parent)) {
                         target.parent = menu;
                     }
@@ -89,12 +91,10 @@ export class MainService {
             nzTitle: title,
             nzContent: content,
             nzOnOk: () => {
-                callback()
+                callback();
             }
         });
     }
-
-    private void
 }
 
 export interface Menu {

@@ -13,7 +13,8 @@
             <i nz-icon nzType="search" class="ant-table-filter-icon"
               [class.ant-table-filter-open]="MenuNameDropdown.nzVisible" nz-dropdown></i>
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.name" (keyup.enter)="filter('name')" />
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.name"
+                (keyup.enter)="filter('name')" />
               <div class="search-button-group">
                 <button nz-button nzSize="small" nzType="primary" (click)="filter()"> Search </button>
                 <button nz-button nzSize="small" (click)="reset('name')">Reset</button>
@@ -32,6 +33,7 @@
             <i nz-icon nzType="down" class="ant-table-filter-icon"
               [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
             <ul nz-menu nzSelectable>
+              <li nz-menu-item (click)="showModal()"> New Menu </li>
               <li nz-menu-item (click)="delete()"> Batch Delete </li>
               <li nz-menu-item>
                 2nd menu item
@@ -55,8 +57,7 @@
             <td>{{ row.order }}</td>
             <td>{{ row.auth }}</td>
             <td nzAlign="center">
-              <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
-                (click)="navigate('/main/system-mgt/user-mgt/user', [row.username])"></i>
+              <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit" (click)="showModal(row)"></i>
               <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"
                 (click)="delete([row.username])"></i>
             </td>
@@ -66,3 +67,121 @@
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Menu Modal" (nzOnCancel)="handleModalCancel()"
+  (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
+  <form nz-form [formGroup]="menuForm" (ngSubmit)="submitForm($event, menuForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="menu.name" />
+        <nz-form-explain *ngIf="
+          (menuForm.get('name')?.dirty && menuForm.get('name')?.errors) ||
+          menuForm.get('name')?.pending
+        ">
+          <ng-container *ngIf="menuForm.get('name')?.hasError('required')">
+            Please input menu name!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Parent</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-tree-select formControlName="parent" [nzDefaultExpandedKeys]="expandKeys" [nzNodes]="nodes" nzShowSearch
+          nzPlaceHolder="Root menu" [(ngModel)]="menu.parent">
+        </nz-tree-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Type</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select formControlName="type" [(ngModel)]="menu.type" nzPlaceHolder="Please select menu type">
+          <nz-option nzValue="菜单" nzLabel="菜单"></nz-option>
+          <nz-option nzValue="目录" nzLabel="目录"></nz-option>
+          <nz-option nzValue="操作" nzLabel="操作"></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="
+          (menuForm.get('type')?.dirty && menuForm.get('type')?.errors) ||
+          menuForm.get('type')?.pending
+        ">
+          <ng-container *ngIf="menuForm.get('type')?.hasError('required')">
+            Please input menu type!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <ng-container *ngTemplateOutlet="MenuTemplate"></ng-container>
+    <ng-container *ngTemplateOutlet="FolderTemplate"></ng-container>
+    <ng-container *ngTemplateOutlet="OperationTemplate"></ng-container>
+  </form>
+</nz-modal>
+
+<ng-template #MenuTemplate>
+  <ng-container *ngIf="menu.type === '菜单'">
+    <form nz-form [formGroup]="menuForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">URL</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="url" nz-input placeholder="Please enter menu url here" [(ngModel)]="menu.url" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Auth</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="auth" nz-input placeholder="Please enter menu auth here" [(ngModel)]="menu.auth" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Order</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="order" nz-input placeholder="Please enter menu order here" [(ngModel)]="menu.order" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Icon</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="icon" nz-input placeholder="Please enter menu icon here" [(ngModel)]="menu.icon" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</ng-template>
+
+<ng-template #FolderTemplate>
+  <ng-container *ngIf="menu.type === '目录'">
+    <form nz-form [formGroup]="menuForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Order</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="order" nz-input placeholder="Please enter menu order here" [(ngModel)]="menu.order" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Icon</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="icon" nz-input placeholder="Please enter menu icon here" [(ngModel)]="menu.icon" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</ng-template>
+
+<ng-template #OperationTemplate>
+  <ng-container *ngIf="menu.type === '操作'">
+    <form nz-form [formGroup]="menuForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">URL</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="url" nz-input placeholder="Please enter menu url here" [(ngModel)]="menu.url" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Auth</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <input formControlName="auth" nz-input placeholder="Please enter menu auth here" [(ngModel)]="menu.auth" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</ng-template>

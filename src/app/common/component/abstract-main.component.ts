@@ -5,6 +5,9 @@ import { MainService } from 'src/app/page/main/main.service';
 import { isNullOrUndefined } from 'util';
 import { AbstractPageComponent } from './abstract-page.component';
 import { OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import * as _ from 'lodash';
 
 export class AbstractMainComponent<T> extends AbstractPageComponent implements Paginator, OnInit {
 
@@ -13,15 +16,19 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     body: any = {};
 
     // Paginator
-    total: number = 0;
-    pageIndex: number = 1;
-    pageSize: number = 10;
+    total = 0;
+    pageIndex = 1;
+    pageSize = 10;
     pageSizeOptions: number[] = [10, 25, 50, 100];
-    sortName: string = '';
+    sortName = '';
     sortValue: 'descend' | 'ascend' | null = null;
-    pageable: boolean = true;
-    loading: boolean = true;
-    treenode: boolean = false;
+    pageable = true;
+    loading = true;
+    treenode = false;
+
+    // Modal
+    isModalVisible = false;
+    isModalLoading = false;
 
     // Selection
     selections: any[] = [{
@@ -44,8 +51,8 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             this.refreshStatus();
         }
     }];
-    isAllChecked: boolean = false;
-    isIndeterminate: boolean = false;
+    isAllChecked = false;
+    isIndeterminate = false;
     mapOfCheckedId: { [key: string]: boolean } = {};
 
     // Collapse
@@ -235,6 +242,33 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         });
     }
 
+    // Modal
+    showModal(callback = () => { }) {
+        this.isModalVisible = true;
+        callback();
+    }
+
+    handleModalOk(callback = (): Observable<any> => {
+        return Observable.create(observer => observer.next(true));
+    }): void {
+        this.isModalLoading = true;
+        _.debounce(() => {
+            setTimeout(() => {
+                callback().subscribe((success: boolean) => {
+                    if (success) {
+                        this.handleModalCancel();
+                    }
+                });
+                this.isModalLoading = false;
+            }, 1000);
+        }, 1000, { leading: true, trailing: false })();
+    }
+
+    handleModalCancel(callback = () => { }): void {
+        this.isModalVisible = false;
+        callback();
+    }
+
     navigate(url, data?: any[], queryParams?) {
         const commands = [url];
         if (!isNullOrUndefined(data) && data instanceof Array) {
@@ -243,7 +277,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             });
         }
         this.router.navigate(commands, {
-            queryParams: queryParams
+            queryParams
         });
     }
 }
