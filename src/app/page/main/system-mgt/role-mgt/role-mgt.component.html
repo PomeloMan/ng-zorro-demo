@@ -6,9 +6,8 @@
       <tr>
         <th nzShowCheckbox nzShowRowSelection [nzSelections]="selections" [(nzChecked)]="isAllChecked"
           [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
-        <th>Username</th>
         <th nzCustomFilter>
-          Display Name
+          Role name
           <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter
             #DisplaynameDropdown>
             <i nz-icon nzType="search" class="ant-table-filter-icon"
@@ -22,8 +21,8 @@
             </div>
           </nz-dropdown>
         </th>
-        <th nzShowSort nzSortKey="age">Age</th>
-        <th>Address</th>
+        <th>Status</th>
+        <th>Menus</th>
         <th nzCustomFilter nzWidth="120px" nzAlign="center">
           Operation
           <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
@@ -43,19 +42,61 @@
       <tr *ngFor="let data of smallTable.data" hoverClass="elevation-text-z4">
         <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled"
           (nzCheckedChange)="refreshStatus()"></td>
-        <td>{{ data.key }}</td>
         <td>{{ data.name }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
+        <td>{{ data.status }}</td>
+        <td>
+          <nz-tag *ngFor="let item of data.menus">{{item.name}}</nz-tag>
+        </td>
         <td nzAlign="center">
-          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
-            (click)="navigate('/main/system-mgt/role-mgt/role', [data.key])"></i>
+          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit" (click)="showModal(row)"></i>
           <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([data.key])"></i>
         </td>
       </tr>
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Menu Modal" (nzOnCancel)="handleModalCancel()"
+  (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="role.name" />
+        <nz-form-explain *ngIf="
+          (form.get('name')?.dirty && form.get('name')?.errors) ||
+          form.get('name')?.pending
+        ">
+          <ng-container *ngIf="form.get('name')?.hasError('required')">
+            Please input role name!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Type</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-tree-select
+          formControlName="menus"
+          [nzNodes]="nodes"
+          nzShowSearch
+          nzCheckable
+          nzPlaceHolder="Please select"
+          [(ngModel)]="role.menus"
+        >
+        </nz-tree-select>
+        <nz-form-explain *ngIf="
+          (form.get('menus')?.dirty && form.get('menus')?.errors) ||
+          form.get('menus')?.pending
+        ">
+          <ng-container *ngIf="form.get('menus')?.hasError('required')">
+            Please select menus!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
 
 <ng-template #rangeTemplate let-range="range" let-total>
   {{ range[0] }} - {{ range[1] }} of {{ total }} items

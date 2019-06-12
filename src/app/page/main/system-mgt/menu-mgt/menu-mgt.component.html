@@ -70,16 +70,16 @@
 
 <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Menu Modal" (nzOnCancel)="handleModalCancel()"
   (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
-  <form nz-form [formGroup]="menuForm" (ngSubmit)="submitForm($event, menuForm.value)">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback>
         <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="menu.name" />
         <nz-form-explain *ngIf="
-          (menuForm.get('name')?.dirty && menuForm.get('name')?.errors) ||
-          menuForm.get('name')?.pending
+          (form.get('name')?.dirty && form.get('name')?.errors) ||
+          form.get('name')?.pending
         ">
-          <ng-container *ngIf="menuForm.get('name')?.hasError('required')">
+          <ng-container *ngIf="form.get('name')?.hasError('required')">
             Please input menu name!
           </ng-container>
         </nz-form-explain>
@@ -102,10 +102,10 @@
           <nz-option nzValue="操作" nzLabel="操作"></nz-option>
         </nz-select>
         <nz-form-explain *ngIf="
-          (menuForm.get('type')?.dirty && menuForm.get('type')?.errors) ||
-          menuForm.get('type')?.pending
+          (form.get('type')?.dirty && form.get('type')?.errors) ||
+          form.get('type')?.pending
         ">
-          <ng-container *ngIf="menuForm.get('type')?.hasError('required')">
+          <ng-container *ngIf="form.get('type')?.hasError('required')">
             Please input menu type!
           </ng-container>
         </nz-form-explain>
@@ -119,7 +119,7 @@
 
 <ng-template #MenuTemplate>
   <ng-container *ngIf="menu.type === '菜单'">
-    <form nz-form [formGroup]="menuForm">
+    <form nz-form [formGroup]="form">
       <nz-form-item>
         <nz-form-label [nzSpan]="7">URL</nz-form-label>
         <nz-form-control [nzSpan]="12">
@@ -150,7 +150,7 @@
 
 <ng-template #FolderTemplate>
   <ng-container *ngIf="menu.type === '目录'">
-    <form nz-form [formGroup]="menuForm">
+    <form nz-form [formGroup]="form">
       <nz-form-item>
         <nz-form-label [nzSpan]="7">Order</nz-form-label>
         <nz-form-control [nzSpan]="12">
@@ -169,7 +169,7 @@
 
 <ng-template #OperationTemplate>
   <ng-container *ngIf="menu.type === '操作'">
-    <form nz-form [formGroup]="menuForm">
+    <form nz-form [formGroup]="form">
       <nz-form-item>
         <nz-form-label [nzSpan]="7">URL</nz-form-label>
         <nz-form-control [nzSpan]="12">

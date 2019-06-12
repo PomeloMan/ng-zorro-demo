@@ -1,0 +1,45 @@
+{
+  "content": [{
+    "status": "Valid",
+    "creator": "build-in",
+    "modifier": "build-in",
+    "createdDate": 1543468850000,
+    "modifiedDate": 1550644214000,
+    "version": 66,
+    "name": "administrator",
+    "menus": [{
+      "status": "Valid",
+      "id": "1000",
+      "name": "Project Management"
+    }, {
+      "status": "Valid",
+      "id": "2000",
+      "name": "System Management"
+    }]
+  }, {
+    "status": "Valid",
+    "creator": "build-in",
+    "modifier": "build-in",
+    "createdDate": 1543468850000,
+    "modifiedDate": 1550644214000,
+    "version": 66,
+    "name": "user",
+    "menus": [{
+      "status": "Valid",
+      "id": "1000",
+      "name": "Project Management"
+    }, {
+      "status": "Valid",
+      "id": "2010",
+      "name": "System Management"
+    }]
+  }],
+  "totalPages": 2,
+  "totalElements": 2,
+  "last": false,
+  "number": 0,
+  "size": 2,
+  "sort": null,
+  "numberOfElements": 2,
+  "first": true
+}

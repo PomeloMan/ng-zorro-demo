@@ -24,7 +24,7 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
   treenode = true;
   body: MenuPageForm = new MenuPageForm();
   menu: Menu = new Menu();
-  menuForm: FormGroup;
+  form: FormGroup;
 
   // treenode
   expandKeys = [];
@@ -37,7 +37,7 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
     private fb: FormBuilder
   ) {
     super(router, service, mainService);
-    this.menuForm = this.fb.group({
+    this.form = this.fb.group({
       name: [null, [Validators.required]],
       parent: [null],
       type: [null, [Validators.required]],
@@ -106,33 +106,6 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
         }
         this.menu.parent = this.menu.parent.id;
       }
-    });
-  }
-
-  handleModalOk() {
-    super.handleModalOk((): Observable<any> => {
-      for (const key of Object.keys(this.menuForm.controls)) {
-        this.menuForm.controls[key].markAsDirty();
-        this.menuForm.controls[key].updateValueAndValidity();
-      }
-      if (this.menuForm.valid) {
-        return this.service.info(1).pipe(
-          mergeMap((res: any) => {
-            return Observable.create(observer => observer.next(true));
-          }),
-          catchError((res: any) => {
-            return Observable.create(observer => observer.next(false));
-          })
-        );
-      } else {
-        return Observable.create(observer => observer.next(false));
-      }
-    });
-  }
-
-  handleModalCancel() {
-    super.handleModalCancel(() => {
-      this.menuForm.reset();
     });
   }
 }

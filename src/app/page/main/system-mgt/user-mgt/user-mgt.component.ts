@@ -13,6 +13,7 @@ import { User, UserManagementService } from './user-mgt.service';
 export class UserManagementComponent extends AbstractMainComponent<User> implements OnInit {
 
   body: UserPageForm = new UserPageForm();
+  initial = true;
 
   constructor(
     protected router: Router,
@@ -20,11 +21,6 @@ export class UserManagementComponent extends AbstractMainComponent<User> impleme
     protected mainService: MainService
   ) {
     super(router, service, mainService);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
-    this.page();
   }
 
   pageCallback() {

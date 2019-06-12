@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/config/provider/api.service';
 import { CommonService } from 'src/app/common/interface/service.interface';
 
 import { useMockData } from 'src/app/config/app.constant';
-import page from 'src/assets/mock/system/user/page.json';
+import page from 'src/assets/mock/system/role/page.json';
 
 @Injectable()
 export class RoleManagementService implements CommonService<Role> {
@@ -52,7 +52,8 @@ export class RoleManagementService implements CommonService<Role> {
     }
 }
 
-export interface Role {
+export class Role {
     id?: string;
     name?: string;
+    menus?: string[];
 }

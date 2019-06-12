@@ -8,6 +8,7 @@ import { CommonDirectiveModule } from 'src/app/common/directive/common-directive
 import { RoleManagementComponent } from './role-mgt.component';
 import { RoleDetailComponent } from './role-detail/role-detail.component';
 import { RoleManagementService } from './role-mgt.service';
+import { MenuManagementService } from '../menu-mgt/menu-mgt.service';
 
 const routes: Route[] = [{
   path: '',
@@ -31,7 +32,8 @@ const routes: Route[] = [{
     RouterModule.forChild(routes)
   ],
   providers: [
-    RoleManagementService
+    RoleManagementService,
+    MenuManagementService
   ]
 })
 export class RoleManagementModule { }

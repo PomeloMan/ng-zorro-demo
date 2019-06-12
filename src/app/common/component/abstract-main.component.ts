@@ -8,6 +8,7 @@ import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import * as _ from 'lodash';
+import { FormGroup } from '@angular/forms';
 
 export class AbstractMainComponent<T> extends AbstractPageComponent implements Paginator, OnInit {
 
@@ -15,6 +16,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     _results: T[] = [];
     body: any = {};
 
+    initial = false;
     // Paginator
     total = 0;
     pageIndex = 1;
@@ -58,6 +60,9 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     // Collapse
     mapOfExpandedData: { [key: string]: T[] } = {};
 
+    // FormGroup
+    form: FormGroup;
+
     constructor(
         protected router: Router,
         protected service: CommonService<T>,
@@ -68,6 +73,9 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
 
     ngOnInit(): void {
         super.ngOnInit();
+        if (this.initial) {
+            this.page();
+        }
     }
 
     sort(sort: { key: string; value: 'descend' | 'ascend' | null }): void {
@@ -248,25 +256,37 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         callback();
     }
 
-    handleModalOk(callback = (): Observable<any> => {
-        return Observable.create(observer => observer.next(true));
-    }): void {
+    handleModalOk(): void {
+        for (const key of Object.keys(this.form.controls)) {
+            this.form.controls[key].markAsDirty();
+            this.form.controls[key].updateValueAndValidity();
+        }
+        if (this.form.valid) {
+            this.submitForm(this.form.value, () => {
+                this.handleModalCancel();
+            });
+        }
+    }
+
+    handleModalCancel(): void {
+        this.form.reset();
+        this.isModalVisible = false;
+    }
+
+    submitForm(value, callback = () => { }) {
         this.isModalLoading = true;
         _.debounce(() => {
             setTimeout(() => {
-                callback().subscribe((success: boolean) => {
+                this.service.save(value).subscribe((success: boolean) => {
                     if (success) {
+                        callback();
                         this.handleModalCancel();
                     }
+                }, null, () => {
+                    this.isModalLoading = false;
                 });
-                this.isModalLoading = false;
             }, 1000);
         }, 1000, { leading: true, trailing: false })();
-    }
-
-    handleModalCancel(callback = () => { }): void {
-        this.isModalVisible = false;
-        callback();
     }
 
     navigate(url, data?: any[], queryParams?) {
