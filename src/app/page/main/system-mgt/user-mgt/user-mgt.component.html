@@ -41,7 +41,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of smallTable.data" hoverClass="elevation-text-z4">
-        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row.id]" [nzDisabled]="row.disabled"
+        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
           (nzCheckedChange)="refreshStatus()"></td>
         <td>{{ row.username }}</td>
         <td>{{ row.displayName }}</td>

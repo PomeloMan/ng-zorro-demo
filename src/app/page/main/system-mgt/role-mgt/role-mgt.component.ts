@@ -14,11 +14,13 @@ import { convert } from 'src/app/common/util';
 })
 export class RoleManagementComponent extends AbstractMainComponent<Role> implements OnInit {
 
+  // super variables
   initial = true;
-
-  role: Role = new Role();
   form: FormGroup;
+  selectionId = 'name';
 
+  // variables
+  role: Role = new Role();
   menus: any[] = [];
 
   constructor(

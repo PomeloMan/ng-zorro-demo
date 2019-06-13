@@ -39,17 +39,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of smallTable.data" hoverClass="elevation-text-z4">
-        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled"
+      <tr *ngFor="let row of smallTable.data" hoverClass="elevation-text-z4">
+        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
           (nzCheckedChange)="refreshStatus()"></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.status }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.status }}</td>
         <td>
-          <nz-tag *ngFor="let item of data.menus">{{item.name}}</nz-tag>
+          <nz-tag *ngFor="let item of row.menus">{{item.name}}</nz-tag>
         </td>
         <td nzAlign="center">
           <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit" (click)="showModal(row)"></i>
-          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([data.key])"></i>
+          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([row.key])"></i>
         </td>
       </tr>
     </tbody>

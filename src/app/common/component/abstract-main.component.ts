@@ -5,7 +5,6 @@ import { MainService } from 'src/app/page/main/main.service';
 import { isNullOrUndefined } from 'util';
 import { AbstractPageComponent } from './abstract-page.component';
 import { OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import * as _ from 'lodash';
 import { FormGroup } from '@angular/forms';
@@ -13,7 +12,6 @@ import { FormGroup } from '@angular/forms';
 export class AbstractMainComponent<T> extends AbstractPageComponent implements Paginator, OnInit {
 
     results: T[] = [];
-    _results: T[] = [];
     body: any = {};
 
     initial = false;
@@ -33,6 +31,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     isModalLoading = false;
 
     // Selection
+    selectionId = 'id';
     selections: any[] = [{
         text: 'Select All Row',
         onSelect: () => {
@@ -42,14 +41,14 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         text: 'Select Odd Row',
         onSelect: () => {
             this.results.filter((item: any) => !item.disabled)
-                .forEach((item: any, index) => (this.mapOfCheckedId[item.id] = index % 2 !== 0));
+                .forEach((item: any, index) => (this.mapOfCheckedId[item[this.selectionId]] = index % 2 !== 0));
             this.refreshStatus();
         }
     }, {
         text: 'Select Even Row',
         onSelect: () => {
             this.results.filter((item: any) => !item.disabled)
-                .forEach((item: any, index) => (this.mapOfCheckedId[item.id] = index % 2 === 0));
+                .forEach((item: any, index) => (this.mapOfCheckedId[item[this.selectionId]] = index % 2 === 0));
             this.refreshStatus();
         }
     }];
@@ -92,8 +91,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             sortValue: this.sortValue,
             ...this.body
         }).subscribe(res => {
-            this.results = this._results = res.content;
-            // this._results = Object.assign({}, res.content);
+            this.results = res.content;
             this.pageIndex = res.number + 1;
             this.pageSize = res.size;
             this.total = res.totalElements;
@@ -113,7 +111,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
 
     list(callback?) {
         this.service.list().subscribe((res: T[]) => {
-            this.results = this._results = res.slice();
+            this.results = res.slice();
             if (typeof callback === 'function') {
                 callback();
             }
@@ -130,7 +128,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     callback() {
         if (this.treenode) {
             this.results.forEach((r: any) => {
-                this.mapOfExpandedData[r.id] = this.convertTreeToList(r);
+                this.mapOfExpandedData[r[this.selectionId]] = this.convertTreeToList(r);
             });
         }
     }
@@ -141,7 +139,6 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         } else {
             this.list();
         }
-        // this.results = this._results.filter(r => r[key].toLowerCase().includes(this.body[key].toLowerCase()));
     }
 
     reset(key?): void {
@@ -162,7 +159,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             // 树形数据展示
             this.checkAllWithChildren(this.results, value);
         } else {
-            this.results.filter((item: any) => !item.disabled).forEach((item: any) => { this.mapOfCheckedId[item.id] = value; });
+            this.results.filter((item: any) => !item.disabled).forEach((item: any) => { this.mapOfCheckedId[item[this.selectionId]] = value; });
         }
         this.refreshStatus();
     }
@@ -170,7 +167,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     checkAllWithChildren(array, value: boolean) {
         array.forEach(item => {
             if (!item.disabled) {
-                this.mapOfCheckedId[item.id] = value;
+                this.mapOfCheckedId[item[this.selectionId]] = value;
                 if (item.children) {
                     this.checkAllWithChildren(item.children, value);
                 }
@@ -186,13 +183,13 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             keys.forEach(key => {
                 results = [...results, ...this.mapOfExpandedData[key]];
             });
-            this.isAllChecked = results.filter((item: any) => !item.disabled).every((item: any) => this.mapOfCheckedId[item.id]);
+            this.isAllChecked = results.filter((item: any) => !item.disabled).every((item: any) => this.mapOfCheckedId[item[this.selectionId]]);
             this.isIndeterminate = results.filter((item: any) => !item.disabled)
-                .some((item: any) => this.mapOfCheckedId[item.id]) && !this.isAllChecked;
+                .some((item: any) => this.mapOfCheckedId[item[this.selectionId]]) && !this.isAllChecked;
         } else {
-            this.isAllChecked = this.results.filter((item: any) => !item.disabled).every((item: any) => this.mapOfCheckedId[item.id]);
+            this.isAllChecked = this.results.filter((item: any) => !item.disabled).every((item: any) => this.mapOfCheckedId[item[this.selectionId]]);
             this.isIndeterminate = this.results.filter((item: any) => !item.disabled)
-                .some((item: any) => this.mapOfCheckedId[item.id]) && !this.isAllChecked;
+                .some((item: any) => this.mapOfCheckedId[item[this.selectionId]]) && !this.isAllChecked;
         }
     }
 
@@ -200,7 +197,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         if ($event === false) {
             if (data.children && array) {
                 data.children.forEach(d => {
-                    const target = array.find(a => a.id === d.id);
+                    const target = array.find(a => a[this.selectionId] === d[this.selectionId]);
                     target.expand = false;
                     this.collapse(array, target, false);
                 });
@@ -229,8 +226,8 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
     }
 
     visitNode(node: any, hashMap: { [key: string]: any }, array: T[]): void {
-        if (!hashMap[node.id]) {
-            hashMap[node.id] = true;
+        if (!hashMap[node[this.selectionId]]) {
+            hashMap[node[this.selectionId]] = true;
             array.push(node);
         }
     }

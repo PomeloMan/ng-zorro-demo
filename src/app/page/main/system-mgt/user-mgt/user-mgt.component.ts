@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { AbstractMainComponent } from 'src/app/common/component/abstract-main.component';
 import { User, UserManagementService } from './user-mgt.service';
 
+class UserPageForm {
+  username: string = '';
+}
+
 @Component({
   selector: 'app-user-mgt',
   templateUrl: './user-mgt.component.html',
@@ -14,6 +18,7 @@ export class UserManagementComponent extends AbstractMainComponent<User> impleme
 
   body: UserPageForm = new UserPageForm();
   initial = true;
+  selectionId = 'username';
 
   constructor(
     protected router: Router,
@@ -23,14 +28,10 @@ export class UserManagementComponent extends AbstractMainComponent<User> impleme
     super(router, service, mainService);
   }
 
-  pageCallback() {
+  callback() {
     this.results.forEach((r: any) => {
-      r.id = r.username;
-      r.disabled = r.status == 'Init';
+      // r.id = r.username;
+      r.disabled = r.status === 'Init';
     });
   }
-}
-
-class UserPageForm {
-  username: string = ''
 }
