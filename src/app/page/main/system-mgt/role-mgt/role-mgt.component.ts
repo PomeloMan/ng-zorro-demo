@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MainService } from '../../main.service';
 import { Role, RoleManagementService } from './role-mgt.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Menu, MenuManagementService } from '../menu-mgt/menu-mgt.service';
+import { MenuManagementService } from '../menu-mgt/menu-mgt.service';
 import { convert } from 'src/app/common/util';
 
 @Component({
@@ -19,44 +19,7 @@ export class RoleManagementComponent extends AbstractMainComponent<Role> impleme
   role: Role = new Role();
   form: FormGroup;
 
-  nodes: any[] = [{
-    title: 'Node1',
-    value: '0-0',
-    key: '0-0',
-    children: [
-      {
-        title: 'Child Node1',
-        value: '0-0-0',
-        key: '0-0-0',
-        isLeaf: true
-      }
-    ]
-  },
-  {
-    title: 'Node2',
-    value: '0-1',
-    key: '0-1',
-    children: [
-      {
-        title: 'Child Node3',
-        value: '0-1-0',
-        key: '0-1-0',
-        isLeaf: true
-      },
-      {
-        title: 'Child Node4',
-        value: '0-1-1',
-        key: '0-1-1',
-        isLeaf: true
-      },
-      {
-        title: 'Child Node5',
-        value: '0-1-2',
-        key: '0-1-2',
-        isLeaf: true
-      }
-    ]
-  }];
+  menus: any[] = [];
 
   constructor(
     protected router: Router,
@@ -74,13 +37,13 @@ export class RoleManagementComponent extends AbstractMainComponent<Role> impleme
 
   ngOnInit() {
     super.ngOnInit();
-    this.initMenus();
+    this.initMenuTree();
   }
 
-  initMenus() {
+  initMenuTree() {
     this.menuService.list().subscribe(res => {
       const menus = res.slice();
-      this.nodes = convert({
+      this.menus = convert({
         id: '0',
         name: 'Root Menu',
         children: menus

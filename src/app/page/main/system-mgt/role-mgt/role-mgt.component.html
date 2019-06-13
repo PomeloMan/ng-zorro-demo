@@ -60,7 +60,7 @@
   (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
   <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+      <nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback>
         <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="role.name" />
         <nz-form-explain *ngIf="
@@ -74,11 +74,11 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Type</nz-form-label>
+      <nz-form-label [nzSpan]="7" nzRequired>Menus</nz-form-label>
       <nz-form-control [nzSpan]="12">
         <nz-tree-select
           formControlName="menus"
-          [nzNodes]="nodes"
+          [nzNodes]="menus"
           nzShowSearch
           nzCheckable
           nzPlaceHolder="Please select"
