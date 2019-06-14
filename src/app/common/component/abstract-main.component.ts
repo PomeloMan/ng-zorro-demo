@@ -259,9 +259,7 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
             this.form.controls[key].updateValueAndValidity();
         }
         if (this.form.valid) {
-            this.submitForm(this.form.value, () => {
-                this.handleModalCancel();
-            });
+            this.submitForm(this.form.value);
         }
     }
 
@@ -277,9 +275,12 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
                 this.service.save(value).subscribe((success: boolean) => {
                     if (success) {
                         callback();
+                        if (this.pageable) { this.page(); } else { this.list(); }
                         this.handleModalCancel();
                     }
-                }, null, () => {
+                }, error => {
+                    this.isModalLoading = false;
+                }, () => {
                     this.isModalLoading = false;
                 });
             }, 1000);

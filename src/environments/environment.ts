@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   prefix: 'http',
-  host: 'peer1',
-  port: '8000'
+  host: 'localhost',
+  port: '3000'
 };
 
 /*

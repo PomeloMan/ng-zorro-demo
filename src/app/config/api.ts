@@ -2,7 +2,11 @@ import { HttpHeaders } from '@angular/common/http';
 
 export const API = {
 
-    MENU_NAV_URL: 'sys/menu/nav',//菜单列表
+    MENU_NAV_URL: 'sys/menu/nav', // 菜单列表
+
+    // User
+    USER_URL: 'sys/user', // 用户
+    USER_PAGE_URL: 'sys/user/page', // 用户分页
 
 
 
@@ -14,11 +18,9 @@ export const API = {
     // Locales
     LOCALE_LIST_URL: 'app/locale/list',
     // User
-    USER_URL: 'sys/user',//用户
     USER_ME_URL: 'sys/user/updateMe',
     USER_LIST_URL: 'sys/user/list',//用户列表
     USER_LISTS_URL: 'sys/user/lists',//用户列表
-    USER_PAGE_URL: 'sys/user/page',//用户列表
     USER_INFO_URL: 'sys/user/info',//用户信息
     USER_SAVE_URL: 'sys/user/saveAll',//用户保存
     // Role

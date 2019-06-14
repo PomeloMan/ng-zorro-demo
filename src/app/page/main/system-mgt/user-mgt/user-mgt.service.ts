@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Page } from 'src/app/config/api';
+import { Page, API } from 'src/app/config/api';
 import { ApiService } from 'src/app/config/provider/api.service';
 import { CommonService } from 'src/app/common/interface/service.interface';
 
@@ -20,11 +20,11 @@ export class UserManagementService implements CommonService<User> {
 
     page(body?): Observable<Page<User[]>> {
         console.log(body);
-        if (useMockData) {
-            return of(page);
-        } else {
-            return this.service.post('', body);
-        }
+        // if (useMockData) {
+        // return of(page);
+        // } else {
+        return this.service.post(API.USER_PAGE_URL, body);
+        // }
     }
 
     list(): Observable<User[]> {
@@ -35,8 +35,12 @@ export class UserManagementService implements CommonService<User> {
         }
     }
 
-    save() {
-        return of(null);
+    save(body: User) {
+        // if (useMockData) {
+        //     return of(null);
+        // } else {
+            return this.service.post(API.USER_URL, body);
+        // }
     }
 
     update() {

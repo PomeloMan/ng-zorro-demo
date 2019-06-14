@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AbstractMainComponent } from 'src/app/common/component/abstract-main.component';
 import { User, UserManagementService } from './user-mgt.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 class UserPageForm {
   username: string = '';
@@ -16,16 +17,25 @@ class UserPageForm {
 })
 export class UserManagementComponent extends AbstractMainComponent<User> implements OnInit {
 
+  // super
   body: UserPageForm = new UserPageForm();
   initial = true;
   selectionId = 'username';
 
+  // this
+
   constructor(
     protected router: Router,
     protected service: UserManagementService,
-    protected mainService: MainService
+    protected mainService: MainService,
+    private fb: FormBuilder
   ) {
     super(router, service, mainService);
+    this.form = this.fb.group({
+      username: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      role: [null, [Validators.required]]
+    });
   }
 
   callback() {
