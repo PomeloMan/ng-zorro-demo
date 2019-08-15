@@ -15,7 +15,7 @@ export class UserDetailComponent extends AbstractPageComponent {
     protected router: Router,
     protected mainService: MainService
   ) {
-    super(router, mainService)
+    super()
   }
 
   ngOnInit() {

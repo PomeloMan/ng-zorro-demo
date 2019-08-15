@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin, Observable } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { convert } from 'src/app/common/util';
+import { AbstractTableComponent } from 'src/app/common/component/abstract-table.component';
 
 class MenuPageForm {
   name = '';
@@ -18,10 +19,10 @@ class MenuPageForm {
   templateUrl: './menu-mgt.component.html',
   styleUrls: ['./menu-mgt.component.scss']
 })
-export class MenuManagementComponent extends AbstractMainComponent<Menu> implements OnInit {
+export class MenuManagementComponent extends AbstractTableComponent<Menu> implements OnInit {
 
   pageable = false;
-  treenode = true;
+  isTreenode = true;
   body: MenuPageForm = new MenuPageForm();
   menu: Menu = new Menu();
   form: FormGroup;
@@ -36,7 +37,7 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
     protected mainService: MainService,
     private fb: FormBuilder
   ) {
-    super(router, service, mainService);
+    super();
     this.form = this.fb.group({
       name: [null, [Validators.required]],
       parent: [null],
@@ -49,8 +50,6 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
-
     // const $menusObservable: Observable<Menu[]> = this.service.list();
     // forkJoin([$menusObservable])
     //   .subscribe(([menus]: [Menu[]]) => {
@@ -63,12 +62,12 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
     //   }, () => {
     //     this.loading = false;
     //   });
-    this.list(() => {
-      // convert menu list to match `nz-tree-select` nzNodes
+    this.service.list().subscribe((res: Menu[]) => {
+      this.dataSource = res.slice();
       this.nodes = convert({
         id: '0',
         name: 'Root Menu',
-        children: this.results
+        children: this.dataSource
       }, (node) => ({
         ...node,
         title: node.name,
@@ -84,28 +83,57 @@ export class MenuManagementComponent extends AbstractMainComponent<Menu> impleme
         });
         return array.filter(item => !item.parent);
       });
+    }, error => {
+      console.error(error);
+    }, () => {
+      setTimeout(() => {
+        // this.loading = false;
+      }, 500);
     });
+
+    // this.list(() => {
+    //   // convert menu list to match `nz-tree-select` nzNodes
+    //   this.nodes = convert({
+    //     id: '0',
+    //     name: 'Root Menu',
+    //     children: this.results
+    //   }, (node) => ({
+    //     ...node,
+    //     title: node.name,
+    //     key: node.id,
+    //     parent: node.parent,
+    //     isLeaf: true
+    //   }), (array, hashMap) => {
+    //     array.forEach(item => {
+    //       item.children = hashMap[item.key];
+    //       if (item.children) {
+    //         delete item.isLeaf;
+    //       }
+    //     });
+    //     return array.filter(item => !item.parent);
+    //   });
+    // });
   }
 
-  showModal(menu) {
-    super.showModal(() => {
-      if (isNullOrUndefined(menu)) {
-        this.menu = new Menu();
-      } else {
-        this.menu = {
-          ...menu,
-          parent: menu.parent ? menu.parent : '0'
-        }; // Object.assign({}, menu)
-      }
-      if (this.menu.parent && this.menu.parent.id) {
-        this.expandKeys = [];
-        let parent = { ...this.menu.parent };
-        while (parent.parent) {
-          parent = parent.parent;
-          this.expandKeys.push(parent.id);
-        }
-        this.menu.parent = this.menu.parent.id;
-      }
-    });
-  }
+  // showModal(menu) {
+  //   super.showModal(() => {
+  //     if (isNullOrUndefined(menu)) {
+  //       this.menu = new Menu();
+  //     } else {
+  //       this.menu = {
+  //         ...menu,
+  //         parent: menu.parent ? menu.parent : '0'
+  //       }; // Object.assign({}, menu)
+  //     }
+  //     if (this.menu.parent && this.menu.parent.id) {
+  //       this.expandKeys = [];
+  //       let parent = { ...this.menu.parent };
+  //       while (parent.parent) {
+  //         parent = parent.parent;
+  //         this.expandKeys.push(parent.id);
+  //       }
+  //       this.menu.parent = this.menu.parent.id;
+  //     }
+  //   });
+  // }
 }

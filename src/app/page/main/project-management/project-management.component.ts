@@ -14,6 +14,6 @@ export class ProjectManagementComponent extends AbstractPageComponent {
     protected router: Router,
     protected mainService: MainService
   ) {
-    super(router, mainService)
+    super();
   }
 }

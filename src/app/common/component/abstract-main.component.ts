@@ -9,21 +9,13 @@ import { OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { FormGroup } from '@angular/forms';
 
-export class AbstractMainComponent<T> extends AbstractPageComponent implements Paginator, OnInit {
+export class AbstractMainComponent<T> extends AbstractPageComponent implements OnInit {
 
-    results: T[] = [];
-    body: any = {};
-
-    initial = false;
-    // Paginator
-    total = 0;
-    pageIndex = 1;
-    pageSize = 10;
-    pageSizeOptions: number[] = [10, 25, 50, 100];
-    sortName = '';
-    sortValue: 'descend' | 'ascend' | null = null;
+    results: T[] = []; // table data
+    body: any = {}; // request params
+    initial = false; // init data if true
+    loading = true; // show loading if true
     pageable = true;
-    loading = true;
     treenode = false;
 
     // Modal
@@ -67,20 +59,13 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements P
         protected service: CommonService<T>,
         protected mainService: MainService
     ) {
-        super(router, mainService);
+        super();
     }
 
     ngOnInit(): void {
-        super.ngOnInit();
         if (this.initial) {
             this.page();
         }
-    }
-
-    sort(sort: { key: string; value: 'descend' | 'ascend' | null }): void {
-        this.sortName = sort.key;
-        this.sortValue = sort.value;
-        this.page();
     }
 
     page(callback?): void {

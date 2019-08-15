@@ -1,6 +1,6 @@
 <div class="_content">
   <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
-    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total"
+    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="_dataSource" [nzTotal]="total"
     [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
@@ -45,12 +45,12 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let item of smallTable.data">
-        <ng-container *ngFor="let row of mapOfExpandedData[item.id]">
+        <ng-container *ngFor="let row of mapOfTreenodeData[item.id]">
           <tr *ngIf="(row.parent && row.parent.expand) || !row.parent" hoverClass="elevation-text-z4">
             <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
               (nzCheckedChange)="refreshStatus()"></td>
             <td [nzIndentSize]="row.level * 20" [nzShowExpand]="!!row.children" [(nzExpand)]="row.expand"
-              (nzExpandChange)="collapse(mapOfExpandedData[row[selectionId]], row, $event)">{{ row.name }}</td>
+              (nzExpandChange)="collapse(mapOfTreenodeData[row[selectionId]], row, $event)">{{ row.name }}</td>
             <td>{{ row.parent?.name }}</td>
             <td>{{ row.url }}</td>
             <td>{{ row.type }}</td>

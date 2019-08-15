@@ -19,7 +19,7 @@ export class AbstractDetailComponent<T> extends AbstractPageComponent implements
         protected service: CommonService<T>,
         protected mainService: MainService
     ) {
-        super(router, mainService)
+        super();
         this.id = this.route.snapshot.paramMap.get('id');
     }
 
