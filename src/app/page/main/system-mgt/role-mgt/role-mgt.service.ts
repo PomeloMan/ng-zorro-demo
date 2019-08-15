@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Page } from 'src/app/config/api';
 import { ApiService } from 'src/app/config/provider/api.service';
-import { CommonService } from 'src/app/common/interface/service.interface';
+import { CommonService, Page } from 'src/app/common/interface/service.interface';
 
 import { useMockData } from 'src/app/config/app.constant';
 import page from 'src/assets/mock/system/role/page.json';

@@ -1,6 +1,3 @@
-import { OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { MainService } from 'src/app/page/main/main.service';
 import { Paginator } from '../interface/paginator.interface';
 
 export class AbstractPageComponent implements Paginator {

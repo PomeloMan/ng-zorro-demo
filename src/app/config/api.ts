@@ -1,5 +1,3 @@
-import { HttpHeaders } from '@angular/common/http';
-
 export const API = {
 
     MENU_NAV_URL: 'sys/menu/nav', // 菜单列表
@@ -61,30 +59,4 @@ export const API = {
     ATTACH_EXPORT_URL: 'app/attachment/export',
     // Message
     MESSAGE_PAGE_URL: 'app/message/page'
-}
-
-
-/**
- * options: { observe: 'response' }
- */
-export interface ResponseEntity<T> {
-    body?: T;
-    headers?: HttpHeaders;
-    ok?: boolean;
-    status?: number;
-    statusText?: string;
-    type?: number;
-    url?: string;
-}
-
-export interface Page<T> {
-    content?: T;
-    first?: boolean;
-    last?: boolean;
-    number?: number
-    numberOfElements?: number
-    size?: number
-    sort?: string
-    totalElements?: number
-    totalPages?: number
-}
+};

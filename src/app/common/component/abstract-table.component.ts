@@ -4,10 +4,17 @@ import { AbstractPageComponent } from './abstract-page.component';
 
 export class AbstractTableComponent<T> extends AbstractPageComponent implements Paginator {
 
+    /**
+     * nz-table props
+     */
     _dataSource: T[] = []; // table dataset
-    pageable = true; // background paging if true
+    isFrontPagination = true; // front paging if true
     isTreenode = false; // show treenode mode if true
+    isLoading = false; // show loading if true
 
+    /**
+     * nz-table select & expand
+     */
     selectionId = 'id'; // row id/key
     isAllChecked = false; // all row checked if true
     isIndeterminate = false; // at least one row checked if true
@@ -105,7 +112,7 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
     }
 
     /**
-     * 将对象转换成树形数据
+     * 构建树形数据
      * @param root
      */
     private convertTreeToList(root: object): T[] {

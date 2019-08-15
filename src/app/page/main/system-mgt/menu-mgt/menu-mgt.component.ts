@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractMainComponent } from 'src/app/common/component/abstract-main.component';
 import { Router } from '@angular/router';
-import { MenuManagementService, Menu } from './menu-mgt.service';
+import { MenuManagementService, Menu, MenuPageForm } from './menu-mgt.service';
 import { MainService } from '../../main.service';
 import { isNullOrUndefined } from 'util';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,10 +10,6 @@ import { mergeMap, catchError } from 'rxjs/operators';
 import { convert } from 'src/app/common/util';
 import { AbstractTableComponent } from 'src/app/common/component/abstract-table.component';
 
-class MenuPageForm {
-  name = '';
-}
-
 @Component({
   selector: 'app-menu-mgt',
   templateUrl: './menu-mgt.component.html',
@@ -21,8 +17,11 @@ class MenuPageForm {
 })
 export class MenuManagementComponent extends AbstractTableComponent<Menu> implements OnInit {
 
-  pageable = false;
+  // override
+  isFrontPagination = false;
   isTreenode = true;
+
+  // self properties
   body: MenuPageForm = new MenuPageForm();
   menu: Menu = new Menu();
   form: FormGroup;

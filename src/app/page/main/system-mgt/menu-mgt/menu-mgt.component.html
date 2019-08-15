@@ -1,6 +1,6 @@
 <div class="_content">
-  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
-    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="_dataSource" [nzTotal]="total"
+  <nz-table #table nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
+    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="isFrontPagination" [nzData]="_dataSource" [nzTotal]="total"
     [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
@@ -44,7 +44,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let item of smallTable.data">
+      <ng-container *ngFor="let item of table.data">
         <ng-container *ngFor="let row of mapOfTreenodeData[item.id]">
           <tr *ngIf="(row.parent && row.parent.expand) || !row.parent" hoverClass="elevation-text-z4">
             <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
