@@ -1,0 +1,25 @@
+<!-- 默认模式 -->
+<ng-container *ngIf="mode === 'default'">
+  <div class="footer-mode-default">
+
+  </div>
+</ng-container>
+<!-- 表格模式 -->
+<ng-container *ngIf="mode === 'table'">
+  <div class="footer-mode-table">
+    <!-- 菜单栏 -->
+    <ng-container *ngTemplateOutlet="menusTemplateRef"></ng-container>
+    <!-- 分页 -->
+    <ng-container *ngIf="!!showPagination">
+      <nz-pagination nzShowSizeChanger nzShowQuickJumper [nzSize]="'small'" [(nzPageIndex)]="pageIndex"
+        [nzTotal]="total" [nzPageSize]="pageSize" [nzShowTotal]="totalTemplate" (nzPageIndexChange)="pageIndexChange($event)"
+        (nzPageSizeChange)="pageSizeChange($event)">
+      </nz-pagination>
+      <ng-template #totalTemplate let-total>1 - 10 of {{total}} items</ng-template>
+    </ng-container>
+  </div>
+</ng-container>
+<!-- 自定义模式 -->
+<ng-container *ngIf="mode === 'custom'">
+  <ng-content></ng-content>
+</ng-container>

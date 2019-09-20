@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 $primary-color: #1890ff;
 $info-color: #1890ff;
 $success-color: #52c41a;
@@ -12,9 +11,9 @@ $normal-color: #d9d9d9;
 $component-background: white;
 
 ._content {
-  min-height: 100%;
-  margin: 0 0 16px 0;
-  padding: 24px;
+  position: relative;
+  min-height: calc(100% - 48px);
+  margin: 24px;
   background-color: $component-background;
 
   nz-table {
@@ -47,6 +46,25 @@ $component-background: white;
 }
 
 
+// 表格样式
+app-layout .table-wrap {
+  height: 100%;
+  overflow: hidden;
+}
+
+// app-footer 组件样式
+.footer-mode-table {
+  // 表格底部菜单栏样式
+  .action-menus-ul {
+    li {
+      padding: 0;
+
+      button {
+        height: -webkit-fill-available;
+      }
+    }
+  }
+}
 
 
 

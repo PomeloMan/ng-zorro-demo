@@ -9,19 +9,19 @@ import { Observable, of } from 'rxjs';
 @Injectable()
 export class SelectivePreloadingStrategy implements PreloadingStrategy {
 
-	preloadedModules: string[] = [];
+  preloadedModules: string[] = [];
 
-	preload(route: Route, load: () => Observable<any>): Observable<any> {
-		if (route.data && route.data['preload']) {
-			// add the route path to the preloaded module array
-			this.preloadedModules.push(route.path);
+  preload(route: Route, load: () => Observable<any>): Observable<any> {
+    if (route.data && route.data.preload) {
+      // add the route path to the preloaded module array
+      this.preloadedModules.push(route.path);
 
-			// log the route path to the console
-			console.log('Preloaded: ' + route.path);
+      // log the route path to the console
+      console.log('Preloaded: ' + route.path);
 
-			return load();
-		} else {
-			return of(null);
-		}
-	}
+      return load();
+    } else {
+      return of(null);
+    }
+  }
 }

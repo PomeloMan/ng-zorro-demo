@@ -1,0 +1,20 @@
+:host {
+  transition: all 0.3s;
+}
+
+.header-mode-inline {
+  height: inherit;
+  overflow: hidden;
+
+  .breadcrumbs-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  .advance-wrap {
+    padding: 12px;
+    background-color: white;
+  }
+}

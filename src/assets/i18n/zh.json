@@ -1,0 +1,36 @@
+{
+  "COMMON": {
+    "EDIT": "编辑",
+    "SAVE": "保存",
+    "DELETE": "删除",
+    "CANCEL": "取消",
+    "OPERATION": "操作",
+    "ADVANCE_SEARCH": "高级搜索"
+  },
+  "MENU": {
+    "BREADCRUMBS": {
+      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
+      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
+      "MENU_MANAGEMENT": "{\"label\": \"菜单管理\"}"
+    },
+    "TABLE_COLUMN": {
+      "MENU": "菜单",
+      "PARENT_MENU": "父菜单",
+      "URL": "路径",
+      "TYPE": "类型",
+      "ORDER": "顺序",
+      "AUTHORITY": "权限"
+    },
+    "BUTTON": {
+      "PRINT": "打印",
+      "DOWNLOAD": "下载"
+    }
+  },
+  "ROLE": {
+    "BREADCRUMBS": {
+      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
+      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
+      "MENU_MANAGEMENT": "{\"label\": \"角色管理\"}"
+    }
+  }
+}

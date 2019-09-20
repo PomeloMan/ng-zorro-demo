@@ -1,0 +1,27 @@
+<ng-container *ngIf="!!editable">
+  <ng-container *ngIf="mode === 'input'">
+    <input nz-input type="text" [nzSize]="'small'" [(ngModel)]="value" (ngModelChange)="valueChanged($event)" />
+  </ng-container>
+
+  <ng-container>
+
+  </ng-container>
+
+  <ng-container *ngIf="mode === 'tree-select'">
+    <nz-tree-select nzShowSearch nzCheckable [nzSize]="'small'" [nzNodes]="external.options" [(ngModel)]="selectedValue"
+      (ngModelChange)="selectedValueChanged($event)">
+    </nz-tree-select>
+  </ng-container>
+
+</ng-container>
+
+<ng-container *ngIf="!editable">
+  <ng-container [ngSwitch]="mode">
+    <ng-container *ngSwitchCase="'tree-select'">
+      <div *ngIf="!editable">
+        <nz-tag *ngFor="let item of value">{{item.name}}</nz-tag>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchDefault>{{ value }}</ng-container>
+  </ng-container>
+</ng-container>

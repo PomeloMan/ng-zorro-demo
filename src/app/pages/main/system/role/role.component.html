@@ -1,0 +1,131 @@
+<app-layout>
+  <app-header mode="inline" [breadcrumbs]="breadcrumbs" (resize)="resize($event)" (submitted)="getData($event)">
+  </app-header>
+  <ng-container class="content">
+    <div #tableWrap class="table-wrap">
+      <nz-table #table nzShowPagination="false" [nzLoading]="isLoading" nzSize="middle"
+        [nzFrontPagination]="isFrontPagination" [nzData]="dataSource" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions" [nzScroll]="scroll">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+          <tr>
+            <th nzWidth="5%" nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
+              (nzCheckedChange)="checkAll($event)"></th>
+            <th nzWidth="20%" nzCustomFilter>
+              Role name
+              <app-table-column-filter mode="input" [(value)]="body.name" (submited)="getData()"></app-table-column-filter>
+            </th>
+            <th nzWidth="15%">Status</th>
+            <th nzWidth="40%">Menus</th>
+            <th nzWidth="20%" nzCustomFilter nzWidth="120px" nzAlign="center">
+              Operation
+              <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
+                <i nz-icon nzType="down" class="ant-table-filter-icon"
+                  [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
+                <ul nz-menu nzSelectable>
+                  <li nz-menu-item (click)="delete()"> Batch Delete </li>
+                  <li nz-menu-item>
+                    2nd menu item
+                  </li>
+                </ul>
+              </nz-dropdown>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of table.data; let i = index">
+            <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
+              (nzCheckedChange)="refreshStatus()"></td>
+            <td>
+              <app-table-column-editor mode="input" [(value)]="row.name" [editable]="row.editable">
+              </app-table-column-editor>
+            </td>
+            <td>
+              <app-table-column-editor mode="input" [(value)]="row.status" [editable]="row.editable">
+              </app-table-column-editor>
+            </td>
+            <td>
+              <app-table-column-editor mode="tree-select" [external]="{options: menus}" [(value)]="row.menus"
+                [editable]="row.editable">
+              </app-table-column-editor>
+              <!-- <nz-tag *ngFor="let item of row.menus">{{item.name}}</nz-tag> -->
+            </td>
+            <td nzAlign="center">
+              <!-- <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"></i> -->
+              <!-- <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"></i> -->
+              <ng-container *ngIf="!row.editable">
+                <!-- 非编辑状态按钮 -->
+                <button nz-button [nzSize]="'small'" nzType="link" (click)="edit(row)">
+                  {{ 'COMMON.EDIT' | translate }}
+                </button>
+                <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
+                <button nz-button [nzSize]="'small'" nzType="link" (click)="delete(row)">
+                  {{ 'COMMON.DELETE' | translate }}
+                </button>
+              </ng-container>
+              <ng-container *ngIf="row.editable">
+                <!-- 编辑状态按钮 -->
+                <button nz-button [nzSize]="'small'" nzType="link" (click)="handleEditSubmit(row, i)">
+                  {{ 'COMMON.SAVE' | translate }}
+                </button>
+                <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
+                <button nz-button [nzSize]="'small'" nzType="link" (click)="handleEditCancel(row, i)">
+                  {{ 'COMMON.CANCEL' | translate }}
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <app-footer mode="table" [showPagination]="true" [total]="total" [pageIndex]="pageIndex" [pageSize]="pageSize"
+    [menusTemplateRef]="footerMenus" (pageIndexChanged)="pageIndexChange($event)"
+    (pageSizeChanged)="pageSizeChange($event)"></app-footer>
+  <ng-template #footerMenus>
+    <ul nz-menu nzMode="horizontal" class="action-menus-ul">
+      <li nz-menu-item>
+        <button [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link" [useExistingCss]="true"
+          printSectionId="print-section" ngxPrint>
+          <i nz-icon nzType="download" nzTheme="outline"></i>
+          {{ 'MENU.BUTTON.DOWNLOAD' | translate }}
+        </button>
+      </li>
+    </ul>
+  </ng-template>
+</app-layout>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Menu Modal" (nzOnCancel)="handleModalCancel()"
+  (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="role.name" />
+        <nz-form-explain *ngIf="
+          (form.get('name')?.dirty && form.get('name')?.errors) ||
+          form.get('name')?.pending
+        ">
+          <ng-container *ngIf="form.get('name')?.hasError('required')">
+            Please input role name!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Menus</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-tree-select formControlName="menus" [nzNodes]="menus" nzShowSearch nzCheckable nzPlaceHolder="Please select"
+          [(ngModel)]="role.menus">
+        </nz-tree-select>
+        <nz-form-explain *ngIf="
+          (form.get('menus')?.dirty && form.get('menus')?.errors) ||
+          form.get('menus')?.pending
+        ">
+          <ng-container *ngIf="form.get('menus')?.hasError('required')">
+            Please select menus!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

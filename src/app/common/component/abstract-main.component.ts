@@ -1,7 +1,7 @@
 import { Paginator } from '../interface/paginator.interface';
 import { Router } from '@angular/router';
 import { CommonService } from '../interface/service.interface';
-import { MainService } from 'src/app/page/main/main.service';
+import { MainService } from 'src/app/pages/main/main.service';
 import { isNullOrUndefined } from 'util';
 import { AbstractPageComponent } from './abstract-page.component';
 import { OnInit } from '@angular/core';

@@ -1,0 +1,15 @@
+.filter-box {
+  padding: 8px;
+  input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .filter-button-group {
+    display: flex;
+    justify-content: space-between;
+    button {
+      width: 90px;
+    }
+  }
+}

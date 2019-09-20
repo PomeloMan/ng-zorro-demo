@@ -4,15 +4,15 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { BASE_PATH } from '../app.constant';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  base: any = BASE_PATH;
-  retry: number = 0;
+  base: any = environment.url;
+  retry = environment.retry;
 
   defaultOptions: any = {
     headers: new HttpHeaders({

@@ -1,0 +1,42 @@
+<ng-container *ngIf="mode === 'default'">
+
+</ng-container>
+
+<ng-container *ngIf="mode === 'inline'">
+  <div class="header-mode-inline">
+    <div class="breadcrumbs-wrap">
+      <nz-breadcrumb>
+        <ng-container *ngFor="let item of breadcrumbs">
+          <nz-breadcrumb-item *ngIf="!item.url">{{item.label}}</nz-breadcrumb-item>
+          <nz-breadcrumb-item *ngIf="item.url">
+            <a [routerLink]="item.url">{{item.label}}</a>
+          </nz-breadcrumb-item>
+        </ng-container>
+      </nz-breadcrumb>
+      <ng-container *ngIf="formItems && formItems.length > 0">
+        <button nz-button nzType="link" (click)="collapse()">
+          {{ 'COMMON.ADVANCE_SEARCH' | translate}}
+          <i nz-icon [nzType]="!isAwVisible? 'down' : 'up'" nzTheme="outline"></i>
+        </button>
+      </ng-container>
+    </div>
+    <div class="advance-wrap elevation-z4" [class.visible]="!!isAwVisible">
+      <ng-container *ngIf="!!customTemplateRef">
+        <ng-container *ngTemplateOutlet="customTemplateRef"></ng-container>
+      </ng-container>
+      <ng-container *ngIf="!customTemplateRef">
+        <app-form [items]="formItems" (submitted)="submit($event)"></app-form>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="mode === 'custom'">
+  <ng-container *ngIf="!!customTemplateRef">
+    <ng-container *ngTemplateOutlet="customTemplateRef"></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!customTemplateRef">
+    <ng-content></ng-content>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,61 @@
+<form nz-form [nzLayout]="'horizontal'" [formGroup]="formGroup">
+  <div nz-row [nzGutter]="24" class="row">
+    <div nz-col nzSpan="20">
+      <div nz-row [nzGutter]="24" class="row">
+        <div nz-col [nzSpan]="24/col" *ngFor="let item of items">
+          <nz-form-item [nzFlex]="true">
+            <nz-form-label>{{item.label}}</nz-form-label>
+            <nz-form-control>
+
+              <!-- select -->
+              <ng-container *ngIf="item.type === _formItemType['select']">
+                <nz-select nzAllowClear [formControlName]="item.name" [nzPlaceHolder]="item.label">
+                  <nz-option *ngFor="let item of item.external.options" [nzLabel]="item.label" [nzValue]="item.value"
+                    [nzDisabled]="item.disabled">
+                  </nz-option>
+                </nz-select>
+              </ng-container>
+
+              <!-- input -->
+              <ng-container *ngIf="item.type === _formItemType['input']">
+                <input nz-input [formControlName]="item.name" [placeholder]="item.label">
+              </ng-container>
+
+              <!-- radio -->
+              <ng-container *ngIf="item.type === _formItemType['radio']">
+                <nz-radio-group [formControlName]="item.name">
+                  <label nz-radio nzValue="A">Hangzhou</label>
+                  <label nz-radio nzValue="B" nzDisabled>Shanghai</label>
+                  <label nz-radio nzValue="C">Beijing</label>
+                  <label nz-radio nzValue="D">Chengdu</label>
+                </nz-radio-group>
+              </ng-container>
+
+              <!-- radio-button -->
+              <ng-container *ngIf="item.type === _formItemType['radio-button']">
+                <nz-radio-group [formControlName]="item.name">
+                  <label nz-radio-button [nzValue]="item.value"
+                    *ngFor="let item of item.external.options">{{item.label}}</label>
+                </nz-radio-group>
+              </ng-container>
+
+              <!-- checkbox -->
+              <ng-container *ngIf="item.type === _formItemType['checkbox']">
+                <nz-checkbox-group [formControlName]="item.name" [(ngModel)]="item.value">
+                </nz-checkbox-group>
+              </ng-container>
+
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzSpan="4">
+      <ng-container *ngIf="items && items.length > 0">
+        <button nz-button nzType="primary" class="submit-button" (click)="submit($event)">
+          <i nz-icon nzType="search" nzTheme="outline"></i>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</form>

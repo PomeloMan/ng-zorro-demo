@@ -1,0 +1,15 @@
+<nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #Dropdown>
+  <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="Dropdown.nzVisible"
+    nz-dropdown></i>
+  <div class="filter-box">
+    <!-- input -->
+    <ng-container *ngIf="mode === 'input'">
+      <input nz-input type="text" [(ngModel)]="value" />
+      <div class="filter-button-group">
+        <button nz-button nzSize="small" nzType="primary" (click)="submit()"> Search </button>
+        <button nz-button nzSize="small" (click)="submit(true)">Reset</button>
+      </div>
+    </ng-container>
+
+  </div>
+</nz-dropdown>

@@ -1,0 +1,34 @@
+.dashboard-wrap {
+  // background-color: #3f4c6b; // #606c88
+}
+
+.dashboard-a,
+.dashboard-b {
+  border: 1px solid black;
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  &:not(:last-child) {
+    border-bottom: 1px solid black;
+  }
+  .col {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    &:not(:last-child) {
+      border-right: 1px solid black;
+    }
+  }
+  .col.label {
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+  }
+  .col:not(.label) {
+    font-weight: 500;
+    color: rgb(102, 177, 255);
+  }
+}
