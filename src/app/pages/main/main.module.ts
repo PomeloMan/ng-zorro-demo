@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { MainRoutingModule } from './main-routing.module';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { CommonDirectiveModule } from 'src/app/directives/common-directive.module';
 
 import { MainComponent } from './main.component';
+
 import { MainService } from './main.service';
 
 @NgModule({
@@ -13,7 +15,8 @@ import { MainService } from './main.service';
   imports: [
     CommonModule,
     MainRoutingModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    CommonDirectiveModule
   ],
   providers: [
     MainService

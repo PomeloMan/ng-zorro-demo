@@ -5,7 +5,9 @@
     "DELETE": "Delete",
     "CANCEL": "Cancel",
     "OPERATION": "Operation",
-    "ADVANCE_SEARCH": "Advance Search"
+    "ADVANCE_SEARCH": "Advance Search",
+    "SEARCH": "Search",
+    "RESET": "Reset"
   },
   "MENU": {
     "BREADCRUMBS": {
@@ -30,7 +32,27 @@
     "BREADCRUMBS": {
       "HOME": "{\"label\": \"Home\", \"url\": \"/\"}",
       "SYSTEM_MANAGEMENT": "{\"label\": \"System Management\", \"url\": \"/main/system\"}",
-      "MENU_MANAGEMENT": "{\"label\": \"Role Management\"}"
+      "ROLE_MANAGEMENT": "{\"label\": \"Role Management\"}"
+    },
+    "TABLE_COLUMN": {
+      "ROLE": "Role",
+      "MENUS": "Menus",
+      "STATUS": "Status"
+    }
+  },
+  "USER": {
+    "BREADCRUMBS": {
+      "HOME": "{\"label\": \"Home\", \"url\": \"/\"}",
+      "SYSTEM_MANAGEMENT": "{\"label\": \"System Management\", \"url\": \"/main/system\"}",
+      "USER_MANAGEMENT": "{\"label\": \"User Management\"}"
+    },
+    "TABLE_COLUMN": {
+      "ID": "Username",
+      "DISPLAY_NAME": "Display Name",
+      "EMAIL": "Email",
+      "ROLE": "Role",
+      "STATUS": "Status",
+      "CREATED_DATE": "Created Date"
     }
   }
 }

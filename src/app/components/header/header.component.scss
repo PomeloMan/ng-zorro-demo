@@ -12,6 +12,11 @@
     justify-content: space-between;
     padding: 0 24px;
     height: 56px;
+
+    > *:last-child {
+      display: flex;
+      align-items: center;
+    }
   }
   .advance-wrap {
     padding: 12px;

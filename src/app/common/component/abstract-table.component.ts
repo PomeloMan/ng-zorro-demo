@@ -11,7 +11,7 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
   isFrontPagination = true; // front paging if true
   isTreenode = false; // show treenode mode if true
   isLoading = false; // show loading if true
-  scroll: object; //
+  scroll: { x, y } = { x: 0, y: 0 }; // table x,y scroll
 
   /**
    * nz-table select & expand
@@ -28,6 +28,11 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
    */
   private _visibleColumns: { key }[] = [];
   mapOfVisibleColumn: { [key: string]: boolean } = {};
+
+  /**
+   * custom props
+   */
+  layout: 'table' | 'grid' = 'table';
 
   constructor(
     protected el: ElementRef
@@ -169,12 +174,22 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
     const _tableTitle: HTMLElement = _tableWrap.querySelector('div.ant-table-title');
     const _tableThead: HTMLElement = _tableWrap.querySelector('thead.ant-table-thead');
     this.scroll = {
+      x: this.scroll.x,
       y: _tableWrap.clientHeight -
         (_tableTitle ? _tableTitle.clientHeight : 0) -
         (_tableThead ? _tableThead.clientHeight : 0) -
         (differ ? differ : 0) + 'px'
     };
   }
+
+  /**
+   * 更换布局
+   * @param layout table | grid
+   */
+  changeLayout(layout: 'table' | 'grid') {
+    this.layout = layout;
+  }
+
   /******************** private methods ********************/
 
   /**

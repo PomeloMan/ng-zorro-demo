@@ -52,12 +52,12 @@
                 <td *ngIf="mapOfVisibleColumn.auth">{{ row.auth }}</td>
                 <td nzAlign="center">
                   <button nz-button [nzSize]="'small'" nzType="link" (click)="openDetailModal(row)">
-                    <!-- <i nz-icon nzType="edit" nzTheme="outline" (click)="showModal(row)"></i> -->
+                    <!-- <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit" (click)="showModal(row)"></i> -->
                     {{ 'COMMON.EDIT' | translate }}
                   </button>
                   <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
                   <button nz-button [nzSize]="'small'" nzType="link" (click)="delete(row)">
-                    <!-- <i nz-icon nzType="delete" nzTheme="outline" (click)="delete([row.username])"></i> -->
+                    <!-- <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([row.username])"></i> -->
                     {{ 'COMMON.DELETE' | translate }}
                   </button>
                 </td>

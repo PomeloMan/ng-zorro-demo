@@ -34,6 +34,7 @@ export class RoleComponent extends AbstractTableComponent<Role> implements OnIni
   // formItems: FormItem[] = [];
 
   // table
+  listOfStatus = [{ text: 'Joe', value: 'Joe' }, { text: 'Jim', value: 'Jim' }];
 
   constructor(
     protected el: ElementRef,

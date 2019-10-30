@@ -11,13 +11,15 @@
             <th nzWidth="5%" nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
               (nzCheckedChange)="checkAll($event)"></th>
             <th nzWidth="20%" nzCustomFilter>
-              Role name
-              <app-table-column-filter mode="input" [(value)]="body.name" (submited)="getData()"></app-table-column-filter>
+              {{ 'ROLE.TABLE_COLUMN.ROLE' | translate }}
+              <app-table-column-filter mode="input" [(value)]="body.name" (submited)="getData()">
+              </app-table-column-filter>
             </th>
-            <th nzWidth="15%">Status</th>
-            <th nzWidth="40%">Menus</th>
+            <th nzWidth="45%">{{ 'ROLE.TABLE_COLUMN.MENUS' | translate }}</th>
+            <th nzWidth="10%" nzShowFilter [nzFilters]="listOfStatus" (nzFilterChange)="filter($event, searchAddress)">
+              {{ 'ROLE.TABLE_COLUMN.STATUS' | translate }}</th>
             <th nzWidth="20%" nzCustomFilter nzWidth="120px" nzAlign="center">
-              Operation
+              {{ 'COMMON.OPERATION' | translate }}
               <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
                 <i nz-icon nzType="down" class="ant-table-filter-icon"
                   [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
@@ -40,14 +42,14 @@
               </app-table-column-editor>
             </td>
             <td>
-              <app-table-column-editor mode="input" [(value)]="row.status" [editable]="row.editable">
-              </app-table-column-editor>
-            </td>
-            <td>
               <app-table-column-editor mode="tree-select" [external]="{options: menus}" [(value)]="row.menus"
                 [editable]="row.editable">
               </app-table-column-editor>
               <!-- <nz-tag *ngFor="let item of row.menus">{{item.name}}</nz-tag> -->
+            </td>
+            <td>
+              <app-table-column-editor mode="input" [(value)]="row.status" [editable]="row.editable">
+              </app-table-column-editor>
             </td>
             <td nzAlign="center">
               <!-- <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"></i> -->

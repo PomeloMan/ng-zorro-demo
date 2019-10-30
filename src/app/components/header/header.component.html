@@ -13,14 +13,17 @@
           </nz-breadcrumb-item>
         </ng-container>
       </nz-breadcrumb>
-      <ng-container *ngIf="formItems && formItems.length > 0">
-        <button nz-button nzType="link" (click)="collapse()">
-          {{ 'COMMON.ADVANCE_SEARCH' | translate}}
-          <i nz-icon [nzType]="!isAwVisible? 'down' : 'up'" nzTheme="outline"></i>
-        </button>
-      </ng-container>
+      <ng-content select=".button-group"></ng-content>
+      <div>
+        <ng-container *ngIf="formItems && formItems.length > 0">
+          <button nz-button nzType="link" (click)="collapse()">
+            {{ 'COMMON.ADVANCE_SEARCH' | translate}}
+            <i nz-icon [nzType]="!isAwVisible? 'down' : 'up'" nzTheme="outline"></i>
+          </button>
+        </ng-container>
+      </div>
     </div>
-    <div class="advance-wrap elevation-z4" [class.visible]="!!isAwVisible">
+    <div class="advance-wrap" [class.visible]="!!isAwVisible" *ngIf="formItems && formItems.length > 0">
       <ng-container *ngIf="!!customTemplateRef">
         <ng-container *ngTemplateOutlet="customTemplateRef"></ng-container>
       </ng-container>

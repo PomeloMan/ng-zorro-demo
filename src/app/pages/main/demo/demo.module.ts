@@ -1,22 +1,19 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Route } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Route } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NgxPrintModule } from 'ngx-print';
 import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { DemoComponent } from './demo.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { TinymceEditorComponent } from './tinymce-editor/tinymce-editor.component';
+
 import { TinymceEditorService } from './tinymce-editor/tinymce-editor.service';
 
 const routes: Route[] = [{
   path: '',
   component: DemoComponent
-}, {
-  path: 'dashboard',
-  component: DashboardComponent
 }, {
   path: 'tinymce-editor',
   component: TinymceEditorComponent
@@ -27,16 +24,15 @@ const routes: Route[] = [{
   ],
   declarations: [
     DemoComponent,
-    DashboardComponent,
     TinymceEditorComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule.forChild(routes),
     NgZorroAntdModule,
     NgxPrintModule,
-    EditorModule,
-    RouterModule.forChild(routes)
+    EditorModule
   ],
   providers: [
     TinymceEditorService

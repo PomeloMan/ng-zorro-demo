@@ -1,110 +1,137 @@
-<div class="_content">
-  <nz-table #smallTable nzShowPagination nzShowSizeChanger nzShowQuickJumper [nzLoading]="loading"
-    [nzShowTotal]="rangeTemplate" nzSize="middle" [nzFrontPagination]="false" [nzData]="results" [nzTotal]="total"
-    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions"
-    (nzPageIndexChange)="page()" (nzPageSizeChange)="page()">
-    <thead (nzSortChange)="sort($event)" nzSingleSort>
-      <tr>
-        <th nzShowCheckbox nzShowRowSelection [nzSelections]="selections" [(nzChecked)]="isAllChecked"
-          [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
-        <th>Username</th>
-        <th nzCustomFilter>
-          Display Name
-          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter
-            #DisplaynameDropdown>
-            <i nz-icon nzType="search" class="ant-table-filter-icon"
-              [class.ant-table-filter-open]="DisplaynameDropdown.nzVisible" nz-dropdown></i>
-            <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.username" />
-              <div class="search-button-group">
-                <button nz-button nzSize="small" nzType="primary" (click)="page()"> Search </button>
-                <button nz-button nzSize="small" (click)="reset()">Reset</button>
-              </div>
-            </div>
-          </nz-dropdown>
-        </th>
-        <th nzShowSort nzSortKey="age">Email</th>
-        <th>Created Date</th>
-        <th nzCustomFilter nzWidth="120px" nzAlign="center">
-          Operation
-          <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
-            <i nz-icon nzType="down" class="ant-table-filter-icon"
-              [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
-            <ul nz-menu nzSelectable>
-              <li nz-menu-item (click)="showModal()">New</li>
-              <li nz-menu-item (click)="delete()"> Batch Delete </li>
-              <li nz-menu-item>
-                2nd menu item
-              </li>
-            </ul>
-          </nz-dropdown>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of smallTable.data" appHoverClass="elevation-text-z4">
-        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
-          (nzCheckedChange)="refreshStatus()"></td>
-        <td>{{ row.username }}</td>
-        <td>{{ row.displayName }}</td>
-        <td>{{ row.email }}</td>
-        <td>{{ row.createdDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-        <td nzAlign="center">
-          <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"
-            (click)="navigate('/main/system-mgt/user-mgt/user', [row.username])"></i>
-          <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([row.username])"></i>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-</div>
+<app-layout>
+  <app-header mode="inline" [breadcrumbs]="breadcrumbs" [formItems]="formItems" (resize)="resize($event)"
+    (submitted)="getData($event)">
+    <div class="button-group">
+      <button nz-button nzType="link" (click)="addUser()">新增</button>
+      <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
+      <nz-dropdown [nzTrigger]="'click'">
+        <a nz-dropdown><button nz-button nzType="link">布局</button></a>
+        <ul nz-menu>
+          <li nz-menu-item (click)="changeLayout('table')"><i nz-icon type="table" nzTheme="outline"></i>表格</li>
+          <li nz-menu-item (click)="changeLayout('grid')"><i nz-icon nzType="appstore" nzTheme="outline"></i>栅格</li>
+        </ul>
+      </nz-dropdown>
+    </div>
+  </app-header>
+  <ng-container class="content">
+    <ng-container *ngIf="layout === 'table'">
+      <ng-container *ngTemplateOutlet="LayoutTable"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="layout === 'grid'">
+      <ng-container *ngTemplateOutlet="LayoutGrid"></ng-container>
+    </ng-container>
+  </ng-container>
+  <app-footer mode="table" [showPagination]="true" [total]="total" [pageIndex]="pageIndex" [pageSize]="pageSize"
+    [menusTemplateRef]="footerMenus" (pageIndexChanged)="pageIndexChange($event)"
+    (pageSizeChanged)="pageSizeChange($event)"></app-footer>
+  <ng-template #footerMenus>
+    <ul nz-menu nzMode="horizontal" class="action-menus-ul">
+      <li nz-menu-item>
+        <button [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link" (click)="download()">
+          <i nz-icon nzType="download" nzTheme="outline"></i>
+          {{ 'MENU.BUTTON.DOWNLOAD' | translate }}
+        </button>
+      </li>
+    </ul>
+  </ng-template>
+</app-layout>
 
-<ng-template #rangeTemplate let-range="range" let-total>
-  {{ range[0] }} - {{ range[1] }} of {{ total }} items
+<!-- 表格布局 -->
+<ng-template #LayoutTable>
+  <div #tableWrap class="table-wrap">
+    <nz-table #table nzShowPagination="false" [nzLoading]="isLoading" nzSize="middle"
+      [nzFrontPagination]="isFrontPagination" [nzData]="dataSource" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize" [nzPageSizeOptions]="pageSizeOptions" [nzScroll]="scroll">
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th nzWidth="5%" nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"></th>
+          <th nzWidth="10%">{{ 'USER.TABLE_COLUMN.ID' | translate }}</th>
+          <th nzWidth="15%" nzCustomFilter>
+            {{ 'USER.TABLE_COLUMN.DISPLAY_NAME' | translate }}
+            <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter
+              #DisplaynameDropdown>
+              <i nz-icon nzType="search" class="ant-table-filter-icon"
+                [class.ant-table-filter-open]="DisplaynameDropdown.nzVisible" nz-dropdown></i>
+              <div class="search-box">
+                <input type="text" nz-input placeholder="Search name" [(ngModel)]="body.username" />
+                <div class="search-button-group">
+                  <button nz-button nzSize="small" nzType="primary" (click)="page()"> Search </button>
+                  <button nz-button nzSize="small" (click)="reset()">Reset</button>
+                </div>
+              </div>
+            </nz-dropdown>
+          </th>
+          <th nzWidth="15%">{{ 'USER.TABLE_COLUMN.EMAIL' | translate }}</th>
+          <th nzWidth="15%">{{ 'USER.TABLE_COLUMN.ROLE' | translate }}</th>
+          <th nzWidth="10%">{{ 'USER.TABLE_COLUMN.STATUS' | translate }}</th>
+          <th nzWidth="15%">{{ 'USER.TABLE_COLUMN.CREATED_DATE' | translate }}</th>
+          <th nzWidth="15%" nzCustomFilter nzAlign="center" nzRight="0px">
+            {{ 'COMMON.OPERATION' | translate }}
+            <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
+              <i nz-icon nzType="down" class="ant-table-filter-icon"
+                [class.ant-table-filter-open]="OperationDropdown.nzVisible" nz-dropdown></i>
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item (click)="toUserDetail()">New</li>
+              </ul>
+            </nz-dropdown>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of table.data">
+          <!-- appHoverClass="elevation-text-z4" -->
+          <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
+            (nzCheckedChange)="refreshStatus()"></td>
+          <td>{{ row.username }}</td>
+          <td>{{ row.displayName }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.roleAlias }}</td>
+          <td>{{ row.status }}</td>
+          <td>{{ row.createdDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td nzAlign="center" nzRight="0px">
+            <button nz-button [nzSize]="'small'" nzType="link" (click)="toUserDetail(row)">
+              {{ 'COMMON.DETAIL' | translate }}
+            </button>
+            <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
+            <a nz-popconfirm [nzTitle]="'USER.CONFIRM.DELETE' | translate" (nzOnConfirm)="delete(row)">
+              <button nz-button [nzSize]="'small'" nzType="link">
+                {{ 'COMMON.DELETE' | translate }}
+              </button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isModalVisible" nzTitle="User Modal" (nzOnCancel)="handleModalCancel()"
-  (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
-  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>User name</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
-        <input nz-input formControlName="username" placeholder="Please enter user name here" />
-        <nz-form-explain
-          *ngIf="(form.get('username')?.dirty && form.get('username')?.errors) || form.get('username')?.pending">
-          <ng-container *ngIf="form.get('username')?.hasError('required')">
-            Please input user name!
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
-        <input nz-input formControlName="email" placeholder="Please enter display name here" />
-        <nz-form-explain *ngIf="form.get('email')?.dirty && form.get('email')?.errors">
-          <ng-container *ngIf="form.get('email')?.hasError('required')">
-            Please input user email!
-          </ng-container>
-          <ng-container *ngIf="form.get('email')?.hasError('email')">
-            The input is not valid email!
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
-        <nz-select formControlName="role" nzPlaceHolder="Please select user role here">
-          <nz-option nzValue="male" nzLabel="male"></nz-option>
-          <nz-option nzValue="female" nzLabel="female"></nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="(form.get('role')?.dirty && form.get('role')?.errors) || form.get('role')?.pending">
-          <ng-container *ngIf="form.get('role')?.hasError('required')">
-            Please select user role!
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>
+<!-- 栅格布局 -->
+<ng-template #LayoutGrid>
+  <div class="grid-wrap">
+    <div nz-row nzGutter="12" class="row">
+      <div nz-col class="col" nzXs="24" nzSm="12" nzMd="8" nzLg="6" nzXl="4" *ngFor="let item of dataSource">
+        <nz-card [nzActions]="[actionSetting, actionEdit, actionEllipsis]" [nzBodyStyle]="{padding: '12px'}">
+          <nz-card-meta [nzTitle]="item.displayName" nzDescription="This is the description"
+            [nzAvatar]="avatarTemplate">
+          </nz-card-meta>
+          <p>{{item.email}}</p>
+          <p>{{item.avatar}}</p>
+        </nz-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #avatarTemplate>
+    <nz-avatar></nz-avatar>
+  </ng-template>
+
+  <ng-template #actionSetting>
+    <i nz-icon type="setting"></i>
+  </ng-template>
+  <ng-template #actionEdit>
+    <i nz-icon type="edit"></i>
+  </ng-template>
+  <ng-template #actionEllipsis>
+    <i nz-icon type="ellipsis"></i>
+  </ng-template>
+</ng-template>

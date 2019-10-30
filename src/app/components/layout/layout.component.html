@@ -3,7 +3,7 @@
   <nz-content>
     <ng-content select=".content"></ng-content>
   </nz-content>
-  <nz-footer class="elevation-z8">
+  <nz-footer class="elevation-z8" *ngIf="showFooter">
     <ng-content select="app-footer"></ng-content>
   </nz-footer>
 </nz-layout>

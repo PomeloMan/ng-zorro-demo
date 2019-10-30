@@ -1,27 +1,16 @@
-<div class="_content">
-  <div nz-row [nzGutter]="24" [nzType]="'flex'">
-    <div nz-col [nzSpan]="16">
-      <div class="core">
-        <nz-tabset [nzTabBarGutter]="24">
-          <nz-tab nzTitle="Basic">
-            <ng-template nz-tab>
-              <app-user-detail-basic></app-user-detail-basic>
-            </ng-template>
-          </nz-tab>
-          <nz-tab nzTitle="Group">
-            <ng-template nz-tab>
-            </ng-template>
-          </nz-tab>
-          <nz-tab nzTitle="Todo">
-            <ng-template nz-tab>
-            </ng-template>
-          </nz-tab>
-        </nz-tabset>
-        <button nz-button nzType="primary" (click)="save()" [nzLoading]="saving">Save</button>
-      </div>
-    </div>
-    <div nz-col [nzSpan]="8">
-      <div class="other"></div>
-    </div>
-  </div>
-</div>
+<app-layout [showFooter]="false">
+  <app-header mode="inline" [breadcrumbs]="breadcrumbs" (resize)="resize($event)">
+  </app-header>
+
+  <ng-container class="content">
+    <nz-card class="_content" [nzBordered]="false" [nzBodyStyle]="{ padding: 0, height: '100%' }">
+      <nz-tabset>
+        <nz-tab nzTitle="基本信息">
+          <ng-template nz-tab>
+            <app-user-detail-basic></app-user-detail-basic>
+          </ng-template>
+        </nz-tab>
+      </nz-tabset>
+    </nz-card>
+  </ng-container>
+</app-layout>

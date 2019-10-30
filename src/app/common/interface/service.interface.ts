@@ -25,13 +25,13 @@ export interface CommonService<T> {
    * 保存
    * @param T
    */
-  save(T): Observable<any>;
+  save(T): Observable<T>;
 
   /**
    * 修改
    * @param T
    */
-  update(T): Observable<any>;
+  update(T): Observable<T>;
 
   /**
    * 删除

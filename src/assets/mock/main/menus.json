@@ -13,18 +13,33 @@
         "type": 0,
         "url": "/main/demo/tinymce-editor",
         "name": "Editor",
-        "icon": "code",
-        "breadcrumb": [
-          {
-            "label": "Home"
-          },
-          {
-            "label": "Demo"
-          },
-          {
-            "label": "Editor"
-          }
-        ]
+        "icon": "code"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "pid": 0,
+    "type": 0,
+    "url": "/main/dashboard",
+    "name": "Dashboard",
+    "icon": "dashboard",
+    "children": [
+      {
+        "id": 11,
+        "pid": 10,
+        "type": 0,
+        "url": "/main/dashboard/antv-g2",
+        "name": "Antv-G2",
+        "icon": "line-chart"
+      },
+      {
+        "id": 12,
+        "pid": 10,
+        "type": 0,
+        "url": "/main/dashboard/echarts",
+        "name": "Echarts",
+        "icon": "line-chart"
       }
     ]
   },
@@ -34,16 +49,7 @@
     "type": 0,
     "url": "/main/project",
     "name": "Project Management",
-    "icon": "project",
-    "breadcrumb": [
-      {
-        "label": "Home"
-      },
-      {
-        "label": "Project Management",
-        "url": "/main/project"
-      }
-    ]
+    "icon": "project"
   },
   {
     "id": 1000,
@@ -59,18 +65,6 @@
         "url": "/main/system/user",
         "name": "User Management",
         "icon": "user",
-        "breadcrumb": [
-          {
-            "label": "Home"
-          },
-          {
-            "label": "System Management"
-          },
-          {
-            "label": "User Management",
-            "url": "/main/system/user"
-          }
-        ],
         "children": [
           {
             "id": 1011,
@@ -78,22 +72,7 @@
             "type": 1,
             "url": "/main/system/user/user/*",
             "name": "User Profile",
-            "icon": "profile",
-            "breadcrumb": [
-              {
-                "label": "Home"
-              },
-              {
-                "label": "System Management"
-              },
-              {
-                "label": "User Management",
-                "url": "/main/system/user"
-              },
-              {
-                "label": "User Profile"
-              }
-            ]
+            "icon": "profile"
           }
         ]
       },
@@ -104,18 +83,6 @@
         "url": "/main/system/role",
         "name": "Role Management",
         "icon": "safety",
-        "breadcrumb": [
-          {
-            "label": "Home"
-          },
-          {
-            "label": "System Management"
-          },
-          {
-            "label": "Role Management",
-            "url": "/main/system/role"
-          }
-        ],
         "children": [
           {
             "id": 1021,
@@ -123,22 +90,7 @@
             "type": 1,
             "url": "/main/system/user/role/*",
             "name": "Role Detail",
-            "icon": "profile",
-            "breadcrumb": [
-              {
-                "label": "Home"
-              },
-              {
-                "label": "System Management"
-              },
-              {
-                "label": "Role Management",
-                "url": "/main/system/role"
-              },
-              {
-                "label": "Role"
-              }
-            ]
+            "icon": "profile"
           }
         ]
       },
@@ -148,19 +100,7 @@
         "type": 0,
         "url": "/main/system/menu",
         "name": "Menu Management",
-        "icon": "safety",
-        "breadcrumb": [
-          {
-            "label": "Home"
-          },
-          {
-            "label": "System Management"
-          },
-          {
-            "label": "Menu Management",
-            "url": "/main/system/menu"
-          }
-        ]
+        "icon": "safety"
       }
     ]
   }

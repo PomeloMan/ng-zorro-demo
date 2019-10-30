@@ -1,0 +1,12 @@
+._content {
+  height: calc(100% - 24px);
+  margin: 0 24px 24px;
+  overflow: hidden;
+}
+
+#line {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

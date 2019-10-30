@@ -1,0 +1,20 @@
+<app-layout>
+  <app-header mode="inline" [breadcrumbs]="breadcrumbs">
+  </app-header>
+  <ng-container class="content">
+    <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: 0, height: '100%', overflow: 'auto', display: 'flex' }"
+      style="height: 100%;">
+      <div id="echart" class="demo-chart"></div>
+    </nz-card>
+  </ng-container>
+  <app-footer mode="custom">
+    <ul nz-menu nzMode="horizontal" class="action-menus-ul">
+      <li nz-menu-item>
+        <button [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link" (click)="download()">
+          <i nz-icon nzType="download" nzTheme="outline"></i>
+          {{ 'MENU.BUTTON.DOWNLOAD' | translate }}
+        </button>
+      </li>
+    </ul>
+  </app-footer>
+</app-layout>

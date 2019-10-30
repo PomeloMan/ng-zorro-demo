@@ -5,6 +5,9 @@ export const API = {
     // User
     USER_URL: 'sys/user', // 用户
     USER_PAGE_URL: 'sys/user/page', // 用户分页
+    USER_LIST_URL: 'sys/user/list', // 用户列表
+    USER_INFO_URL: 'sys/user/info', // 用户详情
+    USER_SAVE_URL: 'sys/user/save', // 用户保存
 
 
 
@@ -15,12 +18,6 @@ export const API = {
     LINK_URL: 'link',//绑定项目
     // Locales
     LOCALE_LIST_URL: 'app/locale/list',
-    // User
-    USER_ME_URL: 'sys/user/updateMe',
-    USER_LIST_URL: 'sys/user/list',//用户列表
-    USER_LISTS_URL: 'sys/user/lists',//用户列表
-    USER_INFO_URL: 'sys/user/info',//用户信息
-    USER_SAVE_URL: 'sys/user/saveAll',//用户保存
     // Role
     ROLE_LIST_URL: 'sys/role/list',//角色列表
     // System module

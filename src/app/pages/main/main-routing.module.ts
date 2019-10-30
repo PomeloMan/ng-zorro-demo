@@ -10,6 +10,9 @@ const routes: Routes = [{
     path: 'demo',
     loadChildren: './demo/demo.module#DemoModule'
   }, {
+    path: 'dashboard',
+    loadChildren: './dashboard/dashboard.module#DashboardModule'
+  }, {
     path: 'project',
     loadChildren: './project-management/project-management.module#ProjectManagementModule'
   }, {

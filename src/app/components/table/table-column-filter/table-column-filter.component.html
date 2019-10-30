@@ -6,8 +6,8 @@
     <ng-container *ngIf="mode === 'input'">
       <input nz-input type="text" [(ngModel)]="value" />
       <div class="filter-button-group">
-        <button nz-button nzSize="small" nzType="primary" (click)="submit()"> Search </button>
-        <button nz-button nzSize="small" (click)="submit(true)">Reset</button>
+        <button nz-button nzSize="small" nzType="primary" (click)="submit()">{{ 'COMMON.SEARCH' | translate }}</button>
+        <button nz-button nzSize="small" (click)="submit(true)">{{ 'COMMON.RESET' | translate }}</button>
       </div>
     </ng-container>
 

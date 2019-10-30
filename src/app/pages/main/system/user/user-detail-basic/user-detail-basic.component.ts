@@ -15,8 +15,7 @@ export class UserDetailBasicComponent implements OnInit {
   contactForm: FormGroup;
 
   id: string;
-  result: any;
-  $resultObservable: Observable<any>;
+  result: any = {};
 
   constructor(
     private router: Router,
@@ -25,7 +24,7 @@ export class UserDetailBasicComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.$resultObservable = this.service.info(this.id);
+    this.id = '1';
     this.validateForm = this.fb.group({
       username: [{ value: this.id, disabled: true }, [Validators.required], [this.userNameAsyncValidator]],
       displayName: ['', [Validators.required]],
@@ -41,12 +40,9 @@ export class UserDetailBasicComponent implements OnInit {
   }
 
   ngOnInit() {
-    forkJoin(this.$resultObservable).subscribe(([result]: [any]) => {
-      result = {
-        username: 'admin',
-        displayName: 'administrator'
-      };
-      this.result = result;
+    const $userObservable = this.service.info(this.id);
+    forkJoin($userObservable).subscribe(([user]: [any]) => {
+      this.result = user;
 
       // for (const key in this.validateForm.controls) {
       //   setTimeout(() => {

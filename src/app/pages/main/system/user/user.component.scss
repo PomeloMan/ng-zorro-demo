@@ -16,3 +16,13 @@
     }
   }
 }
+
+.grid-wrap {
+  padding: 0 12px;
+  overflow-y: auto;
+  height: 100%;
+
+  .col {
+    margin-bottom: 12px;
+  }
+}
