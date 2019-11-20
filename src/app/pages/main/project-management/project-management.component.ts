@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MainService } from '../main.service';
 import { Router } from '@angular/router';
 import { AbstractPageComponent } from 'src/app/common/component/abstract-page.component';
@@ -8,12 +8,15 @@ import { AbstractPageComponent } from 'src/app/common/component/abstract-page.co
   templateUrl: './project-management.component.html',
   styleUrls: ['./project-management.component.scss']
 })
-export class ProjectManagementComponent extends AbstractPageComponent {
+export class ProjectManagementComponent extends AbstractPageComponent implements OnInit {
 
   constructor(
     protected router: Router,
     protected mainService: MainService
   ) {
     super();
+  }
+
+  ngOnInit() {
   }
 }

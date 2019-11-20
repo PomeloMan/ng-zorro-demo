@@ -18,7 +18,9 @@ import { StorageService } from './config/provider/storage.service';
 import { ApiService } from './config/provider/api.service';
 import { AuthGuardService } from './config/provider/auth-guard.service';
 import { CookieService } from 'ngx-cookie-service';
+import { HTTP_INTERCEPTOR_PROVIDERS } from './interceptors/_index';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MainService } from './pages/main/main.service';
 
 registerLocaleData(en);
 
@@ -52,7 +54,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AuthGuardService,
     CookieService,
     StorageService,
-    ApiService
+    ApiService,
+    MainService,
+    HTTP_INTERCEPTOR_PROVIDERS //http拦截器
   ],
   bootstrap: [AppComponent]
 })

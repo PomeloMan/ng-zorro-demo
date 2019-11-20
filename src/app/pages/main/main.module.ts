@@ -6,7 +6,7 @@ import { CommonDirectiveModule } from 'src/app/directives/common-directive.modul
 
 import { MainComponent } from './main.component';
 
-import { MainService } from './main.service';
+// import { MainService } from './main.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { MainService } from './main.service';
     CommonDirectiveModule
   ],
   providers: [
-    MainService
+    // MainService
   ]
 })
 export class MainModule { }
