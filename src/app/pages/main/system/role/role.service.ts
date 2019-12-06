@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ApiService } from 'src/app/config/provider/api.service';
-import { CommonService, Page } from 'src/app/common/interface/service.interface';
-
-import { environment } from 'src/environments/environment';
-
-import page1 from 'src/assets/mock/system/role/page_1.json';
-import page2 from 'src/assets/mock/system/role/page_2.json';
+import { ApiService } from 'src/app/configs/provider/api.service';
+import { CommonService, Page } from 'src/app/configs/interface/service.interface';
+import { API } from 'src/app/constants/api';
+import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
 export class RoleService implements CommonService<Role> {
@@ -16,45 +13,33 @@ export class RoleService implements CommonService<Role> {
   ) { }
 
   info(id): Observable<Role> {
-    return of(null);
+    return this.service.get(`${API.ROLE_URL}/${id}`);
   }
 
   page(body?): Observable<Page<Role[]>> {
-    if (environment.useMockData) {
-      if (body && body.pageIndex === 1) {
-        return of(page1);
-      } else if (body && body.pageIndex === 2) {
-        return of(page2);
-      } else {
-        return of(page1);
-      }
-    } else {
-      return this.service.post('', body);
-    }
+    return this.service.post(API.ROLE_PAGE_URL, body);
   }
 
-  list(): Observable<Role[]> {
-    if (environment.useMockData) {
-      return of(page1);
-    } else {
-      return null;
-    }
+  list(body?): Observable<Role[]> {
+    return this.service.post(API.ROLE_LIST_URL, body);
   }
 
-  save(role: Role) {
-    return of(null);
+  save(body: Role) {
+    return this.service.post(API.ROLE_URL, body).pipe(
+      debounceTime(1000)
+    );
   }
 
-  update() {
-    return of(null);
+  update(body: Role) {
+    return this.service.put(API.ROLE_URL, body).pipe(
+      debounceTime(1000)
+    );
   }
 
   delete(ids): Observable<any> {
-    return of(null);
-  }
-
-  url(url): Observable<any> {
-    return of(null);
+    return this.service.delete(API.ROLE_URL, { params: { ids } }).pipe(
+      debounceTime(1000)
+    );
   }
 }
 

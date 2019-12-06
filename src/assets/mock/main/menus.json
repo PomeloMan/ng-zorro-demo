@@ -4,7 +4,7 @@
     "pid": 0,
     "type": 0,
     "url": "/main/demo",
-    "name": "Demo",
+    "name": "MAIN.MENU_DEMO",
     "icon": "appstore",
     "children": [
       {
@@ -12,7 +12,7 @@
         "pid": -100,
         "type": 0,
         "url": "/main/demo/tinymce-editor",
-        "name": "Editor",
+        "name": "MAIN.MENU_DEMO_EDITOR",
         "icon": "code"
       }
     ]
@@ -22,7 +22,7 @@
     "pid": 0,
     "type": 0,
     "url": "/main/dashboard",
-    "name": "Dashboard",
+    "name": "MAIN.MENU_DASHBOARD",
     "icon": "dashboard",
     "children": [
       {
@@ -30,7 +30,7 @@
         "pid": 10,
         "type": 0,
         "url": "/main/dashboard/antv-g2",
-        "name": "Antv-G2",
+        "name": "MAIN.MENU_DASHBOARD_ANTVG2",
         "icon": "line-chart"
       },
       {
@@ -38,7 +38,7 @@
         "pid": 10,
         "type": 0,
         "url": "/main/dashboard/echarts",
-        "name": "Echarts",
+        "name": "MAIN.MENU_DASHBOARD_ECHARTS",
         "icon": "line-chart"
       }
     ]
@@ -48,14 +48,14 @@
     "pid": 0,
     "type": 0,
     "url": "/main/project",
-    "name": "Project Management",
+    "name": "MAIN.MENU_PROJECT",
     "icon": "project"
   },
   {
     "id": 1000,
     "pid": 0,
     "type": 0,
-    "name": "System Management",
+    "name": "MAIN.MENU_SYSTEM",
     "icon": "setting",
     "children": [
       {
@@ -63,7 +63,7 @@
         "pid": 1000,
         "type": 0,
         "url": "/main/system/user",
-        "name": "User Management",
+        "name": "MAIN.MENU_SYSTEM_USER",
         "icon": "user",
         "children": [
           {
@@ -81,7 +81,7 @@
         "pid": 1000,
         "type": 0,
         "url": "/main/system/role",
-        "name": "Role Management",
+        "name": "MAIN.MENU_SYSTEM_ROLE",
         "icon": "safety",
         "children": [
           {
@@ -99,7 +99,7 @@
         "pid": 1000,
         "type": 0,
         "url": "/main/system/menu",
-        "name": "Menu Management",
+        "name": "MAIN.MENU_SYSTEM_MENU",
         "icon": "safety"
       }
     ]

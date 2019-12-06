@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
-import { ApiService } from 'src/app/config/provider/api.service';
+import { ApiService } from 'src/app/configs/provider/api.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()

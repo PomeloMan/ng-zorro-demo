@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpRequest
 } from '@angular/common/http';
-import { AuthService } from '../config/provider/auth.service';
+import { AuthService } from '../configs/provider/auth.service';
 
 /**
  * This interceptor is used to add a request header to each request

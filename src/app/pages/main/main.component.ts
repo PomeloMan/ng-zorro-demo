@@ -1,9 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MainService, Menu } from './main.service';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/config/provider/storage.service';
-import { AuthService } from 'src/app/config/provider/auth.service';
+import { StorageService } from 'src/app/configs/provider/storage.service';
+import { AuthService } from 'src/app/configs/provider/auth.service';
 import { forkJoin, Observable, of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { NzI18nService, en_US, zh_CN } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-main',
@@ -21,6 +23,8 @@ export class MainComponent implements OnInit {
   constructor(
     private router: Router,
     private storage: StorageService,
+    private i18n: NzI18nService,
+    private translate: TranslateService,
     private authService: AuthService,
     private service: MainService
   ) { }
@@ -30,6 +34,17 @@ export class MainComponent implements OnInit {
     // this.initEventListeners();
   }
 
+  /**
+   * 切换语言 -- 国际化
+   */
+  handleLocaleChange(locale) {
+    this.i18n.setLocale(locale.match(/zh/) ? zh_CN : en_US); // antd 组件国际化
+    this.translate.use(locale.match(/en|zh/) ? locale : 'zh');
+  }
+
+  /**
+   * 登出
+   */
   logout() {
     this.authService.clear();
     this.router.navigate(['/login']);

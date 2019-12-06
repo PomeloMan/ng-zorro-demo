@@ -7,6 +7,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonDirectiveModule } from '../directives/common-directive.module';
 import { CommonComponentModule } from '../components/common-component.module';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
   declarations: [],
@@ -19,7 +20,8 @@ import { CommonComponentModule } from '../components/common-component.module';
     NgxPrintModule,
     TranslateModule,
     CommonDirectiveModule,
-    CommonComponentModule
+    CommonComponentModule,
+    PerfectScrollbarModule
   ],
   exports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { CommonComponentModule } from '../components/common-component.module';
     TranslateModule,
     CommonDirectiveModule, // 通用指令模块
     CommonComponentModule, // 通用组件模块
+    PerfectScrollbarModule
   ]
 })
 export class ShareModule { }

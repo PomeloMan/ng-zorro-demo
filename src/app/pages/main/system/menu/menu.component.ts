@@ -1,16 +1,18 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
-import { convert, createNotification, showConfirm, showMessage } from 'src/app/utils';
+import { convert, notify, message } from 'src/app/utils';
+import { environment } from 'src/environments/environment';
 
 import { NzTableComponent, NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { AbstractTableComponent } from 'src/app/common/component/abstract-table.component';
+import { AbstractTableComponent } from 'src/app/components/abstract-table.component';
 import { FormItemType, FormItem } from 'src/app/components/form/form.component';
 
 import { MenuService, Menu, MenuSearchForm } from './menu.service';
+import { MenuMockService } from './menu-mock.service';
 import { DetailModalComponent } from './detail-modal/detail-modal.component';
 import { isNullOrUndefined } from 'util';
 import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from 'src/app/configs/interface/service.interface';
 
 @Component({
   selector: 'app-menu',
@@ -24,14 +26,13 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
   isFrontPagination = false;
   isTreenode = true;
   pageble = false;
+  scroll = { x: '1200px', y: 0 };
 
   // self properties
   body: MenuSearchForm = new MenuSearchForm();
   menu: Menu = new Menu();
-
   // menu treenode
   nodes = [];
-
   // 显示/隐藏列
   visibleColumns = [
     { label: 'Menu', key: 'name', disabled: true },
@@ -41,19 +42,15 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
     { label: 'Order', key: 'order' },
     { label: 'Auth', key: 'auth' }
   ];
-
-  // app-header 头部信息
-  breadcrumbs: { label: string, url: string }[] = [];
-
   // 查询条件
   formItems: FormItem[] = [{
-    type: FormItemType.input,
-    label: 'Menu',
+    type: FormItemType.INPUT,
+    label: 'MENU.INFO.MENU',
     name: 'name',
     value: ''
   }, {
-    type: FormItemType.checkbox,
-    label: 'Type',
+    type: FormItemType.CHECKBOX,
+    label: 'MENU.INFO.TYPE',
     name: 'type',
     value: [
       { label: '菜单', value: '1', checked: true },
@@ -62,41 +59,57 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
     ]
   }];
 
-  // service
-  $menusObservable: Observable<Menu[]>;
-  $saveObservable: Observable<Menu>;
-  $updateObservable: Observable<Menu>;
-  $deleteObservable: Observable<any>;
+  // 根据环境选择服务
+  targetMenuServ: CommonService<Menu>;
+  // i18n message data
+  message: any = {};
+  // loading
+  downloading = false; // 点击下载按钮显示加载
 
   constructor(
     protected el: ElementRef,
     private router: Router,
     private service: MenuService,
+    private mockService: MenuMockService,
     private translate: TranslateService,
     private nzModalService: NzModalService,
     private nzMessageService: NzMessageService,
     private nzNotificationService: NzNotificationService
   ) {
     super(el);
-    this.$menusObservable = this.service.list(this.body);
-    this.$saveObservable = this.service.save(this.menu);
-    this.$updateObservable = this.service.update(this.menu);
-    this.$deleteObservable = this.service.delete(this.checkedIds);
 
-    this.translate.get('MENU.BREADCRUMBS').subscribe(value => {
-      Object.keys(value).forEach(key => {
-        this.breadcrumbs.push(JSON.parse(value[key]));
-      });
+    // 初始话国际化数据
+    this.translate.get([
+      'COMMON.DOWNLOAD_SUCCESS',
+      'COMMON.DOWNLOAD_FAILURE',
+      'COMMON.SAVE_SUCCESS',
+      'COMMON.SAVE_FAILURE',
+      'COMMON.DELETE_SUCCESS',
+      'COMMON.DELETE_FAILURE'
+    ]).subscribe(value => {
+      this.message = value;
     });
+
+    // 根据环境选择相应服务
+    if (environment.useMockData) {
+      this.isFrontPagination = true;
+      this.targetMenuServ = this.mockService;
+    } else {
+      this.isFrontPagination = false;
+      this.targetMenuServ = this.service;
+    }
   }
 
   ngOnInit(): void {
     this.getData();
   }
 
+  /**
+   * 列表
+   */
   list() {
     this.isLoading = true;
-    forkJoin([this.$menusObservable]).subscribe(([menus]: [Menu[]]) => {
+    this.targetMenuServ.list().subscribe((menus: Menu[]) => {
       this.dataSource = menus.slice();
       this.nodes = convert({
         id: '0',
@@ -124,7 +137,7 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
       }, 0);
     }, error => {
       console.error(error);
-      createNotification(this.nzNotificationService, 'error', '加载失败!', error);
+      notify(this.nzNotificationService, 'error', '加载失败!', error);
       setTimeout(() => {
         this.isLoading = false;
       }, 1500);
@@ -133,6 +146,19 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
         this.isLoading = false;
       }, 1500);
     }); // 在一个流的生命周期中，error和complete只会触发其中一个
+  }
+
+  /**
+   * 删除菜单
+   */
+  delete(ids) {
+    this.checkedIds = ids;
+    this.targetMenuServ.delete(ids).subscribe(res => {
+      message(this.nzMessageService, 'success', this.message['COMMON.DELETE_SUCCESS']);
+      this.getData();
+    }, err => {
+      message(this.nzMessageService, 'error', this.message['COMMON.DELETE_FAILURE']);
+    });
   }
 
   /**
@@ -147,7 +173,7 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
       },
       nzOnOk: (component) => {
         modal.nzOkLoading = true;
-        return this.$deleteObservable.subscribe(res => {
+        return this.targetMenuServ.save(component.form).subscribe(res => {
           return false;
         }, err => {
           return false;
@@ -159,34 +185,34 @@ export class MenuComponent extends AbstractTableComponent<Menu> implements OnIni
   }
 
   /**
-   * 删除菜单
-   */
-  delete(menu?) {
-    showConfirm(this.nzModalService, () => {
-      this.checkedIds = [menu.id];
-      this.$deleteObservable.subscribe(res => {
-        showMessage(this.nzMessageService, 'success', '操作成功!');
-        this.getData();
-      }, err => {
-        createNotification(this.nzNotificationService, 'error', null, err);
-      });
-    });
-  }
-
-  /**
    * 保存/跟新
    */
-  saveOrUpdate() {
-    if (isNullOrUndefined(this.menu.id)) {
+  saveOrUpdate(menu: Menu) {
+    if (isNullOrUndefined(menu.id)) {
       // save
-      this.$saveObservable.subscribe((menu: Menu) => {
-
+      this.targetMenuServ.save(menu).subscribe(() => {
+        message(this.nzMessageService, 'success', this.message['COMMON.SAVE_SUCCESS']);
+      }, err => {
+        message(this.nzMessageService, 'error', this.message['COMMON.SAVE_FAILURE']);
       });
     } else {
       // update
-      this.$updateObservable.subscribe((menu: Menu) => {
-
+      this.targetMenuServ.update(menu).subscribe(() => {
+        message(this.nzMessageService, 'success', this.message['COMMON.SAVE_SUCCESS']);
+      }, err => {
+        message(this.nzMessageService, 'error', this.message['COMMON.SAVE_FAILURE']);
       });
     }
+  }
+
+  /******************** 头部菜单栏事件 ********************/
+
+  /******************** 底部菜单栏事件 ********************/
+  download() {
+    this.downloading = true;
+    setTimeout(() => {
+      this.downloading = false;
+      message(this.nzMessageService, 'success', this.message['COMMON.DOWNLOAD_SUCCESS']);
+    }, 500);
   }
 }

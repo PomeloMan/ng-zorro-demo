@@ -1,8 +1,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { AfterViewInit } from '@angular/core';
-import { CommonService } from '../interface/service.interface';
+import { CommonService } from '../../configs/interface/service.interface';
 import { MainService } from 'src/app/pages/main/main.service';
-import { AbstractPageComponent } from './abstract-page.component';
+import { AbstractPageComponent } from '../../components/abstract-page.component';
 import { FormGroup } from '@angular/forms';
 import { isNullOrUndefined } from 'util';
 

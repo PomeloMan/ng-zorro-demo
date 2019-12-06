@@ -40,18 +40,18 @@ export function convert(source: object, iteractor?: (node) => any, callback?: (a
 
 /**
  * ng-zorro 消息封装
- * @param notification NzNotificationService 对象
+ * @param notificationServ NzNotificationService 对象
  * @param type 'success' | 'info' | 'warning' | 'error' | 'blank' | string,
  * @param title 标题
  * @param content 内容
  */
-export function createNotification(
-  notification: NzNotificationService,
+export function notify(
+  notificationServ: NzNotificationService,
   type: 'success' | 'info' | 'warning' | 'error' | 'blank' | string,
   title?: string,
   content?: string
 ) {
-  notification.create(
+  notificationServ.create(
     type,
     title ? title : type.toLocaleUpperCase(),
     content
@@ -60,18 +60,18 @@ export function createNotification(
 
 /**
  * ng-zorro 模态框封装
- * @param modal NzModalService 对象
+ * @param modalServ NzModalService 对象
  * @param callback 成功回调函数
  * @param title 标题
  * @param content 内容
  */
-export function showConfirm(
-  modal: NzModalService,
+export function confirm(
+  modalServ: NzModalService,
   callback = () => { },
   title: string = 'Do you Want to delete the item(s)?',
   content?: string
 ) {
-  return modal.confirm({
+  return modalServ.confirm({
     nzTitle: title,
     nzContent: content,
     nzOnOk: () => {
@@ -80,22 +80,29 @@ export function showConfirm(
   });
 }
 
-export function showMessage(
-  message: NzMessageService,
+/**
+ * ng-zorro 消息封装
+ * @param messageServ NzMessageService 对象
+ * @param type 'success' | 'info' | 'warning' | 'error' | 'loading'
+ * @param content 消息内容
+ * @param options 消息配置 { nzDuration: number, nzPauseOnHover: boolean, nzAnimate: boolean }
+ */
+export function message(
+  messageServ: NzMessageService,
   type: 'success' | 'info' | 'warning' | 'error' | 'loading',
   content?: string,
   options?: { nzDuration: number, nzPauseOnHover: boolean, nzAnimate: boolean }
 ) {
   if (type === 'success') {
-    message.success(content, options);
+    messageServ.success(content, options);
   } else if (type === 'info') {
-    message.info(content, options);
+    messageServ.info(content, options);
   } else if (type === 'warning') {
-    message.warning(content, options);
+    messageServ.warning(content, options);
   } else if (type === 'error') {
-    message.error(content, options);
+    messageServ.error(content, options);
   } else if (type === 'loading') {
-    message.loading(content, options);
+    messageServ.loading(content, options);
   } else {
     return null;
   }

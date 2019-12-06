@@ -1,6 +1,8 @@
 import { Input, ElementRef, HostListener } from '@angular/core';
-import { Paginator } from '../interface/paginator.interface';
+import { Paginator } from '../configs/interface/paginator.interface';
 import { AbstractPageComponent } from './abstract-page.component';
+import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
 export class AbstractTableComponent<T> extends AbstractPageComponent implements Paginator {
 
@@ -30,6 +32,12 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
   mapOfVisibleColumn: { [key: string]: boolean } = {};
 
   /**
+   * nz-table edit
+   */
+  rowEditable = false;
+  mapOfEditableRowCache: { [key: string]: any } = {};
+
+  /**
    * custom props
    */
   layout: 'table' | 'grid' = 'table';
@@ -50,6 +58,15 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
       // convert dataSource to treenode format
       this._dataSource.forEach((r: any) => {
         this.mapOfTreenodeData[r[this.selectionId]] = this.convertTreeToList(r);
+      });
+    }
+    if (this.rowEditable) {
+      // 跟新行内编辑缓存
+      this._dataSource.forEach(item => {
+        this.mapOfEditableRowCache[item[this.selectionId]] = {
+          editable: false,
+          data: { ...item }
+        };
       });
     }
   }
@@ -171,6 +188,9 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
    */
   resize(differ?) {
     const _tableWrap: HTMLElement = this.el.nativeElement.querySelector('.table-wrap');
+    if (!_tableWrap) {
+      return;
+    }
     const _tableTitle: HTMLElement = _tableWrap.querySelector('div.ant-table-title');
     const _tableThead: HTMLElement = _tableWrap.querySelector('thead.ant-table-thead');
     this.scroll = {
@@ -188,6 +208,47 @@ export class AbstractTableComponent<T> extends AbstractPageComponent implements 
    */
   changeLayout(layout: 'table' | 'grid') {
     this.layout = layout;
+  }
+
+  /******************** 行内编辑 ********************/
+  /**
+   * 编辑行数据（非编辑状态下的操作按钮）
+   * @param row 行数据对象
+   */
+  enableEdit(row) {
+    this.mapOfEditableRowCache[row[this.selectionId]].editable = true;
+  }
+
+  /**
+   * 提交编辑（编辑状态下的操作按钮）
+   * @param row 行数据对象
+   */
+  handleEditSubmit(row) {
+    const index = this.dataSource.findIndex(item => item[this.selectionId] === row[this.selectionId]);
+    this.saveRow(row).subscribe(res => {
+      Object.assign(this.dataSource[index], this.mapOfEditableRowCache[row[this.selectionId]].data);
+      this.mapOfEditableRowCache[row[this.selectionId]].editable = false;
+    });
+  }
+
+  /**
+   * 保存编辑行数据
+   * @param row 行数据对象
+   */
+  saveRow(row): Observable<any> {
+    return of(row).pipe(tap(() => { }), catchError((err) => { throw err; }));
+  }
+
+  /**
+   * 取消编辑，还原数据（编辑状态下的操作按钮）
+   * @param row 行数据对象
+   */
+  handleEditCancel(row) {
+    const index = this.dataSource.findIndex(item => item[this.selectionId] === row[this.selectionId]);
+    this.mapOfEditableRowCache[row[this.selectionId]] = {
+      data: { ...this.dataSource[index] },
+      editable: false
+    };
   }
 
   /******************** private methods ********************/

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CommonService, Page } from 'src/app/common/interface/service.interface';
-
+import { CommonService, Page } from 'src/app/configs/interface/service.interface';
 import { Role } from './role.service';
 
+import page from 'src/assets/mock/system/role/page.json';
 import list from 'src/assets/mock/system/role/list.json';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class RoleMockService implements CommonService<Role> {
   }
 
   page(body?): Observable<Page<Role[]>> {
-    return of(null);
+    return of(page);
   }
 
   list(): Observable<Role[]> {

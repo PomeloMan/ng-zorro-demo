@@ -1,78 +1,64 @@
 {
   "COMMON": {
+    "NEW": "新增",
     "EDIT": "编辑",
     "SAVE": "保存",
     "DELETE": "删除",
     "CANCEL": "取消",
     "OPERATION": "操作",
+    "NUMBER": "序号",
     "ADVANCE_SEARCH": "高级搜索",
     "SEARCH": "查询",
     "RESET": "重置",
-    "DETAIL": "详情"
+    "DETAIL": "详情",
+    "LAYOUT": "布局",
+    "TABLE": "表格",
+    "GRID": "栅格",
+    "PRINT": "打印",
+    "DOWNLOAD": "下载",
+    "DOWNLOAD_SUCCESS": "下载成功",
+    "DOWNLOAD_FAILURE": "下载失败",
+    "SAVE_SUCCESS": "保存成功",
+    "SAVE_FAILURE": "保存失败",
+    "DELETE_SUCCESS": "删除成功",
+    "DELETE_FAILURE": "删除失败"
   },
-  "DASHBOARD": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "DASHBOARD_MANAGEMENT": "{\"label\": \"仪表盘\"}"
-    }
+  "BREADCRUMBS": {
+    "HOME": "首页",
+    "DASHBOARD": "报表统计",
+    "DASHBOARD_ANTV_G2": "G2",
+    "DASHBOARD_ECHARTS": "ECharts",
+    "PROJECT_MANAGEMENT": "项目管理",
+    "SYSTEM_MANAGEMENT": "系统管理",
+    "USER_MANAGEMENT": "用户管理",
+    "USER_DETAIL": "用户详情",
+    "ROLE_MANAGEMENT": "角色管理",
+    "MENU_MANAGEMENT": "菜单管理"
   },
-  "DASHBOARD_G2": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "DASHBOARD_MANAGEMENT": "{\"label\": \"仪表盘\", \"url\": \"/main/dashboard\"}",
-      "MENU_MANAGEMENT": "{\"label\": \"G2\"}"
-    }
-  },
-  "MENU": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
-      "MENU_MANAGEMENT": "{\"label\": \"菜单管理\"}"
-    },
-    "TABLE_COLUMN": {
-      "MENU": "菜单",
-      "PARENT_MENU": "父菜单",
-      "URL": "路径",
-      "TYPE": "类型",
-      "ORDER": "顺序",
-      "AUTHORITY": "权限"
-    },
-    "BUTTON": {
-      "PRINT": "打印",
-      "DOWNLOAD": "下载"
-    }
-  },
-  "ROLE": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
-      "ROLE_MANAGEMENT": "{\"label\": \"角色管理\"}"
-    },
-    "TABLE_COLUMN": {
-      "ROLE": "角色",
-      "MENUS": "菜单",
-      "STATUS": "状态"
-    }
+  "MAIN": {
+    "LOCALE": "语言",
+    "ZH": "中文",
+    "EN": "英文",
+    "MENU_DEMO": "例子",
+    "MENU_DEMO_EDITOR": "编辑器",
+    "MENU_DASHBOARD": "报表",
+    "MENU_DASHBOARD_ANTVG2": "Antv-G2",
+    "MENU_DASHBOARD_ECHARTS": "ECharts",
+    "MENU_PROJECT": "项目管理",
+    "MENU_SYSTEM": "系统管理",
+    "MENU_SYSTEM_USER": "用户管理",
+    "MENU_SYSTEM_ROLE": "角色管理",
+    "MENU_SYSTEM_MENU": "菜单管理",
+    "ROLE_ADMIN": "管理员"
   },
   "USER": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
-      "USER_MANAGEMENT": "{\"label\": \"用户管理\"}"
-    },
-    "TABLE_COLUMN": {
-      "ID": "账号名称",
-      "DISPLAY_NAME": "用户昵称",
-      "EMAIL": "邮件",
-      "ROLE": "角色",
-      "STATUS": "状态",
-      "CREATED_DATE": "创建时间"
-    },
     "INFO": {
       "ID": "账号名称",
       "DISPLAY_NAME": "用户昵称",
       "EMAIL": "邮箱",
-      "ROLE": "角色"
+      "ROLE": "角色",
+      "STATUS": "状态",
+      "CREATED_DATE": "创建时间"
     },
     "FORM_REQUIRED": {
       "DISPLAY_NAME": "请输入用户昵称",
@@ -80,15 +66,30 @@
       "ROLE": "请选择用户角色"
     },
     "CONFIRM": {
-      "DELETE": "是否确认删除该用户？"
+      "DELETE": "是否确认删除该用户?"
     }
   },
-  "USER_DETAIL": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"首页\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"系统管理\", \"url\": \"/main/system\"}",
-      "USER_MANAGEMENT": "{\"label\": \"用户管理\", \"url\": \"/main/system/user\"}",
-      "USER_DETAIL": "{\"label\": \"用户详情\"}"
+  "ROLE": {
+    "INFO": {
+      "ROLE": "角色",
+      "MENUS": "菜单",
+      "STATUS": "状态",
+      "MODIFIER": "修改人",
+      "MODIFED_DATE": "修改时间"
+    },
+    "CONFIRM": {
+      "EDIT_CANCEL": "是否确认取消修改?",
+      "DELETE": "是否确认删除该角色?"
+    }
+  },
+  "MENU": {
+    "INFO": {
+      "MENU": "菜单",
+      "PARENT_MENU": "父菜单",
+      "URL": "路径",
+      "TYPE": "类型",
+      "ORDER": "顺序",
+      "AUTHORITY": "权限"
     }
   }
 }

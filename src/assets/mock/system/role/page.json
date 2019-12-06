@@ -1,0 +1,31 @@
+{
+  "content": [
+    {
+      "status": "Valid",
+      "creator": "build-in",
+      "modifier": "build-in",
+      "createdDate": 1543468850000,
+      "modifiedDate": 1550644214000,
+      "version": 1,
+      "name": "MAIN.ROLE_ADMIN",
+      "menus": [
+        {
+          "id": "1000",
+          "name": "MAIN.MENU_PROJECT"
+        },
+        {
+          "id": "2000",
+          "name": "MAIN.MENU_SYSTEM"
+        }
+      ]
+    }
+  ],
+  "totalPages": 1,
+  "totalElements": 1,
+  "last": true,
+  "number": 0,
+  "size": 10,
+  "sort": null,
+  "numberOfElements": 1,
+  "first": true
+}

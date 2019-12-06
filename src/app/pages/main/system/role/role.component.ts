@@ -1,17 +1,19 @@
-import { Component, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { convert, showMessage } from 'src/app/utils';
-import { FormItem } from 'src/app/components/form/form.component';
+import { forkJoin, Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
-import { AbstractTableComponent } from 'src/app/common/component/abstract-table.component';
+import { Page, CommonService } from 'src/app/configs/interface/service.interface';
+import { convert, message } from 'src/app/utils';
+import { environment } from 'src/environments/environment';
 
-import { MenuService, Menu } from '../menu/menu.service';
-import { Role, RoleService } from './role.service';
-import { forkJoin } from 'rxjs';
-import { Page } from 'src/app/common/interface/service.interface';
+import { AbstractTableComponent } from 'src/app/components/abstract-table.component';
+
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd';
+import { MenuService, Menu } from '../menu/menu.service';
+import { Role, RoleService } from './role.service';
+import { RoleMockService } from './role-mock.service';
 
 @Component({
   selector: 'app-role',
@@ -21,130 +23,140 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class RoleComponent extends AbstractTableComponent<Role> implements OnInit {
 
   // super variables
-  form: FormGroup;
   selectionId = 'name';
   isFrontPagination = false;
+  rowEditable = true;
 
-  // variables
-  role: Role = new Role();
+  // table column filter
+  listOfStatus = [{ text: 'Valid', value: '1' }, { text: 'Invalid', value: '2' }];
+
+  /** -- self variables -- */
+  // 根据环境选择服务
+  targetRoleServ: CommonService<Role>;
+
   menus: any[] = [];
 
-  // app-header
-  breadcrumbs: { label: string, url: string }[] = [];
-  // formItems: FormItem[] = [];
-
-  // table
-  listOfStatus = [{ text: 'Joe', value: 'Joe' }, { text: 'Jim', value: 'Jim' }];
+  // i18n message data
+  message: any = {};
+  // loading
+  downloading = false;
 
   constructor(
     protected el: ElementRef,
     private router: Router,
     private service: RoleService,
+    private mockService: RoleMockService,
     private translate: TranslateService,
     private menuService: MenuService,
-    private fb: FormBuilder,
     private nzMessageService: NzMessageService
   ) {
     super(el);
-    this.form = this.fb.group({
-      name: [null, [Validators.required]],
-      menus: [null, [Validators.required]]
+
+    // 初始话国际化数据
+    this.translate.get([
+      'COMMON.DOWNLOAD_SUCCESS',
+      'COMMON.DOWNLOAD_FAILURE',
+      'COMMON.SAVE_SUCCESS',
+      'COMMON.SAVE_FAILURE',
+      'COMMON.DELETE_SUCCESS',
+      'COMMON.DELETE_FAILURE'
+    ]).subscribe(value => {
+      this.message = value;
     });
 
-    this.translate.get('ROLE.BREADCRUMBS').subscribe(value => {
-      Object.keys(value).forEach(key => {
-        this.breadcrumbs.push(JSON.parse(value[key]));
+    // 根据环境选择相应服务
+    if (environment.useMockData) {
+      this.isFrontPagination = true;
+      this.targetRoleServ = this.mockService;
+    } else {
+      this.isFrontPagination = false;
+      this.targetRoleServ = this.service;
+    }
+
+    // 初始数据
+    const $menuObv = this.menuService.list();
+    const $pageObv = this.page();
+    forkJoin([$menuObv, $pageObv]).subscribe(
+      ([menus, roles]: [Menu[], Page<Role[]>]) => {
+        this.initMenuTree(menus);
+
+        // to do with roles...
       });
-    });
   }
 
   ngOnInit() {
-    const $pageObservable = this.service.page({ ...this.body, pageIndex: this.pageIndex, pageSize: this.pageSize });
-    const $menulistObservable = this.menuService.list();
-    forkJoin([$menulistObservable, $pageObservable]).subscribe(
-      ([menus, roles]: [Menu[], Page<Role[]>]) => {
-        this.initMenuTree(menus);
-        this.dataHandler(roles);
-        // 跟新表格样式 setTimeout 让子组件元素渲染完成后执行
-        setTimeout(() => {
-          this.resize();
-        }, 0);
-      });
-  }
-
-  page() {
-    this.service.page({
-      ...this.body,
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize
-    }).subscribe((res: Page<Role[]>) => {
-      this.dataHandler(res);
-    });
   }
 
   /**
-   * 编辑行数据（非编辑状态下的操作按钮）
-   * @param row 行数据对象
+   * 分页
    */
-  edit(row) {
-    row.origin = { ...row };
-    row.editable = true;
+  page(): Observable<Page<Role[]>> {
+    return this.targetRoleServ.page({
+      ...this.body,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize
+    }).pipe(tap((res: Page<Role[]>) => {
+      this.dataSource = res.content.slice();
+      this.total = res.totalElements;
+
+      if (this.layout === 'table') {
+        // 跟新表格样式 setTimeout 让子组件元素渲染完成后执行
+        setTimeout(() => {
+          this.resize();
+        });
+      }
+      return res;
+    }));
   }
 
   /**
    * 删除行数据（非编辑状态下的操作按钮）
-   * @param row 
+   * @param row
    */
   delete(row) {
-    debugger
-  }
-
-  /**
-   * 提交编辑（编辑状态下的操作按钮）
-   * @param row 行数据对象
-   */
-  handleEditSubmit(row, index) {
-    delete row.origin;
-    delete row.editable;
-    console.log(row);
-    this.service.save(row).subscribe(res => {
-      this.dataSource.splice(index, 1, row);
-      showMessage(this.nzMessageService, 'success', '保存成功!');
+    return this.targetRoleServ.delete([row[this.selectionId]]).subscribe(res => {
+      message(this.nzMessageService, 'success', this.message['COMMON.DELETE_SUCCESS']);
+      this.getData();
+    }, err => {
+      message(this.nzMessageService, 'error', this.message['COMMON.DELETE_FAILURE']);
     });
   }
 
   /**
-   * 取消编辑，还原数据（编辑状态下的操作按钮）
-   * @param row 行数据对象
+   * @override
+   * 保存编辑行
    */
-  handleEditCancel(row, index) {
-    // 将 row 对象还原成 row.origin 对象
-    Object.keys(row).forEach(key => {
-      if (!!row.origin[key]) {
-        row[key] = row.origin[key];
-      } else {
-        // if (key !== 'origin') {
-        //   delete row[key];
-        // }
-      }
-    });
-    delete row.origin;
-    delete row.editable;
-    this.dataSource.splice(index, 1, row);
+  saveRow(row) {
+    return this.targetRoleServ.save(row).pipe(
+      tap(() => {
+        message(this.nzMessageService, 'success', this.message['COMMON.SAVE_SUCCESS']);
+      }),
+      catchError((err) => {
+        message(this.nzMessageService, 'error', this.message['COMMON.SAVE_FAILURE']);
+        // return of(null);
+        throw err;
+      }));
   }
 
-  /**
-   * 处理分页数据
-   * @param data Page<Role[]>对象
-   */
-  private dataHandler(data: Page<Role[]>) {
-    this.dataSource = data.content.slice();
-    this.total = data.totalElements;
+  /******************** 头部菜单栏事件 ********************/
+  addRole() {
+    const role = new Role();
+    this.dataSource = [...this.dataSource, role];
   }
 
+  /******************** 底部菜单栏事件 ********************/
+  download() {
+    this.downloading = true;
+    setTimeout(() => {
+      this.downloading = false;
+      message(this.nzMessageService, 'success', this.message['COMMON.DOWNLOAD_SUCCESS']);
+    }, 500);
+  }
+
+  /******************** private methods ********************/
   /**
    * 初始菜单树
-   * @param menus 
+   * @param menus
    */
   private initMenuTree(menus) {
     this.menus = convert({

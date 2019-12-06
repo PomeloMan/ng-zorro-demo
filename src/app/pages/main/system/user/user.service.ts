@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { API } from 'src/app/constants/api';
-import { ApiService } from 'src/app/config/provider/api.service';
-import { CommonService, Page } from 'src/app/common/interface/service.interface';
+import { ApiService } from 'src/app/configs/provider/api.service';
+import { CommonService, Page } from 'src/app/configs/interface/service.interface';
 
-import page from 'src/assets/mock/system/user/page.json';
-import { environment } from 'src/environments/environment';
 import { Role } from '../role/role.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Injectable()
 export class UserService implements CommonService<User> {
@@ -14,6 +13,10 @@ export class UserService implements CommonService<User> {
   constructor(
     private service: ApiService
   ) { }
+
+  info(id): Observable<User> {
+    return this.service.get(`${API.USER_URL}/${id}`);
+  }
 
   page(body?): Observable<Page<User[]>> {
     return this.service.post(API.USER_PAGE_URL, body);
@@ -23,24 +26,22 @@ export class UserService implements CommonService<User> {
     return this.service.post(API.USER_LIST_URL, body);
   }
 
-  info(id): Observable<User> {
-    return this.service.get(API.USER_URL + '');
-  }
-
   save(body: User) {
-    return this.service.post(API.USER_URL, body);
+    return this.service.post(API.USER_URL, body).pipe(
+      debounceTime(1000)
+    );
   }
 
   update(body: User) {
-    return this.service.put(API.USER_URL, body);
+    return this.service.put(API.USER_URL, body).pipe(
+      debounceTime(1000)
+    );
   }
 
   delete(ids): Observable<any> {
-    return of(null);
-  }
-
-  url(url) {
-    return of(null);
+    return this.service.put(API.USER_URL, { params: { ids } }).pipe(
+      debounceTime(1000)
+    );
   }
 }
 

@@ -1,10 +1,23 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
+/**
+ * 表单项类型
+ */
 export enum FormItemType {
-  'input', 'input-number', 'select', 'cascader', 'radio', 'radio-button', 'checkbox', 'datepicker'
+  INPUT = 'input',
+  INPUT_NUMBER = 'input-number',
+  SELECT = 'select',
+  CASCADER = 'cascader',
+  RADIO = 'radio',
+  RADIO_BUTTON = 'radio-button',
+  CHECKBOX = 'checkbox',
+  DATEPICKER = 'datepicker'
 }
 
+/**
+ * 表单项
+ */
 export class FormItem {
   type: FormItemType;
   label: string; // 名称
@@ -15,6 +28,9 @@ export class FormItem {
   // type: datepicker { format: string, showTime: boolean }
 }
 
+/**
+ * 表单组件，用于构建动态表单
+ */
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -28,7 +44,7 @@ export class FormComponent implements OnInit {
   @Output() submitted: EventEmitter<any> = new EventEmitter();
 
   formGroup: FormGroup;
-  _formItemType: any = FormItemType;
+  formItemType: any = FormItemType;
 
   constructor(
     private formBuilder: FormBuilder
@@ -43,8 +59,8 @@ export class FormComponent implements OnInit {
   }
 
   submit(event) {
-    const checkboxItems = this.items.filter(item => item.type === this._formItemType.checkbox);
-    const value = {...this.formGroup.value};
+    const checkboxItems = this.items.filter(item => item.type === this.formItemType.CHECKBOX);
+    const value = { ...this.formGroup.value };
     checkboxItems.forEach(item => {
       value[item.name] = this.formGroup.value[item.name].filter(i => i.checked).map(i => (i.value));
     });

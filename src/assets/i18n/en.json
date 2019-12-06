@@ -1,58 +1,90 @@
 {
   "COMMON": {
+    "NEW": "New",
     "EDIT": "Edit",
     "SAVE": "Save",
     "DELETE": "Delete",
     "CANCEL": "Cancel",
     "OPERATION": "Operation",
+    "NUMBER": "Number",
     "ADVANCE_SEARCH": "Advance Search",
     "SEARCH": "Search",
-    "RESET": "Reset"
+    "RESET": "Reset",
+    "DETAIL": "Detail",
+    "LAYOUT": "Layout",
+    "TABLE": "Table",
+    "GRID": "Grid",
+    "PRINT": "Print",
+    "DOWNLOAD": "Download",
+    "DOWNLOAD_SUCCESS": "Download successfully",
+    "DOWNLOAD_FAILURE": "Download failed",
+    "SAVE_SUCCESS": "Save successfully",
+    "SAVE_FAILURE": "Save failed",
+    "DELETE_SUCCESS": "Delete successfully",
+    "DELETE_FAILURE": "Delete failed"
   },
-  "MENU": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"Home\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"System Management\", \"url\": \"/main/system\"}",
-      "MENU_MANAGEMENT": "{\"label\": \"Menu Management\"}"
-    },
-    "TABLE_COLUMN": {
-      "MENU": "Menu",
-      "PARENT_MENU": "Parent Menu",
-      "URL": "Url",
-      "TYPE": "Type",
-      "ORDER": "Order",
-      "AUTHORITY": "Authority"
-    },
-    "BUTTON": {
-      "PRINT": "Print",
-      "DOWNLOAD": "Download"
-    }
+  "BREADCRUMBS": {
+    "HOME": "Home",
+    "DASHBOARD": "Dashboard",
+    "DASHBOARD_ANTV_G2": "G2",
+    "DASHBOARD_ECHARTS": "ECharts",
+    "PROJECT_MANAGEMENT": "Project Management",
+    "SYSTEM_MANAGEMENT": "System Management",
+    "USER_MANAGEMENT": "User Management",
+    "USER_DETAIL": "User Detail",
+    "ROLE_MANAGEMENT": "Role Management",
+    "MENU_MANAGEMENT": "Menu Management"
   },
-  "ROLE": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"Home\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"System Management\", \"url\": \"/main/system\"}",
-      "ROLE_MANAGEMENT": "{\"label\": \"Role Management\"}"
-    },
-    "TABLE_COLUMN": {
-      "ROLE": "Role",
-      "MENUS": "Menus",
-      "STATUS": "Status"
-    }
+  "MAIN": {
+    "LOCALE": "Locale",
+    "ZH": "Chinese",
+    "EN": "English",
+    "MENU_DEMO": "Demo",
+    "MENU_DEMO_EDITOR": "Editor",
+    "MENU_DASHBOARD": "Dashboard",
+    "MENU_DASHBOARD_ANTVG2": "Antv-G2",
+    "MENU_DASHBOARD_ECHARTS": "ECharts",
+    "MENU_PROJECT": "Project Management",
+    "MENU_SYSTEM": "System Management",
+    "MENU_SYSTEM_USER": "User Management",
+    "MENU_SYSTEM_ROLE": "Role Management",
+    "MENU_SYSTEM_MENU": "Menu Management",
+    "ROLE_ADMIN": "Administrator"
   },
   "USER": {
-    "BREADCRUMBS": {
-      "HOME": "{\"label\": \"Home\", \"url\": \"/\"}",
-      "SYSTEM_MANAGEMENT": "{\"label\": \"System Management\", \"url\": \"/main/system\"}",
-      "USER_MANAGEMENT": "{\"label\": \"User Management\"}"
-    },
-    "TABLE_COLUMN": {
+    "INFO": {
       "ID": "Username",
       "DISPLAY_NAME": "Display Name",
       "EMAIL": "Email",
       "ROLE": "Role",
       "STATUS": "Status",
       "CREATED_DATE": "Created Date"
+    },
+    "CONFIRM": {
+      "DELETE": "Are you sure to delete the user?"
+    }
+  },
+  "ROLE": {
+    "INFO": {
+      "ROLE": "Role",
+      "MENUS": "Menus",
+      "STATUS": "Status",
+      "MODIFIER": "Modifier",
+      "MODIFED_DATE": "Modified date"
+    },
+    "CONFIRM": {
+      "EDIT_CANCEL": "Are you sure to cancel this update?",
+      "DELETE": "Are you sure to delete the role?"
+    }
+  },
+  "MENU": {
+    "INFO": {
+      "MENU": "Menu",
+      "PARENT_MENU": "Parent Menu",
+      "URL": "Url",
+      "TYPE": "Type",
+      "ORDER": "Order",
+      "AUTHORITY": "Authority"
     }
   }
 }

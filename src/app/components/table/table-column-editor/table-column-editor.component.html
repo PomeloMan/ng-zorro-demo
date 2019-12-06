@@ -12,16 +12,15 @@
       (ngModelChange)="selectedValueChanged($event)">
     </nz-tree-select>
   </ng-container>
-
 </ng-container>
 
 <ng-container *ngIf="!editable">
   <ng-container [ngSwitch]="mode">
     <ng-container *ngSwitchCase="'tree-select'">
       <div *ngIf="!editable">
-        <nz-tag *ngFor="let item of value">{{item.name}}</nz-tag>
+        <nz-tag *ngFor="let item of value">{{ item.name | translate }}</nz-tag>
       </div>
     </ng-container>
-    <ng-container *ngSwitchDefault>{{ value }}</ng-container>
+    <ng-container *ngSwitchDefault>{{ value | translate }}</ng-container>
   </ng-container>
 </ng-container>

@@ -1,5 +1,8 @@
 <app-layout>
-  <app-header mode="inline" [breadcrumbs]="breadcrumbs" (resize)="resize($event)" (submitted)="getData($event)">
+  <app-header mode="inline" (resize)="resize($event)">
+    <div class="button-group">
+      <button nz-button nzType="link" (click)="addRole()">{{ 'COMMON.NEW' | translate }}</button>
+    </div>
   </app-header>
   <ng-container class="content">
     <div #tableWrap class="table-wrap">
@@ -10,14 +13,19 @@
           <tr>
             <th nzWidth="5%" nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
               (nzCheckedChange)="checkAll($event)"></th>
-            <th nzWidth="20%" nzCustomFilter>
-              {{ 'ROLE.TABLE_COLUMN.ROLE' | translate }}
+            <th nzWidth="5%" nzAlign="center">{{ 'COMMON.NUMBER' | translate }}</th>
+            <th nzWidth="10%" nzCustomFilter>
+              {{ 'ROLE.INFO.ROLE' | translate }}
               <app-table-column-filter mode="input" [(value)]="body.name" (submited)="getData()">
               </app-table-column-filter>
             </th>
-            <th nzWidth="45%">{{ 'ROLE.TABLE_COLUMN.MENUS' | translate }}</th>
-            <th nzWidth="10%" nzShowFilter [nzFilters]="listOfStatus" (nzFilterChange)="filter($event, searchAddress)">
-              {{ 'ROLE.TABLE_COLUMN.STATUS' | translate }}</th>
+            <th nzWidth="20%">{{ 'ROLE.INFO.MENUS' | translate }}</th>
+            <th nzWidth="10%" nzShowFilter [nzFilters]="listOfStatus" (nzFilterChange)="filter($event, value)">
+              {{ 'ROLE.INFO.STATUS' | translate }}</th>
+            <th nzWidth="15%" nzAlign="center">
+              {{ 'ROLE.INFO.MODIFIER' | translate }}</th>
+            <th nzWidth="15%" nzAlign="center">
+              {{ 'ROLE.INFO.MODIFED_DATE' | translate }}</th>
             <th nzWidth="20%" nzCustomFilter nzWidth="120px" nzAlign="center">
               {{ 'COMMON.OPERATION' | translate }}
               <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
@@ -37,42 +45,48 @@
           <tr *ngFor="let row of table.data; let i = index">
             <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[row[selectionId]]" [nzDisabled]="row.disabled"
               (nzCheckedChange)="refreshStatus()"></td>
+            <td nzAlign="center">{{ i + 1 }}</td>
+            <td>{{ row.name | translate }}</td>
             <td>
-              <app-table-column-editor mode="input" [(value)]="row.name" [editable]="row.editable">
-              </app-table-column-editor>
-            </td>
-            <td>
-              <app-table-column-editor mode="tree-select" [external]="{options: menus}" [(value)]="row.menus"
-                [editable]="row.editable">
+              <app-table-column-editor mode="tree-select" [external]="{options: menus}"
+                [(value)]="mapOfEditableRowCache[row[selectionId]].data.menus"
+                [editable]="mapOfEditableRowCache[row[selectionId]].editable">
               </app-table-column-editor>
               <!-- <nz-tag *ngFor="let item of row.menus">{{item.name}}</nz-tag> -->
             </td>
             <td>
-              <app-table-column-editor mode="input" [(value)]="row.status" [editable]="row.editable">
+              <app-table-column-editor mode="input" [(value)]="mapOfEditableRowCache[row[selectionId]].data.status"
+                [editable]="mapOfEditableRowCache[row[selectionId]].editable">
               </app-table-column-editor>
             </td>
+            <td nzAlign="center">{{ row.modifier | translate }}</td>
+            <td nzAlign="center">{{ row.modifiedDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+            <!-- 操作 -->
             <td nzAlign="center">
-              <!-- <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit"></i> -->
-              <!-- <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"></i> -->
-              <ng-container *ngIf="!row.editable">
-                <!-- 非编辑状态按钮 -->
-                <button nz-button [nzSize]="'small'" nzType="link" (click)="edit(row)">
+              <!-- 非编辑状态按钮 -->
+              <ng-container *ngIf="!mapOfEditableRowCache[row[selectionId]].editable">
+                <button nz-button [nzSize]="'small'" nzType="link" (click)="enableEdit(row)">
                   {{ 'COMMON.EDIT' | translate }}
                 </button>
                 <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
-                <button nz-button [nzSize]="'small'" nzType="link" (click)="delete(row)">
-                  {{ 'COMMON.DELETE' | translate }}
-                </button>
+                <a nz-popconfirm [nzTitle]="'ROLE.CONFIRM.DELETE' | translate" (nzOnConfirm)="delete(row)">
+                  <button nz-button [nzSize]="'small'" nzType="link">
+                    {{ 'COMMON.DELETE' | translate }}
+                  </button>
+                </a>
               </ng-container>
-              <ng-container *ngIf="row.editable">
-                <!-- 编辑状态按钮 -->
+              <!-- 编辑状态按钮 -->
+              <ng-container *ngIf="mapOfEditableRowCache[row[selectionId]].editable">
                 <button nz-button [nzSize]="'small'" nzType="link" (click)="handleEditSubmit(row, i)">
                   {{ 'COMMON.SAVE' | translate }}
                 </button>
                 <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
-                <button nz-button [nzSize]="'small'" nzType="link" (click)="handleEditCancel(row, i)">
-                  {{ 'COMMON.CANCEL' | translate }}
-                </button>
+                <a nz-popconfirm [nzTitle]="'ROLE.CONFIRM.EDIT_CANCEL' | translate"
+                  (nzOnConfirm)="handleEditCancel(row, i)">
+                  <button nz-button [nzSize]="'small'" nzType="link">
+                    {{ 'COMMON.CANCEL' | translate }}
+                  </button>
+                </a>
               </ng-container>
             </td>
           </tr>
@@ -86,8 +100,8 @@
   <ng-template #footerMenus>
     <ul nz-menu nzMode="horizontal" class="action-menus-ul">
       <li nz-menu-item>
-        <button [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link" [useExistingCss]="true"
-          printSectionId="print-section" ngxPrint>
+        <button [nzLoading]="downloading" [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link"
+          (click)="download()">
           <i nz-icon nzType="download" nzTheme="outline"></i>
           {{ 'MENU.BUTTON.DOWNLOAD' | translate }}
         </button>
@@ -95,39 +109,3 @@
     </ul>
   </ng-template>
 </app-layout>
-
-<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Menu Modal" (nzOnCancel)="handleModalCancel()"
-  (nzOnOk)="handleModalOk()" [nzOkLoading]="isModalLoading">
-  <form nz-form [formGroup]="form" (ngSubmit)="submitForm($event, form.value)">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
-        <input nz-input formControlName="name" placeholder="Please enter menu name here" [(ngModel)]="role.name" />
-        <nz-form-explain *ngIf="
-          (form.get('name')?.dirty && form.get('name')?.errors) ||
-          form.get('name')?.pending
-        ">
-          <ng-container *ngIf="form.get('name')?.hasError('required')">
-            Please input role name!
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>Menus</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <nz-tree-select formControlName="menus" [nzNodes]="menus" nzShowSearch nzCheckable nzPlaceHolder="Please select"
-          [(ngModel)]="role.menus">
-        </nz-tree-select>
-        <nz-form-explain *ngIf="
-          (form.get('menus')?.dirty && form.get('menus')?.errors) ||
-          form.get('menus')?.pending
-        ">
-          <ng-container *ngIf="form.get('menus')?.hasError('required')">
-            Please select menus!
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>

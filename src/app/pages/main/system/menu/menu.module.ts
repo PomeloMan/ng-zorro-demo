@@ -6,10 +6,15 @@ import { MenuComponent } from './menu.component';
 import { DetailModalComponent } from './detail-modal/detail-modal.component';
 
 import { MenuService } from './menu.service';
+import { MenuMockService } from './menu-mock.service';
+import { BREADCRUMBS } from 'src/app/constants/breadcrumbs';
 
 const routes: Route[] = [{
   path: '',
-  component: MenuComponent
+  component: MenuComponent,
+  data: {
+    breadcrumbs: BREADCRUMBS.MENU
+  }
 }];
 
 @NgModule({
@@ -25,7 +30,8 @@ const routes: Route[] = [{
     RouterModule.forChild(routes)
   ],
   providers: [
-    MenuService
+    MenuService,
+    MenuMockService
   ]
 })
 export class MenuModule { }

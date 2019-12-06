@@ -1,6 +1,6 @@
 <app-layout>
-  <app-header mode="inline" [breadcrumbs]="breadcrumbs" [formItems]="formItems" (resize)="resize($event)"
-    (submitted)="getData($event)"></app-header>
+  <app-header mode="inline" [formItems]="formItems" (resize)="resize($event)" (submitted)="getData($event)">
+  </app-header>
   <ng-container class="content">
     <div #tableWrap id="print-section" class="table-wrap">
       <nz-table #table [nzShowPagination]="false" [nzLoading]="isLoading" nzSize="middle"
@@ -10,13 +10,13 @@
           <tr>
             <th nzWidth="5%" nzShowCheckbox [(nzChecked)]="isAllChecked" [nzIndeterminate]="isIndeterminate"
               (nzCheckedChange)="checkAll($event)"></th>
-            <th nzWidth="20%">{{ 'MENU.TABLE_COLUMN.MENU' | translate }}</th>
-            <th nzWidth="20%" *ngIf="mapOfVisibleColumn.parent">{{ 'MENU.TABLE_COLUMN.PARENT_MENU' | translate }}</th>
-            <th nzWidth="20%" *ngIf="mapOfVisibleColumn.url">{{ 'MENU.TABLE_COLUMN.URL' | translate }}</th>
-            <th nzWidth="10%" *ngIf="mapOfVisibleColumn.type">{{ 'MENU.TABLE_COLUMN.TYPE' | translate }}</th>
-            <th nzWidth="5%" *ngIf="mapOfVisibleColumn.order">{{ 'MENU.TABLE_COLUMN.ORDER' | translate }}</th>
-            <th nzWidth="10%" *ngIf="mapOfVisibleColumn.auth">{{ 'MENU.TABLE_COLUMN.AUTHORITY' | translate }}</th>
-            <th nzWidth="10%" nzCustomFilter nzAlign="center">
+            <th nzWidth="20%">{{ 'MENU.INFO.MENU' | translate }}</th>
+            <th nzWidth="20%" *ngIf="mapOfVisibleColumn.parent">{{ 'MENU.INFO.PARENT_MENU' | translate }}</th>
+            <th nzWidth="20%" *ngIf="mapOfVisibleColumn.url">{{ 'MENU.INFO.URL' | translate }}</th>
+            <th nzWidth="10%" nzAlign="center" *ngIf="mapOfVisibleColumn.type">{{ 'MENU.INFO.TYPE' | translate }}</th>
+            <th nzWidth="5%" nzAlign="center" *ngIf="mapOfVisibleColumn.order">{{ 'MENU.INFO.ORDER' | translate }}</th>
+            <th nzWidth="10%" *ngIf="mapOfVisibleColumn.auth">{{ 'MENU.INFO.AUTHORITY' | translate }}</th>
+            <th nzWidth="10%" nzCustomFilter nzAlign="center" nzRight="0px">
               {{ 'COMMON.OPERATION' | translate }}
               <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" nzTableFilter #OperationDropdown>
                 <i nz-icon nzType="down" class="ant-table-filter-icon"
@@ -47,19 +47,20 @@
                   (nzExpandChange)="collapse(mapOfTreenodeData[row[selectionId]], row, $event)">{{ row.name }}</td>
                 <td *ngIf="mapOfVisibleColumn.parent">{{ row.parent?.name }}</td>
                 <td *ngIf="mapOfVisibleColumn.url">{{ row.url }}</td>
-                <td *ngIf="mapOfVisibleColumn.type">{{ row.type }}</td>
-                <td *ngIf="mapOfVisibleColumn.order">{{ row.order }}</td>
+                <td nzAlign="center" *ngIf="mapOfVisibleColumn.type">{{ row.type }}</td>
+                <td nzAlign="center" *ngIf="mapOfVisibleColumn.order">{{ row.order }}</td>
                 <td *ngIf="mapOfVisibleColumn.auth">{{ row.auth }}</td>
-                <td nzAlign="center">
+                <td nzAlign="center" nzRight="0px">
                   <button nz-button [nzSize]="'small'" nzType="link" (click)="openDetailModal(row)">
                     <!-- <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Edit" (click)="showModal(row)"></i> -->
                     {{ 'COMMON.EDIT' | translate }}
                   </button>
                   <nz-divider nzType="vertical" style="margin: 0;"></nz-divider>
-                  <button nz-button [nzSize]="'small'" nzType="link" (click)="delete(row)">
-                    <!-- <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete" (click)="delete([row.username])"></i> -->
-                    {{ 'COMMON.DELETE' | translate }}
-                  </button>
+                  <a nz-popconfirm [nzTitle]="'USER.CONFIRM.DELETE' | translate" (nzOnConfirm)="delete([row.id])">
+                    <button nz-button [nzSize]="'small'" nzType="link">
+                      {{ 'COMMON.DELETE' | translate }}
+                    </button>
+                  </a>
                 </td>
               </tr>
             </ng-container>
@@ -76,14 +77,14 @@
           [printStyle]="{'.ant-table-body': {'max-height': 'auto'}}" [useExistingCss]="true"
           printSectionId="print-section" ngxPrint>
           <i nz-icon nzType="printer" nzTheme="outline"></i>
-          {{ 'MENU.BUTTON.PRINT' | translate }}
+          {{ 'COMMON.PRINT' | translate }}
         </button>
       </li>
       <li nz-menu-item>
-        <button [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link" [useExistingCss]="true"
-          printSectionId="print-section" ngxPrint>
+        <button [nzLoading]="downloading" [disabled]="!(isIndeterminate || isAllChecked)" nz-button nzType="link"
+          (click)="download()">
           <i nz-icon nzType="download" nzTheme="outline"></i>
-          {{ 'MENU.BUTTON.DOWNLOAD' | translate }}
+          {{ 'COMMON.DOWNLOAD' | translate }}
         </button>
       </li>
     </ul>

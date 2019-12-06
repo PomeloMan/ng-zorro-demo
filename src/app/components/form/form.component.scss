@@ -3,6 +3,9 @@ nz-form-item {
 
   nz-form-label {
     width: 100px;
+    span {
+      font-size: 13px;
+    }
   }
   nz-form-control {
     flex: 1;

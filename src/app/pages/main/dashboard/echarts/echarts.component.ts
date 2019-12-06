@@ -3,8 +3,10 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef } from '@angula
 import * as echarts from 'echarts';
 import 'echarts/theme/macarons.js';
 import { subMinutes, format } from 'date-fns';
+import { message } from 'src/app/utils';
 
 import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-echarts',
@@ -13,24 +15,18 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EchartsComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  // app-header
-  breadcrumbs: { label: string, url: string }[] = [];
+  downloading = false;
 
-  now: Date = new Date();
-
+  // self props
+  private now: Date = new Date();
   private lineChart: echarts.ECharts;
-  private _lineInterval: any;
+  private lineInterval: any;
 
   constructor(
     private el: ElementRef,
+    private nzMessageServ: NzMessageService,
     private translate: TranslateService
-  ) {
-    this.translate.get('DASHBOARD_G2.BREADCRUMBS').subscribe(value => {
-      Object.keys(value).forEach(key => {
-        this.breadcrumbs.push(JSON.parse(value[key]));
-      });
-    });
-  }
+  ) { }
 
   ngOnInit() {
   }
@@ -40,11 +36,31 @@ export class EchartsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._lineInterval) {
-      clearInterval(this._lineInterval);
+    if (this.lineInterval) {
+      clearInterval(this.lineInterval);
     }
   }
 
+  /**
+   * 下载数据
+   */
+  download() {
+    this.downloading = true;
+
+    setTimeout(() => {
+      this.downloading = false;
+      this.translate.get([
+        'COMMON.DOWNLOAD_SUCCESS',
+        'COMMON.DOWNLOAD_FAILURE'
+      ]).subscribe(value => {
+        message(this.nzMessageServ, 'error', value['COMMON.DOWNLOAD_FAILURE']);
+      });
+    }, 1000);
+  }
+
+  /**
+   * 渲染图形
+   */
   renderLine() {
     const cardBody: HTMLElement = this.el.nativeElement.querySelector('.ant-card-body');
     const el: any = document.getElementById('echart');
@@ -83,12 +99,12 @@ export class EchartsComponent implements OnInit, AfterViewInit, OnDestroy {
       }]
     };
     this.lineChart = echarts.init(el, 'macarons', {
-      width: cardBody ? cardBody.offsetWidth * 0.9  : window.innerWidth,
-      height:  cardBody ? cardBody.offsetHeight * 0.9 : window.innerHeight
+      width: cardBody ? cardBody.offsetWidth * 0.9 : window.innerWidth,
+      height: cardBody ? cardBody.offsetHeight * 0.9 : window.innerHeight
     });
     this.lineChart.setOption(option);
 
-    this._lineInterval = setInterval(() => {
+    this.lineInterval = setInterval(() => {
       const _xdata = xdata;
       const _sdata = sdata;
       const second = format(time, 'mm:ss');

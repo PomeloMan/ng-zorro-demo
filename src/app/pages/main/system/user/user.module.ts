@@ -13,12 +13,20 @@ import { UserMockService } from './user-mock.service';
 import { RoleService } from '../role/role.service';
 import { RoleMockService } from '../role/role-mock.service';
 
+import { BREADCRUMBS } from 'src/app/constants/breadcrumbs';
+
 const routes: Route[] = [{
   path: '',
-  component: UserComponent
+  component: UserComponent,
+  data: {
+    breadcrumbs: BREADCRUMBS.USER
+  }
 }, {
   path: ':id',
-  component: UserDetailComponent
+  component: UserDetailComponent,
+  data: {
+    breadcrumbs: BREADCRUMBS.USER_DETAIL
+  }
 }, {
   path: 'new'
 }];

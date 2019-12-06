@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ApiService } from 'src/app/config/provider/api.service';
-import { CommonService, Page } from 'src/app/common/interface/service.interface';
-
-import page from 'src/assets/mock/system/menu/page.json';
-import list from 'src/assets/mock/system/menu/list.json';
-import info from 'src/assets/mock/system/menu/info.json';
-
 import { debounceTime } from 'rxjs/operators';
+import { ApiService } from 'src/app/configs/provider/api.service';
+import { CommonService, Page } from 'src/app/configs/interface/service.interface';
+import { API } from 'src/app/constants/api';
 
 @Injectable()
 export class MenuService implements CommonService<Menu> {
@@ -17,31 +13,31 @@ export class MenuService implements CommonService<Menu> {
   ) { }
 
   info(id): Observable<Menu> {
-    return of(info);
+    return this.service.get(`${API.MENU_URL}/${id}`);
   }
 
   page(body?: MenuSearchForm): Observable<Page<Menu[]>> {
-    return of(page);
+    return this.service.post(API.MENU_PAGE_URL, body);
   }
 
   list(body?: MenuSearchForm): Observable<Menu[]> {
-    return of(list);
+    return this.service.post(API.MENU_LIST_URL, body);
   }
 
   save(body: Menu): Observable<Menu> {
-    return of(null).pipe(
+    return this.service.post(API.MENU_URL, body).pipe(
       debounceTime(1000)
     );
   }
 
   update(body: Menu): Observable<Menu> {
-    return of(null).pipe(
+    return this.service.put(API.MENU_URL, body).pipe(
       debounceTime(1000)
     );
   }
 
   delete(ids): Observable<any> {
-    return of(null).pipe(
+    return this.service.delete(API.MENU_URL, { params: { ids } }).pipe(
       debounceTime(1000)
     );
   }

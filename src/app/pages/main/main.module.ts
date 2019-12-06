@@ -5,6 +5,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CommonDirectiveModule } from 'src/app/directives/common-directive.module';
 
 import { MainComponent } from './main.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 // import { MainService } from './main.service';
 
@@ -16,7 +17,8 @@ import { MainComponent } from './main.component';
     CommonModule,
     MainRoutingModule,
     NgZorroAntdModule,
-    CommonDirectiveModule
+    CommonDirectiveModule,
+    TranslateModule
   ],
   providers: [
     // MainService

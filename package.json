@@ -29,6 +29,7 @@
     "echarts": "^4.3.0",
     "ng-zorro-antd": "^7.5.1",
     "ngx-cookie-service": "^2.2.0",
+    "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-print": "^1.2.0-beta.2",
     "rxjs": "~6.3.3",
     "screenfull": "^4.2.1",

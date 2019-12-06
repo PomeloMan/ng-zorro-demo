@@ -1,59 +1,15 @@
 export const API = {
-
     MENU_NAV_URL: 'sys/menu/nav', // 菜单列表
-
     // User
-    USER_URL: 'sys/user', // 用户
+    USER_URL: 'sys/user', // 用户(GET:'/:id'查询 / POST:保存 / PUT:修改 / DELETE:删除)
     USER_PAGE_URL: 'sys/user/page', // 用户分页
     USER_LIST_URL: 'sys/user/list', // 用户列表
-    USER_INFO_URL: 'sys/user/info', // 用户详情
-    USER_SAVE_URL: 'sys/user/save', // 用户保存
-
-
-
-    CAPTCHA_URL: 'captcha',//获取验证码
-    AUTH_URL: 'login',//登录
-    CODE_URL: 'code',//获取邮件验证码
-    SIGNUP_URL: 'signup',//快速注册登陆
-    LINK_URL: 'link',//绑定项目
-    // Locales
-    LOCALE_LIST_URL: 'app/locale/list',
     // Role
-    ROLE_LIST_URL: 'sys/role/list',//角色列表
-    // System module
-
-    // Notification
-    NOTIFICATION_LIST_URL: 'app/project/notifications',//通知类型列表
-    // Project module
-    PROJECT_URL: 'app/project',
-    PROJECT_USER_URL: 'app/project/users',//项目成员
-    PROJECT_ISDELETED_URL: 'app/project/isDeleted',
-    PROJECT_PAGE_URL: 'app/project/page',//项目列表
-    PROJECT_LIST_URL: 'app/project/list',//项目列表
-    PROJECT_COMPLETE_URL: 'app/project/complete',//完成项目
-    PROJECT_MEMBER_URL: 'app/project/member',//项目成员
-    // Client module
-    CLIENT_PAGE_URL: 'app/client/page',//客户列表
-    CLIENT_LIST_URL: 'app/client/list',//客户列表
-    // Query module
-    QUERY_URL: 'app/querybase',
-    QUERY_LIST_URL: 'app/querybase/search',
-    QUERY_PAGE_URL: 'app/querybase/page',//Query列表
-    QUERY_MARK_URL: 'app/querybase/mark',
-    QUERY_EXPORT_URL: 'app/querybase/export',
-    QUERY_IMPORT_URL: 'app/querybase/import',
-    QUERY_MOVETO_URL: 'app/querybase/moveto',
-    QUERY_ISDELETED_URL: 'app/querybase/isDeleted',
-    QUERY_REVISION_URL: 'app/query/revision',
-    QUERY_REVISION_PAGE_URL: 'app/query/revision/page',
-    QUERY_REVISION_LIST_URL: 'app/query/revision/list',
-    QUERY_REVISION_MARK_URL: 'app/query/revision/mark',
-    QUERY_WATCHER_URL: 'app/watcher',
-    QUERY_MY_WATCH: 'app/watcher/page',
-    QUERY_MY_QUERY: 'app/watcher/page/query',
-    // Attachment
-    ATTACH_URL: 'app/attachment',
-    ATTACH_EXPORT_URL: 'app/attachment/export',
-    // Message
-    MESSAGE_PAGE_URL: 'app/message/page'
+    ROLE_URL: 'sys/role', // 角色(GET:'/:id'查询 / POST:保存 / PUT:修改 / DELETE:删除)
+    ROLE_PAGE_URL: 'sys/role/page', // 角色分页
+    ROLE_LIST_URL: 'sys/role/list', // 角色列表
+    // Menu
+    MENU_URL: 'sys/role', // 菜单(GET:'/:id'查询 / POST:保存 / PUT:修改 / DELETE:删除)
+    MENU_PAGE_URL: 'sys/role/page', // 菜单分页
+    MENU_LIST_URL: 'sys/role/list', // 菜单列表
 };

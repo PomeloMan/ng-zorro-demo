@@ -5,11 +5,17 @@ import { ShareModule } from 'src/app/share/share.module';
 import { RoleComponent } from './role.component';
 import { RoleDetailComponent } from './role-detail/role-detail.component';
 import { RoleService } from './role.service';
+import { RoleMockService } from './role-mock.service';
 import { MenuService } from '../menu/menu.service';
+
+import { BREADCRUMBS } from 'src/app/constants/breadcrumbs';
 
 const routes: Route[] = [{
   path: '',
-  component: RoleComponent
+  component: RoleComponent,
+  data: {
+    breadcrumbs: BREADCRUMBS.ROLE
+  }
 }, {
   path: 'role/:id',
   component: RoleDetailComponent
@@ -26,6 +32,7 @@ const routes: Route[] = [{
   ],
   providers: [
     RoleService,
+    RoleMockService,
     MenuService
   ]
 })

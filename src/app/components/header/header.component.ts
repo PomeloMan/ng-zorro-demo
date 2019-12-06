@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, AfterViewInit, TemplateRef } from '@angular/core';
 import { FormItem } from '../form/form.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() mode: 'default' | 'inline' | 'custom' = 'default';
 
   /**
-   * 面包屑
+   * default: 默认样式 / light: 亮色主题（background-color: #fff）
+   */
+  @Input() theme: 'default' | 'light' = 'default';
+
+  /**
+   * 面包屑，默认获取路由静态数据
    */
   @Input() breadcrumbs: any[];
 
@@ -40,8 +46,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   _advanceSearchWrap: HTMLElement;
 
   constructor(
-    private el: ElementRef
-  ) { }
+    private el: ElementRef,
+    private route: ActivatedRoute
+  ) {
+    this.breadcrumbs = this.route.snapshot.data.breadcrumbs;
+  }
 
   ngOnInit() {
   }

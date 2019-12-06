@@ -3,26 +3,27 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_I18N, en_US, zh_CN } from 'ng-zorro-antd';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
+// import en from '@angular/common/locales/en';
+import zh from '@angular/common/locales/zh';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './pages/not-found/not-found.component';
 
-import { AuthService } from './config/provider/auth.service';
-import { StorageService } from './config/provider/storage.service';
-import { ApiService } from './config/provider/api.service';
-import { AuthGuardService } from './config/provider/auth-guard.service';
+import { AuthService } from './configs/provider/auth.service';
+import { StorageService } from './configs/provider/storage.service';
+import { ApiService } from './configs/provider/api.service';
+import { AuthGuardService } from './configs/provider/auth-guard.service';
 import { CookieService } from 'ngx-cookie-service';
-import { HTTP_INTERCEPTOR_PROVIDERS } from './interceptors/_index';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MainService } from './pages/main/main.service';
+import { HTTP_INTERCEPTOR_PROVIDERS } from './interceptors/_index';
 
-registerLocaleData(en);
+registerLocaleData(zh);
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -49,14 +50,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_I18N, useValue: zh_CN },
     AuthService,
     AuthGuardService,
     CookieService,
     StorageService,
     ApiService,
     MainService,
-    HTTP_INTERCEPTOR_PROVIDERS //http拦截器
+    HTTP_INTERCEPTOR_PROVIDERS // http拦截器
   ],
   bootstrap: [AppComponent]
 })

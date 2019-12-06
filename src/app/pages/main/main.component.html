@@ -8,14 +8,14 @@
           <li nz-submenu nzOpen="true">
             <span title>
               <i nz-icon [type]="menu.icon"></i>
-              <span class="nav-text">{{menu.name}}</span>
+              <span class="nav-text">{{menu.name | translate}}</span>
             </span>
             <ul>
               <li nz-menu-item *ngFor="let child of menu.children" [routerLink]="child.url"
                 [class.ant-menu-item-selected]="child.active">
                 <span title>
                   <i nz-icon [type]="child.icon"></i>
-                  <span class="nav-text">{{child.name}}</span>
+                  <span class="nav-text">{{child.name | translate}}</span>
                 </span>
               </li>
             </ul>
@@ -25,7 +25,7 @@
           <li nz-menu-item (click)="router.navigate([menu.url])" [class.ant-menu-item-selected]="menu.active">
             <span title>
               <i nz-icon [type]="menu.icon"></i>
-              <span class="nav-text">{{menu.name}}</span>
+              <span class="nav-text">{{menu.name | translate}}</span>
             </span>
           </li>
         </ng-container>
@@ -39,6 +39,16 @@
       </div>
       <span class="flex-spacer"></span>
       <div>
+        <nz-dropdown nzOverlayClassName="cdk-overlay-user-dropdown" nzTrigger="click" nzPlacement="bottomCenter">
+          <a nz-dropdown>
+            <span style="margin-right: 4px;">{{ 'MAIN.LOCALE' | translate }}</span>
+            <i nz-icon type="down"></i>
+          </a>
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item (click)="handleLocaleChange('zh')">{{ 'MAIN.ZH' | translate }}</li>
+            <li nz-menu-item (click)="handleLocaleChange('en')">{{ 'MAIN.EN' | translate }}</li>
+          </ul>
+        </nz-dropdown>
         <ng-container>
           <i nz-icon appToggleFullscreen *ngIf="!isFullscreen" nzType="fullscreen" nzTheme="outline"
             (click)="isFullscreen = true"></i>

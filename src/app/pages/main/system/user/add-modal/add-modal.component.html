@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="formGroup">
   <nz-form-item>
-    <nz-form-label [nzSpan]="6" nzRequired nzFor="displayName">{{ 'USER.INFO.DISPLAY_NAME' | translate }}
+    <nz-form-label [nzOffset]="1" [nzSpan]="6" nzRequired nzFor="displayName">{{ 'USER.INFO.DISPLAY_NAME' | translate }}
     </nz-form-label>
     <nz-form-control [nzSpan]="12">
       <input id="displayName" type="text" nz-input formControlName="displayName" />
@@ -10,7 +10,7 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="6" nzRequired nzFor="email">{{ 'USER.INFO.EMAIL' | translate }}
+    <nz-form-label [nzOffset]="1" [nzSpan]="6" nzRequired nzFor="email">{{ 'USER.INFO.EMAIL' | translate }}
     </nz-form-label>
     <nz-form-control [nzSpan]="12">
       <input id="email" type="text" nz-input formControlName="email" />
@@ -20,7 +20,8 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="6" nzFor="roles" nzRequired>{{ 'USER.INFO.ROLE' | translate }}</nz-form-label>
+    <nz-form-label [nzOffset]="1" [nzSpan]="6" nzFor="roles" nzRequired>{{ 'USER.INFO.ROLE' | translate }}
+    </nz-form-label>
     <nz-form-control [nzSpan]="12">
       <nz-select id="roles" formControlName="roles">
         <nz-option [nzValue]="item.name" [nzLabel]="item.name" *ngFor="let item of roleList"></nz-option>

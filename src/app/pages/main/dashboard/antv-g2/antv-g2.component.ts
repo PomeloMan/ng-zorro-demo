@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy, ElementRef, AfterViewInit } from '@angula
 
 import * as G2 from '@antv/g2';
 import { format, subMinutes } from 'date-fns';
+import { message } from 'src/app/utils';
 
+import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -12,24 +14,19 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AntvG2Component implements OnInit, AfterViewInit, OnDestroy {
 
-  // app-header
-  breadcrumbs: { label: string, url: string }[] = [];
+  // loading
+  downloading = false;
 
   // self props
-  now: Date = new Date();
+  private now: Date = new Date();
   private chart: G2.Chart;
-  private _lineInterval: any;
+  private lineInterval: any;
 
   constructor(
     private el: ElementRef,
+    private nzMessageServ: NzMessageService,
     private translate: TranslateService
-  ) {
-    this.translate.get('DASHBOARD_G2.BREADCRUMBS').subscribe(value => {
-      Object.keys(value).forEach(key => {
-        this.breadcrumbs.push(JSON.parse(value[key]));
-      });
-    });
-  }
+  ) { }
 
   ngOnInit() {
   }
@@ -39,11 +36,31 @@ export class AntvG2Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._lineInterval) {
-      clearInterval(this._lineInterval);
+    if (this.lineInterval) {
+      clearInterval(this.lineInterval);
     }
   }
 
+  /**
+   * 下载数据
+   */
+  download() {
+    this.downloading = true;
+
+    setTimeout(() => {
+      this.downloading = false;
+      this.translate.get([
+        'COMMON.DOWNLOAD_SUCCESS',
+        'COMMON.DOWNLOAD_FAILURE'
+      ]).subscribe(value => {
+        message(this.nzMessageServ, 'success', value['COMMON.DOWNLOAD_SUCCESS']);
+      });
+    }, 1000);
+  }
+
+  /**
+   * 渲染图形
+   */
   renderLine() {
     const cardBody: HTMLElement = this.el.nativeElement.querySelector('.ant-card-body');
 
@@ -81,7 +98,7 @@ export class AntvG2Component implements OnInit, AfterViewInit, OnDestroy {
       lineWidth: 1
     });
     this.chart.render();
-    this._lineInterval = setInterval(() => {
+    this.lineInterval = setInterval(() => {
       const _data = data;
       const second = format(time, 'mm:ss');
       _data.shift();

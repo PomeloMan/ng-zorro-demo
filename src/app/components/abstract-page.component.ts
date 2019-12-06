@@ -1,5 +1,7 @@
-import { Paginator } from '../interface/paginator.interface';
+import { Paginator } from '../configs/interface/paginator.interface';
 import { isNullOrUndefined } from 'util';
+import { Observable, of } from 'rxjs';
+import { Page } from 'src/app/configs/interface/service.interface';
 
 export class AbstractPageComponent implements Paginator {
 
@@ -46,7 +48,7 @@ export class AbstractPageComponent implements Paginator {
    * 分页查询
    * @param callback 回调函数
    */
-  page(callback?) {}
+  page(callback?): Observable<Page<any>> { return of(null); }
 
   /**
    * 列表查询 (前端分页)
@@ -64,7 +66,7 @@ export class AbstractPageComponent implements Paginator {
     console.log(this.body);
     if (this.pageble) {
       if (resetPageIndex) { this.pageIndex = 1; }
-      this.page();
+      this.page().subscribe();
     } else {
       this.list();
     }

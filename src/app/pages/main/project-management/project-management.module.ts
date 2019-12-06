@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
+import { ShareModule } from 'src/app/share/share.module';
 
 import { ProjectManagementComponent } from './project-management.component';
+import { BREADCRUMBS } from 'src/app/constants/breadcrumbs';
 
 const routes: Route[] = [{
   path: '',
-  component: ProjectManagementComponent
+  component: ProjectManagementComponent,
+  data: {
+    breadcrumbs: BREADCRUMBS.PROJECT
+  }
 }, {
   path: ':id',
   component: ProjectManagementComponent
@@ -17,7 +21,7 @@ const routes: Route[] = [{
     ProjectManagementComponent
   ],
   imports: [
-    CommonModule,
+    ShareModule,
     RouterModule.forChild(routes)
   ]
 })

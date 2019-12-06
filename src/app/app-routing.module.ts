@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './pages/not-found/not-found.component';
-import { AuthGuardService } from './config/provider/auth-guard.service';
-import { SelectivePreloadingStrategy } from './config/selective-preloading-strategy';
+import { AuthGuardService } from './configs/provider/auth-guard.service';
+import { SelectivePreloadingStrategy } from './configs/selective-preloading-strategy';
 
 const routes: Routes = [{
   path: '',

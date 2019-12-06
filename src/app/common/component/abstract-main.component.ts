@@ -1,13 +1,14 @@
-import { Paginator } from '../interface/paginator.interface';
 import { Router } from '@angular/router';
-import { CommonService } from '../interface/service.interface';
+import { CommonService, Page } from '../../configs/interface/service.interface';
 import { MainService } from 'src/app/pages/main/main.service';
 import { isNullOrUndefined } from 'util';
-import { AbstractPageComponent } from './abstract-page.component';
+import { AbstractPageComponent } from '../../components/abstract-page.component';
 import { OnInit } from '@angular/core';
 
 import * as _ from 'lodash';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export class AbstractMainComponent<T> extends AbstractPageComponent implements OnInit {
 
@@ -64,18 +65,18 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements O
 
   ngOnInit(): void {
     if (this.initial) {
-      this.page();
+      this.page().subscribe();
     }
   }
 
-  page(callback?): void {
-    this.service.page({
+  page(callback?): Observable<Page<any>> {
+    return this.service.page({
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
       sortName: this.sortName,
       sortValue: this.sortValue,
       ...this.body
-    }).subscribe(res => {
+    }).pipe(tap(res => {
       this.results = res.content;
       this.pageIndex = res.number + 1;
       this.pageSize = res.size;
@@ -85,13 +86,14 @@ export class AbstractMainComponent<T> extends AbstractPageComponent implements O
         callback();
       }
       this.callback();
+      return res;
     }, error => {
       console.error(error);
     }, () => {
       setTimeout(() => {
         this.loading = false;
       }, 500);
-    });
+    }));
   }
 
   list(callback?) {

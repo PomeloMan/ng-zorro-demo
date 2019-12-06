@@ -4,12 +4,14 @@
       <div nz-row [nzGutter]="24" class="row">
         <div nz-col [nzSpan]="24/col" *ngFor="let item of items">
           <nz-form-item [nzFlex]="true">
-            <nz-form-label>{{item.label}}</nz-form-label>
+            <nz-form-label>
+              <span>{{ item.label | translate }}</span>
+            </nz-form-label>
             <nz-form-control>
 
               <!-- select -->
-              <ng-container *ngIf="item.type === _formItemType['select']">
-                <nz-select nzAllowClear [formControlName]="item.name" [nzPlaceHolder]="item.label">
+              <ng-container *ngIf="item.type === 'select'">
+                <nz-select nzAllowClear [formControlName]="item.name" [nzPlaceHolder]="item.label | translate">
                   <nz-option *ngFor="let item of item.external.options" [nzLabel]="item.label" [nzValue]="item.value"
                     [nzDisabled]="item.disabled">
                   </nz-option>
@@ -17,12 +19,12 @@
               </ng-container>
 
               <!-- input -->
-              <ng-container *ngIf="item.type === _formItemType['input']">
-                <input nz-input [formControlName]="item.name" [placeholder]="item.label">
+              <ng-container *ngIf="item.type === 'input'">
+                <input nz-input [formControlName]="item.name" [placeholder]="item.label | translate">
               </ng-container>
 
               <!-- radio -->
-              <ng-container *ngIf="item.type === _formItemType['radio']">
+              <ng-container *ngIf="item.type === 'radio'">
                 <nz-radio-group [formControlName]="item.name">
                   <label nz-radio nzValue="A">Hangzhou</label>
                   <label nz-radio nzValue="B" nzDisabled>Shanghai</label>
@@ -32,7 +34,7 @@
               </ng-container>
 
               <!-- radio-button -->
-              <ng-container *ngIf="item.type === _formItemType['radio-button']">
+              <ng-container *ngIf="item.type === 'radio-button'">
                 <nz-radio-group [formControlName]="item.name">
                   <label nz-radio-button [nzValue]="item.value"
                     *ngFor="let item of item.external.options">{{item.label}}</label>
@@ -40,7 +42,7 @@
               </ng-container>
 
               <!-- checkbox -->
-              <ng-container *ngIf="item.type === _formItemType['checkbox']">
+              <ng-container *ngIf="item.type === 'checkbox'">
                 <nz-checkbox-group [formControlName]="item.name" [(ngModel)]="item.value">
                 </nz-checkbox-group>
               </ng-container>

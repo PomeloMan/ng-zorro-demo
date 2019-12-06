@@ -1,10 +1,9 @@
-<div class="_content">
-  <p>
-    project-management works!
-  </p>
-</div>
-
-
-<ng-template #rangeTemplate let-range="range" let-total>
-  {{ range[0] }} - {{ range[1] }} of {{ total }} items
-</ng-template>
+<app-layout [showFooter]="false" [usePerfectScrollbar]="true">
+  <app-header mode="inline" theme="light">
+  </app-header>
+  <ng-container class="content">
+    <perfect-scrollbar [config]="{ wheelSpeed: 0.5, swipeEasing: true }">
+      <div style="height: 1000px;"></div>
+    </perfect-scrollbar>
+  </ng-container>
+</app-layout>
