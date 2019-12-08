@@ -1,0 +1,22 @@
+/* .mce-content-body [contentEditable="true"] {
+  outline: 2px solid #b4d7ff;
+} */
+
+/* 自动换行 */
+.mce-content-body td {
+  word-break: break-all;
+}
+
+/* 修改表格样式 */
+.mce-content-body table.mce-form-table {
+  border: none;
+  outline: none;
+}
+.mce-content-body table.mce-form-table th:nth-child(odd),
+.mce-content-body table.mce-form-table td:nth-child(odd) {
+  border: none;
+}
+.mce-content-body table.mce-form-table th:nth-child(even),
+.mce-content-body table.mce-form-table td:nth-child(even) {
+  border: 1px solid;
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "id": -100,
+    "pid": 0,
+    "type": 0,
+    "url": "/main/demo",
+    "name": "MAIN.MENU_DEMO",
+    "icon": "appstore",
+    "children": [
+      {
+        "id": -101,
+        "pid": -100,
+        "type": 0,
+        "url": "/main/demo/tinymce-editor",
+        "name": "MAIN.MENU_DEMO_EDITOR",
+        "icon": "code"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "pid": 0,
+    "type": 0,
+    "url": "/main/dashboard",
+    "name": "MAIN.MENU_DASHBOARD",
+    "icon": "dashboard",
+    "children": [
+      {
+        "id": 11,
+        "pid": 10,
+        "type": 0,
+        "url": "/main/dashboard/antv-g2",
+        "name": "MAIN.MENU_DASHBOARD_ANTVG2",
+        "icon": "line-chart"
+      },
+      {
+        "id": 12,
+        "pid": 10,
+        "type": 0,
+        "url": "/main/dashboard/echarts",
+        "name": "MAIN.MENU_DASHBOARD_ECHARTS",
+        "icon": "line-chart"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "pid": 0,
+    "type": 0,
+    "url": "/main/project",
+    "name": "MAIN.MENU_PROJECT",
+    "icon": "project"
+  },
+  {
+    "id": 1000,
+    "pid": 0,
+    "type": 0,
+    "name": "MAIN.MENU_SYSTEM",
+    "icon": "setting",
+    "children": [
+      {
+        "id": 1010,
+        "pid": 1000,
+        "type": 0,
+        "url": "/main/system/user",
+        "name": "MAIN.MENU_SYSTEM_USER",
+        "icon": "user",
+        "children": [
+          {
+            "id": 1011,
+            "pid": 1010,
+            "type": 1,
+            "url": "/main/system/user/user/*",
+            "name": "User Profile",
+            "icon": "profile"
+          }
+        ]
+      },
+      {
+        "id": 1020,
+        "pid": 1000,
+        "type": 0,
+        "url": "/main/system/role",
+        "name": "MAIN.MENU_SYSTEM_ROLE",
+        "icon": "safety",
+        "children": [
+          {
+            "id": 1021,
+            "pid": 1020,
+            "type": 1,
+            "url": "/main/system/user/role/*",
+            "name": "Role Detail",
+            "icon": "profile"
+          }
+        ]
+      },
+      {
+        "id": 1030,
+        "pid": 1000,
+        "type": 0,
+        "url": "/main/system/menu",
+        "name": "MAIN.MENU_SYSTEM_MENU",
+        "icon": "safety"
+      }
+    ]
+  }
+]
