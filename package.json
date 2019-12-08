@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build --prod --base-href 'https://pomeloman.github.io/ng-zorro-demo' && ngh --dir=dist/frontend",
+    "build:gh-pages": "ng build --prod --base-href https://pomeloman.github.io/ng-zorro-demo/ && ngh --dir=dist/frontend",
+    "deploy": "git subtree push --prefix dist/frontend origin gh-pages",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
