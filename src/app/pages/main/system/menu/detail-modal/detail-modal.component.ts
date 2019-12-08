@@ -43,6 +43,9 @@ export class DetailModalComponent implements OnInit {
     });
   }
 
+  submitForm(event, value) {
+  }
+
   private refreshExpandKeys() {
     if (this.menu.parent && this.menu.parent.id) {
       this.expandKeys = ['0'];

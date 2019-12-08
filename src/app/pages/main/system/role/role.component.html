@@ -20,7 +20,7 @@
               </app-table-column-filter>
             </th>
             <th nzWidth="20%">{{ 'ROLE.INFO.MENUS' | translate }}</th>
-            <th nzWidth="10%" nzShowFilter [nzFilters]="listOfStatus" (nzFilterChange)="filter($event, value)">
+            <th nzWidth="10%" nzShowFilter [nzFilters]="listOfStatus" (nzFilterChange)="filter($event)">
               {{ 'ROLE.INFO.STATUS' | translate }}</th>
             <th nzWidth="15%" nzAlign="center">
               {{ 'ROLE.INFO.MODIFIER' | translate }}</th>

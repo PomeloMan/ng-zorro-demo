@@ -14,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { MenuService, Menu } from '../menu/menu.service';
 import { Role, RoleService } from './role.service';
 import { RoleMockService } from './role-mock.service';
+import { MenuMockService } from '../menu/menu-mock.service';
 
 @Component({
   selector: 'app-role',
@@ -31,11 +32,11 @@ export class RoleComponent extends AbstractTableComponent<Role> implements OnIni
   listOfStatus = [{ text: 'Valid', value: '1' }, { text: 'Invalid', value: '2' }];
 
   /** -- self variables -- */
+  menus: any[] = []; // 菜单树形结构数据
+
   // 根据环境选择服务
   targetRoleServ: CommonService<Role>;
-
-  menus: any[] = [];
-
+  targetMenuService: CommonService<Menu>;
   // i18n message data
   message: any = {};
   // loading
@@ -46,8 +47,9 @@ export class RoleComponent extends AbstractTableComponent<Role> implements OnIni
     private router: Router,
     private service: RoleService,
     private mockService: RoleMockService,
-    private translate: TranslateService,
     private menuService: MenuService,
+    private menuMockService: MenuMockService,
+    private translate: TranslateService,
     private nzMessageService: NzMessageService
   ) {
     super(el);
@@ -68,13 +70,15 @@ export class RoleComponent extends AbstractTableComponent<Role> implements OnIni
     if (environment.useMockData) {
       this.isFrontPagination = true;
       this.targetRoleServ = this.mockService;
+      this.targetMenuService = this.menuMockService;
     } else {
       this.isFrontPagination = false;
       this.targetRoleServ = this.service;
+      this.targetMenuService = this.menuService;
     }
 
     // 初始数据
-    const $menuObv = this.menuService.list();
+    const $menuObv = this.targetMenuService.list();
     const $pageObv = this.page();
     forkJoin([$menuObv, $pageObv]).subscribe(
       ([menus, roles]: [Menu[], Page<Role[]>]) => {
@@ -113,7 +117,7 @@ export class RoleComponent extends AbstractTableComponent<Role> implements OnIni
    * 删除行数据（非编辑状态下的操作按钮）
    * @param row
    */
-  delete(row) {
+  delete(row?) {
     return this.targetRoleServ.delete([row[this.selectionId]]).subscribe(res => {
       message(this.nzMessageService, 'success', this.message['COMMON.DELETE_SUCCESS']);
       this.getData();

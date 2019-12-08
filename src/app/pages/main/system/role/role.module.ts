@@ -7,7 +7,7 @@ import { RoleDetailComponent } from './role-detail/role-detail.component';
 import { RoleService } from './role.service';
 import { RoleMockService } from './role-mock.service';
 import { MenuService } from '../menu/menu.service';
-
+import { MenuMockService } from '../menu/menu-mock.service';
 import { BREADCRUMBS } from 'src/app/constants/breadcrumbs';
 
 const routes: Route[] = [{
@@ -33,7 +33,8 @@ const routes: Route[] = [{
   providers: [
     RoleService,
     RoleMockService,
-    MenuService
+    MenuService,
+    MenuMockService
   ]
 })
 export class RoleModule { }

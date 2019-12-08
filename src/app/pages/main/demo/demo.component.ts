@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-demo',
@@ -9,7 +8,6 @@ import { NzModalService } from 'ng-zorro-antd';
 export class DemoComponent implements OnInit {
 
   constructor(
-    private nzModalService: NzModalService
   ) { }
 
   ngOnInit() {

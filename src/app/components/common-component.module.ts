@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
+import { SiderComponent } from './sider/sider.component';
 import { FormComponent } from './form/form.component';
 import { TableColumnEditorComponent } from './table/table-column-editor/table-column-editor.component';
 import { TableColumnFilterComponent } from './table/table-column-filter/table-column-filter.component';
@@ -28,6 +29,7 @@ import { TableColumnFilterComponent } from './table/table-column-filter/table-co
     FooterComponent,
     HeaderComponent,
     LayoutComponent,
+    SiderComponent,
     FormComponent,
     TableColumnEditorComponent,
     TableColumnFilterComponent,
@@ -36,6 +38,7 @@ import { TableColumnFilterComponent } from './table/table-column-filter/table-co
     FooterComponent,
     HeaderComponent,
     LayoutComponent,
+    SiderComponent,
     FormComponent,
     TableColumnEditorComponent,
     TableColumnFilterComponent,

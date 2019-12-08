@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MainService, Menu } from './main.service';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/configs/provider/storage.service';
@@ -6,15 +6,18 @@ import { AuthService } from 'src/app/configs/provider/auth.service';
 import { forkJoin, Observable, of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { NzI18nService, en_US, zh_CN } from 'ng-zorro-antd';
+import { FullscreenDirective } from 'src/app/directives/fullscreen.directive';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
 
+  @ViewChild(FullscreenDirective) fsDir: FullscreenDirective;
   isCollapsed = false;
+  isFullscreen = false;
 
   menu: any;
   menus: Menu[] = [];
@@ -32,6 +35,10 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.init();
     // this.initEventListeners();
+  }
+
+  ngAfterViewInit(): void {
+    this.isFullscreen = this.fsDir._screenfull;
   }
 
   /**

@@ -54,13 +54,12 @@ export class UserDetailBasicComponent implements OnInit {
     });
   }
 
-  submitForm = ($event: any, value: any) => {
+  submitForm = ($event: any, value?: any) => {
     $event.preventDefault();
     for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
   }
 
   resetForm(e: MouseEvent): void {
