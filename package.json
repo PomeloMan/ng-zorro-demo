@@ -25,7 +25,6 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@tinymce/tinymce-angular": "^3.3.0",
-    "@types/swiper": "^4.4.4",
     "angular-cli-ghpages": "^0.5.3",
     "core-js": "^2.6.9",
     "date-fns": "^2.4.1",
@@ -36,7 +35,11 @@
     "ngx-print": "^1.2.0-beta.2",
     "rxjs": "~6.3.3",
     "screenfull": "^4.2.1",
+    "stats.js": "^0.17.0",
     "swiper": "^4.5.0",
+    "three": "^0.110.0",
+    "three-dragcontrols": "^0.88.2",
+    "three-orbitcontrols": "^2.110.1",
     "tinymce": "^5.0.15",
     "tslib": "^1.10.0",
     "zone.js": "~0.8.29"
@@ -49,6 +52,10 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "@types/offscreencanvas": "^2019.6.0",
+    "@types/swiper": "^4.4.9",
+    "@types/three": "^0.103.2",
+    "@types/webgl2": "0.0.5",
     "codelyzer": "~4.5.0",
     "cz-conventional-changelog": "^3.0.2",
     "jasmine-core": "~2.99.1",
@@ -61,7 +68,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "^3.2.4"
   },
   "config": {
     "commitizen": {

@@ -8,6 +8,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { DemoComponent } from './demo.component';
 import { TinymceEditorComponent } from './tinymce-editor/tinymce-editor.component';
+import { ThreeComponent } from './three/three.component';
 
 import { TinymceEditorService } from './tinymce-editor/tinymce-editor.service';
 
@@ -17,6 +18,9 @@ const routes: Route[] = [{
 }, {
   path: 'tinymce-editor',
   component: TinymceEditorComponent
+}, {
+  path: 'three',
+  component: ThreeComponent
 }];
 
 @NgModule({
@@ -24,7 +28,8 @@ const routes: Route[] = [{
   ],
   declarations: [
     DemoComponent,
-    TinymceEditorComponent
+    TinymceEditorComponent,
+    ThreeComponent
   ],
   imports: [
     CommonModule,

@@ -41,6 +41,7 @@
     "EN": "英文",
     "MENU_DEMO": "例子",
     "MENU_DEMO_EDITOR": "编辑器",
+    "MENU_DEMO_THREEJS": "3D模型",
     "MENU_DASHBOARD": "报表",
     "MENU_DASHBOARD_ANTVG2": "Antv-G2",
     "MENU_DASHBOARD_ECHARTS": "ECharts",
