@@ -41,6 +41,7 @@
     "EN": "English",
     "MENU_DEMO": "Demo",
     "MENU_DEMO_EDITOR": "Editor",
+    "MENU_DEMO_THREEJS": "Threejs",
     "MENU_DASHBOARD": "Dashboard",
     "MENU_DASHBOARD_ANTVG2": "Antv-G2",
     "MENU_DASHBOARD_ECHARTS": "ECharts",
