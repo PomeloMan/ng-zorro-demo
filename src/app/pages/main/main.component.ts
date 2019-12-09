@@ -38,7 +38,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isFullscreen = this.fsDir._screenfull;
+    setTimeout(() => {
+      this.isFullscreen = this.fsDir._screenfull.isFullscreen;
+    });
   }
 
   /**
