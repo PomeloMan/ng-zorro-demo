@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:3000/', // api地址
+  url: '', // api地址
   retry: 0, // 失败重试次数
   setting: '_settings', // storage存储信息键
   useMockData: true // 是否使用模拟数据
